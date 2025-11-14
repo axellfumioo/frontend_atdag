@@ -1,15 +1,38 @@
 "use client";
 
 import React from "react";
-import { 
-  Home, LayoutDashboard, Users, TrendingUp, Radio, Database, 
-  ChevronDown, RefreshCw, Layers, DollarSign, MessageCircle 
+import {
+  Home,
+  LayoutDashboard,
+  Users,
+  TrendingUp,
+  Radio,
+  Database,
+  ChevronDown,
+  RefreshCw,
+  Layers,
+  DollarSign,
+  MessageCircle,
+  type LucideIcon,
 } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
-import path from "path";
+
+interface SubMenuItem {
+  name: string;
+  path: string;
+  icon: LucideIcon;
+}
+
+interface MenuItem {
+  name: string;
+  icon: LucideIcon;
+  path: string;
+  hasArrow?: boolean;
+  subItems?: SubMenuItem[];
+}
 
 // object icon, path
-const menuItems = [
+const menuItems: MenuItem[] = [
   { name: "Home", icon: Home, path: "/" },
   { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
   { name: "Investors", icon: Users, path: "/investors" },
@@ -39,7 +62,6 @@ interface SidebarProps {
   setOpen: (open: boolean) => void;
 }
 
-
 export default function Sidebar({ open, setOpen }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -49,7 +71,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
     setExpandedMenu(expandedMenu === menuName ? null : menuName);
   };
 
-  const handleMenuClick = (item: any) => {
+  const handleMenuClick = (item: MenuItem) => {
     if (item.subItems) {
       toggleSubmenu(item.name);
     } else {
@@ -60,11 +82,11 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
 
   return (
     <>
-      {/* Overlay mobile */}
+      {/* Overlay mobile - keep clickable but transparent to avoid black screen */}
       {open && (
         <div
           onClick={() => setOpen(false)}
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 z-40 lg:hidden bg-transparent"
         />
       )}
       {/* semisal ukuran web lebih kecil ukuran sidebar jadi gaada alias nampilin hamburger saja, kalo full ya full*/}

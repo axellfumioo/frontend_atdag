@@ -7,7 +7,8 @@ export default function InvestorsPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto px-4 py-4">
+
       {/* Header Section */}
       <div className="mb-6">
         <div className="flex items-center space-x-3 mb-2">
@@ -35,8 +36,9 @@ export default function InvestorsPage() {
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="p-4 border-b border-gray-200">
-          <div className="flex flex-col sm:flex-row gap-3 justify-between">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-col sm:flex-row gap-3 flex-1">
+
               <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
