@@ -1,11 +1,7 @@
-"use client";
-
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-import { useState } from "react";
 import Footer from "@/components/Footer";
-import Sidebar from "@/components/Sidebar";
+import LayoutClient from "@/components/LayoutClient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,30 +13,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 antialiased`}
-      >
-        <div className="flex h-screen">
-          <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+      <body className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 antialiased`}>
+        
+        <LayoutClient>
+          {children}
+        </LayoutClient>
 
-          <div className="flex-1 flex flex-col overflow-hidden">
+        <Footer />
 
-            <main className="flex-1 overflow-y-auto p-6 lg:p-8">
-              {children}
-            </main>
-
-            <Footer />
-          </div>
-        </div>
       </body>
     </html>
   );
