@@ -5,7 +5,6 @@ import "./globals.css";
 
 import { useState } from "react";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 
 const geistSans = Geist({
@@ -22,8 +21,8 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+}) {  const [sidebarOpen, setSidebarOpen] = useState(false);
+
 
   return (
     <html lang="en">
@@ -34,7 +33,6 @@ export default function RootLayout({
           <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 
           <div className="flex-1 flex flex-col overflow-hidden">
-            <Header setSidebarOpen={setSidebarOpen} />
 
             <main className="flex-1 overflow-y-auto p-6 lg:p-8">
               {children}

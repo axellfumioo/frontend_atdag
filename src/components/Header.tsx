@@ -21,10 +21,10 @@ export default function Header({ setSidebarOpen }: HeaderProps) {
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 lg:p-6">
-        <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-1">
+        <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-1 text-center">
           Get Started with Your Investment Management
         </h1>
-        <p className="text-gray-600 text-sm mb-4 sm:mb-8 hidden sm:block">
+        <p className="text-gray-600 text-sm mb-4 sm:mb-8 hidden sm:block text-center">
           This is your central hub for managing investors, tracking investments,
           and maintaining communication through WhatsApp integration. Start by
           exploring the features below.
