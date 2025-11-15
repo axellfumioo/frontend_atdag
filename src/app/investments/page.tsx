@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Search,
   Filter,
@@ -11,6 +12,7 @@ import {
 } from "lucide-react";
 
 export default function InvestmentsPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
@@ -58,7 +60,10 @@ export default function InvestmentsPage() {
                 <span>Refresh</span>
               </button>
 
-              <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors">
+              <button
+                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors"
+                onClick={() => router.push("/investments/add")}
+              >
                 <Plus className="w-4 h-4" />
                 <span>Add Investment</span>
               </button>
