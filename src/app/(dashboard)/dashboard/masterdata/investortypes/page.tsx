@@ -81,7 +81,7 @@ export default function InvestorTypesPage() {
     <div className="max-w-7xl mx-auto px-4 py-4">
       <div className="mb-6">
         <div className="flex items-center space-x-3 mb-2">
-          <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
+          <div className="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center">
             <UserCircle2 className="w-4 h-4 text-white" />
           </div>
           <div>
@@ -102,7 +102,7 @@ export default function InvestorTypesPage() {
               placeholder="Search types..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
             />
           </div>
 
@@ -111,7 +111,7 @@ export default function InvestorTypesPage() {
               <RefreshCw className="w-4 h-4" />
               <span>Refresh</span>
             </button>
-            <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors">
+            <button className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition-colors">
               <Plus className="w-4 h-4" />
               <span>Add Type</span>
             </button>

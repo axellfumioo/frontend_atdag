@@ -11,45 +11,45 @@ const featureCards = [
     description: "Add, edit, and track your investors with comprehensive profiles. Maintain detailed contact information, investment history, and communication records for better relationship management.",
     icon: Users,
     buttonText: "Manage Investors",
-    buttonPath: "/investors",
-    iconColor: "text-blue-500",
-    iconBg: "bg-blue-50"
+    buttonPath: "/dashboard/investors",
+    iconColor: "text-yellow-500",
+    iconBg: "bg-yellow-50"
   },
   {
     title: "Investment Tracking",
     description: "Monitor investment stages, amounts, and performance metrics across your portfolio. Keep detailed records of all transactions, stages, and generate comprehensive reports for analysis.",
     icon: TrendingUp,
     buttonText: "Track Investments",
-    buttonPath: "/investments",
-    iconColor: "text-blue-500",
-    iconBg: "bg-blue-50"
+    buttonPath: "/dashboard/investments",
+    iconColor: "text-yellow-500",
+    iconBg: "bg-yellow-50"
   },
   {
     title: "WhatsApp Communication",
     description: "Integrate with WhatsApp for seamless communication with your investor network. Send updates, announcements, and maintain regular contact through automated messaging workflows.",
     icon: MessageCircle,
     buttonText: "WhatsApp Integration",
-    buttonPath: "/wabroadcast",
-    iconColor: "text-blue-500",
-    iconBg: "bg-blue-50"
+    buttonPath: "/dashboard/wabroadcast",
+    iconColor: "text-yellow-500",
+    iconBg: "bg-yellow-50"
   },
   {
     title: "Message Templates",
     description: "Create and manage reusable message templates for consistent communication. Design professional templates with dynamic variables for personalized investor updates and announcements.",
     icon: MessageSquare,
     buttonText: "Message Templates",
-    buttonPath: "/message-templates",
-    iconColor: "text-blue-500",
-    iconBg: "bg-blue-50"
+    buttonPath: "/dashboard/message-templates",
+    iconColor: "text-yellow-500",
+    iconBg: "bg-yellow-50"
   },
   {
     title: "Broadcast Groups",
     description: "Organize investors into targeted groups for efficient messaging and updates. Create segmented groups based on investment stages, interests, or other criteria for more effective communication.",
     icon: Radio,
     buttonText: "Broadcast Groups",
-    buttonPath: "/wabroadcast/broadcastgroups",
-    iconColor: "text-blue-500",
-    iconBg: "bg-blue-50"
+    buttonPath: "/dashboard/wabroadcast/broadcastgroups",
+    iconColor: "text-yellow-500",
+    iconBg: "bg-yellow-50"
   },
   {
     title: "Dashboard Analytics",
@@ -57,8 +57,8 @@ const featureCards = [
     icon: PieChart,
     buttonText: "View Dashboard",
     buttonPath: "/dashboard",
-    iconColor: "text-blue-500",
-    iconBg: "bg-blue-50"
+    iconColor: "text-yellow-500",
+    iconBg: "bg-yellow-50"
   },
 ];
 

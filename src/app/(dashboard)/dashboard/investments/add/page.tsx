@@ -15,7 +15,7 @@ export default function AddInvestmentPage() {
       {/* Back */}
       <button
         type="button"
-        onClick={() => router.push("/investments")}
+        onClick={() => router.push("/dashboard/investments")}
         className="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4"
      >
         <ArrowLeft className="w-4 h-4 mr-1" />
@@ -24,7 +24,7 @@ export default function AddInvestmentPage() {
 
       {/* Header */}
       <div className="flex items-center space-x-3 mb-6">
-        <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
+        <div className="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center">
           <BarChart2 className="w-4 h-4 text-white" />
         </div>
         <div>
@@ -45,7 +45,7 @@ export default function AddInvestmentPage() {
               <input
                 type="text"
                 placeholder="Enter investment name"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
               />
             </div>
 
@@ -54,7 +54,7 @@ export default function AddInvestmentPage() {
               <label className="text-sm font-medium text-gray-700 mb-1">
                 Investor
               </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
                 <option value="">Select an investor</option>
               </select>
             </div>
@@ -64,7 +64,7 @@ export default function AddInvestmentPage() {
               <label className="text-sm font-medium text-gray-700 mb-1">
                 Investment Stage
               </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
                 <option value="">Select investment stage</option>
               </select>
             </div>
@@ -74,7 +74,7 @@ export default function AddInvestmentPage() {
               <label className="text-sm font-medium text-gray-700 mb-1">
                 Investment Status
               </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
                 <option value="">Select investment status</option>
               </select>
             </div>
@@ -84,7 +84,7 @@ export default function AddInvestmentPage() {
               <label className="text-sm font-medium text-gray-700 mb-1">
                 Currency
               </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
                 <option value="">Select currency</option>
               </select>
             </div>
@@ -98,7 +98,7 @@ export default function AddInvestmentPage() {
                 <input
                   type="number"
                   placeholder="Enter investment value"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -111,7 +111,7 @@ export default function AddInvestmentPage() {
               <div className="relative">
                 <input
                   type="date"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                 />
                 <Calendar className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
@@ -125,7 +125,7 @@ export default function AddInvestmentPage() {
               <div className="relative">
                 <input
                   type="date"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                 />
                 <Calendar className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
@@ -143,7 +143,7 @@ export default function AddInvestmentPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter investment description (optional)"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y min-h-[120px]"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent resize-y min-h-[120px]"
             />
             <div className="mt-1 text-xs text-gray-400 text-right">
               {description.length} / {maxDescriptionLength}
@@ -154,14 +154,14 @@ export default function AddInvestmentPage() {
           <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
-              onClick={() => router.push("/investments")}
+              onClick={() => router.push("/dashboard/investments")}
               className="px-4 py-2 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="px-4 py-2 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
             >
               Save Investment
             </button>

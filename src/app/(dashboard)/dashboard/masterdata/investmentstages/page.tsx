@@ -107,7 +107,7 @@ export default function InvestmentStagesPage() {
     <div className="max-w-7xl mx-auto px-4 py-4">
       <div className="mb-6">
         <div className="flex items-center space-x-3 mb-2">
-          <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
+          <div className="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center">
             <Layers className="w-4 h-4 text-white" />
           </div>
           <div>
@@ -133,7 +133,7 @@ export default function InvestmentStagesPage() {
                   setSearchQuery(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-3 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-3 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellow-500"
               />
             </div>
 
@@ -142,7 +142,7 @@ export default function InvestmentStagesPage() {
                 <RefreshCw className="h-4 w-4" />
                 <span>Refresh</span>
               </button>
-              <button className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700">
+              <button className="flex items-center space-x-2 rounded-lg bg-yellow-500 px-4 py-2 text-sm text-white hover:bg-yellow-600">
                 <Plus className="h-4 w-4" />
                 <span>Add Stage</span>
               </button>

@@ -20,7 +20,7 @@ export default function InvestmentsPage() {
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center space-x-3 mb-2">
-          <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
+          <div className="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center">
             <TrendingUp className="w-4 h-4 text-white" />
           </div>
           <div>
@@ -44,7 +44,7 @@ export default function InvestmentsPage() {
                   placeholder="Search by investor name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                 />
               </div>
 
@@ -61,8 +61,8 @@ export default function InvestmentsPage() {
               </button>
 
               <button
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors"
-                onClick={() => router.push("/investments/add")}
+                className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition-colors"
+                onClick={() => router.push("/dashboard/investments/add")}
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Investment</span>

@@ -36,7 +36,7 @@ export default function LoginPage() {
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 transition bg-white"
+                                    className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
                                 />
                             </div>
                         </div>
@@ -53,14 +53,14 @@ export default function LoginPage() {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 transition bg-white"
+                                    className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
                                 />
                             </div>
                         </div>
 
                         <button
                             type="submit"
-                            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition font-medium shadow-sm"
+                            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md text-white bg-yellow-500 hover:bg-yellow-600 transition font-medium shadow-sm"
                         >
                             <LogIn className="w-4 h-4 top-1/2" />
                             Sign in

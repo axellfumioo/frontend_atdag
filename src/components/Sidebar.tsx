@@ -13,8 +13,13 @@ import {
   Layers,
   DollarSign,
   MessageCircle,
+  Phone,
+  UserSquare2,
+  FileText,
+  Megaphone,
   type LucideIcon,
 } from "lucide-react";
+
 import { useRouter, usePathname } from "next/navigation";
 
 interface SubMenuItem {
@@ -35,23 +40,27 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   { name: "Home", icon: Home, path: "/" },
   { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-  { name: "Investors", icon: Users, path: "/investors" },
-  { name: "Investments", icon: TrendingUp, path: "/investments" },
-  { name: "WA Broadcast", icon: MessageCircle, hasArrow: true, path: "/wabroadcast", 
+  { name: "Investors", icon: Users, path: "/dashboard/investors" },
+  { name: "Investments", icon: TrendingUp, path: "/dashboard/investments" },
+  { name: "WA Broadcast", icon: MessageCircle, hasArrow: true, path: "/dashboard/wabroadcast", 
     subItems: [
-      { name: "Broadcast Groups", path:"/wabroadcast/broadcastgroups", icon: Radio}
+      { name: "Contacts", path:"/dashboard/wabroadcast/contacts", icon: Phone},
+      { name: "WA Groups", path:"/dashboard/wabroadcast/wagroups", icon: UserSquare2},
+      { name: "Templates", path:"/dashboard/wabroadcast/templates", icon: FileText},
+      { name: "Broadcast Groups", path:"/dashboard/wabroadcast/broadcastgroups", icon: Radio},
+      { name: "Broadcasts", path:"/dashboard/wabroadcast/broadcasts", icon: Megaphone},
     ]
   },
   { 
     name: "Master Data", 
     icon: Database, 
     hasArrow: true,
-    path: "/masterdata",
+    path: "/dashboard/masterdata",
     subItems: [
-      { name: "Investment Status", path: "/masterdata/investmentstatus", icon: RefreshCw },
-      { name: "Investment Stages", path: "/masterdata/investmentstages", icon: Layers },
-      { name: "Investor Types", path: "/masterdata/investortypes", icon: Users },
-      { name: "Currencies", path: "/masterdata/currencies", icon: DollarSign }
+      { name: "Investment Status", path: "/dashboard/masterdata/investmentstatus", icon: RefreshCw },
+      { name: "Investment Stages", path: "/dashboard/masterdata/investmentstages", icon: Layers },
+      { name: "Investor Types", path: "/dashboard/masterdata/investortypes", icon: Users },
+      { name: "Currencies", path: "/dashboard/masterdata/currencies", icon: DollarSign }
     ]
   },
 ];
@@ -113,7 +122,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
                   onClick={() => handleMenuClick(item)}
                   className={`
                     w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm
-                    ${isActive ? "bg-blue-50 text-blue-600 font-medium" : "text-gray-700 hover:bg-gray-50"}
+                    ${isActive ? "bg-yellow-50 text-yellow-600 font-medium" : "text-gray-700 hover:bg-gray-50"}
                   `}
                 >
                   <div className="flex items-center space-x-3">
@@ -125,7 +134,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
                     <ChevronDown
                       className={`w-4 h-4 transform transition duration-200 
                       ${isExpanded ? "rotate-0" : "-rotate-90"}
-                      ${isActive ? "text-blue-600" : "text-gray-400"}`}
+                      ${isActive ? "text-yellow-600" : "text-gray-400"}`}
                     />
                   )}
                 </button>
@@ -145,7 +154,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
                           }}
                           className={`
                             w-full flex items-center space-x-2 px-3 py-2 rounded-lg text-sm
-                            ${isSubActive ? "bg-blue-50 text-blue-600" : "text-gray-600 hover:bg-gray-100"}
+                            ${isSubActive ? "bg-yellow-50 text-yellow-600" : "text-gray-600 hover:bg-gray-100"}
                           `}
                         >
                           <SubIcon className="w-4 h-4" />

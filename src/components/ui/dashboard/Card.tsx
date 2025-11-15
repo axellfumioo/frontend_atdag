@@ -23,7 +23,7 @@ export default function CardComponents({ key, card, Icon, router }: CardComponen
 
                 <button
                   onClick={() => router.push(card.buttonPath)}
-                  className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm transition-colors"
+                  className="flex items-center space-x-2 text-yellow-600 hover:text-yellow-700 text-sm transition-colors"
                 >
                   <Icon className="w-4 h-4" />
                   <span>{card.buttonText}</span>
