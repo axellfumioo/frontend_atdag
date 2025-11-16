@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Users, TrendingUp, MessageSquare, Radio, PieChart, MessageCircle } from "lucide-react";
 import Header from "@/components/Header";
+import LayoutClient from "@/components/LayoutClient";
 import CardComponents from "@/components/ui/home/page";
 
 const featureCards = [
@@ -65,18 +66,24 @@ const featureCards = [
 export default function Home() {
   const router = useRouter();
   return (
-    <>
-      <Header />
-      <main className="max-w-7xl mx-auto px-4 py-4">
+    <LayoutClient>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Header />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {featureCards.map((card, index) => {
             const Icon = card.icon;
             return (
-              <CardComponents key={index} card={card} router={router} Icon={Icon} />
+              <CardComponents
+                key={index}
+                id={index}
+                card={card}
+                router={router}
+                Icon={Icon}
+              />
             );
           })}
         </div>
-      </main>
-    </>
+      </div>
+    </LayoutClient>
   );
 }

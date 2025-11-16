@@ -17,6 +17,8 @@ import {
   UserSquare2,
   FileText,
   Megaphone,
+  User,
+  LogOut,
   type LucideIcon,
 } from "lucide-react";
 
@@ -102,9 +104,9 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
       <aside
         className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 
         transform transition-transform duration-300 
-        ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+        ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"} flex flex-col`}
       >
-        <nav className="p-3 space-y-1 mt-5">
+        <nav className="p-3 space-y-1 mt-5 flex-1 overflow-y-auto">
           {/* mapping buat menu item yg didalamnya ada variabel juga */}
           {menuItems.map((item, index) => {
             // simpan item icon
@@ -168,7 +170,30 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
             );
           })}
         </nav>
+
+        <div className="mt-auto border-t border-gray-100 px-4 py-4">
+          <div className="rounded-2xl border border-yellow-100 bg-white shadow-sm p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-yellow-500/10 text-yellow-600 flex items-center justify-center">
+                <User className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-900">July</p>
+                <p className="text-xs text-gray-500">Administrator</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow hover:bg-yellow-600 transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+              Keluar
+            </button>
+          </div>
+        </div>
+
       </aside>
+
     </>
   );
 }

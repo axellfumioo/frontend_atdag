@@ -1,10 +1,8 @@
 "use client"
 import { CardComponentsProps } from "@/types/card";
-import LayoutClient from "@/components/LayoutClient";
 
 export default function CardComponents({ id, card, Icon, router }: CardComponentsProps) {
     return (
-        <LayoutClient>
             <div
                 key={id}
                 className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-lg transition-shadow duration-200"
@@ -31,6 +29,5 @@ export default function CardComponents({ id, card, Icon, router }: CardComponent
                   <span>{card.buttonText}</span>
                 </button>
             </div>
-        </LayoutClient>
     )
 }
