@@ -10,7 +10,7 @@ export interface CardData {
 }
 
 export interface CardComponentsProps {
-  key: number;
+  id: number;
   card: CardData;
   Icon: ElementType; 
   router: any;

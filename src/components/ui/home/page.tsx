@@ -1,10 +1,12 @@
 "use client"
 import { CardComponentsProps } from "@/types/card";
+import LayoutClient from "@/components/LayoutClient";
 
-export default function CardComponents({ key, card, Icon, router }: CardComponentsProps) {
+export default function CardComponents({ id, card, Icon, router }: CardComponentsProps) {
     return (
-        <div
-                key={key}
+        <LayoutClient>
+            <div
+                key={id}
                 className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-lg transition-shadow duration-200"
               >
                 <div
@@ -28,6 +30,7 @@ export default function CardComponents({ key, card, Icon, router }: CardComponen
                   <Icon className="w-4 h-4" />
                   <span>{card.buttonText}</span>
                 </button>
-              </div>
+            </div>
+        </LayoutClient>
     )
 }

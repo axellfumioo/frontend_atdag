@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Users, TrendingUp, MessageSquare, Radio, PieChart, MessageCircle } from "lucide-react";
 import Header from "@/components/Header";
-import CardComponents from "@/components/ui/dashboard/Card";
+import CardComponents from "@/components/ui/home/page";
 
 const featureCards = [
   {
