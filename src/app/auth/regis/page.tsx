@@ -73,7 +73,7 @@ export default function RegisPage() {
                   name="name"
                   value={form.name}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 transition bg-white"
+                className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
                   placeholder="John Doe"
                 />
               </div>
@@ -89,7 +89,7 @@ export default function RegisPage() {
                   type="email"
                   value={form.email}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 transition bg-white"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
                   placeholder="john@example.com"
                 />
               </div>
@@ -105,7 +105,7 @@ export default function RegisPage() {
                   type="password"
                   value={form.password}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 transition bg-white"
+                className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
                   placeholder="******"
                 />
               </div>
@@ -117,7 +117,7 @@ export default function RegisPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition font-medium shadow-sm"
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md text-white bg-yellow-500 hover:bg-yellow-600 transition font-medium shadow-sm"
             >
               {loading ? 'Registering...' : 'Register'}
             </button>
@@ -127,7 +127,7 @@ export default function RegisPage() {
             Sudah punya akun?{' '}
             <button
               onClick={() => router.push('/auth/login')}
-              className="text-blue-600 hover:underline font-medium"
+              className="text-yellow-500 hover:underline font-medium"
             >
               Login di sini
             </button>

@@ -171,6 +171,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
           })}
         </nav>
 
+          {/* profile */}
         <div className="mt-auto border-t border-gray-100 px-4 py-4">
           <div className="rounded-2xl border border-yellow-100 bg-white shadow-sm p-4">
             <div className="flex items-center gap-3">
