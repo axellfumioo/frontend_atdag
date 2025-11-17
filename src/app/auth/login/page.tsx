@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, LogIn } from "lucide-react";
 import api from "@/common/lib/apiClient";
-import Toast from 'typescript-toastify';
+import Toast from "typescript-toastify";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,6 +59,20 @@ export default function LoginPage() {
     }
   }
 
+  async function handleGoogleLogin() {
+    try {
+      window.location.href = "http://localhost:8000/api/v1/auth/google/login";
+    } catch (err: any) {
+      setError(err.message || "Terjadi kesalahan saat login bro");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function test() {
+    alert("test");
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md">
@@ -71,7 +85,7 @@ export default function LoginPage() {
             <div className="text-center mt-4">
               <button
                 type="button"
-                onClick={() => router.push('/auth/register')}
+                onClick={() => router.push("/auth/register")}
                 className="text-yellow-600 hover:text-yellow-800 font-medium text-sm"
               >
                 Belum punya akun? Daftar di sini
@@ -94,7 +108,9 @@ export default function LoginPage() {
 
             {/* PASSWORD */}
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">Password</label>
+              <label className="text-sm font-medium text-gray-700">
+                Password
+              </label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
@@ -126,7 +142,7 @@ export default function LoginPage() {
 
             <button
               type="button"
-              onClick={() => (window.location.href = "/api/auth/google")}
+              onClick={() => handleGoogleLogin()}
               className="w-full py-2.5 rounded-md border border-gray-300 bg-white hover:bg-gray-50 transition flex items-center justify-center gap-2 text-gray-700 font-medium"
             >
               <img
