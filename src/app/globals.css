@@ -3,6 +3,28 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ===== FIX TOASTER BURAM / BURIK ===== */
+[data-sonner-toast] {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  backdrop-filter: blur(6px);
+}
+
+[data-sonner-toast][data-type="success"] {
+  background: #16a34a !important; /* hijau */
+  color: white !important;
+}
+
+[data-sonner-toast][data-type="error"] {
+  background: #dc2626 !important; /* merah */
+  color: white !important;
+}
+
+[data-sonner-toast][data-type="info"] {
+  background: #2563eb !important; /* biru */
+  color: white !important;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

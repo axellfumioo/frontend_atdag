@@ -143,6 +143,13 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
     }
   };
 
+  const handleLogout = async () => {
+    const res = await authService.logout();
+    if (res) {
+      router.push("/auth/login");
+    }
+  };
+
   return (
     <>
       {/* Overlay mobile - keep clickable but transparent to avoid black screen */}
@@ -251,7 +258,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
             </div>
             <button
               type="button"
-              onClick={() => authService.logout()}
+              onClick={() => handleLogout()}
               className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow hover:bg-yellow-600 transition-colors"
             >
               <LogOut className="w-4 h-4" />
