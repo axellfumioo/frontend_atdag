@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function GoogleCallbackPage() {
   const router = useRouter();
@@ -15,10 +16,11 @@ export default function GoogleCallbackPage() {
     if (token && user) {
       sessionStorage.setItem("jwt_token", token);
       sessionStorage.setItem("user", JSON.stringify(user));
-
+      toast.success("Login Success!");
       router.replace("/");
     } else {
       router.replace("/auth/login?error=google_failed");
+      toast.error("Login failed");
     }
   }, [router]);
 

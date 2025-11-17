@@ -3,6 +3,7 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import LayoutClient from "@/components/LayoutClient";
 import { Toaster } from "@/common/shadcn/ui/sonner";
+import QueryProvider from "@/common/providers/QueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,8 +25,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 antialiased`}
       >
-        {children}
-        <Toaster expand position="top-center" richColors/>
+        <QueryProvider>{children}</QueryProvider>
+        <Toaster expand position="top-center" richColors />
         <Footer />
       </body>
     </html>
