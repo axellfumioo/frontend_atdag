@@ -12,37 +12,16 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("register") === "true") {
-      new Toast({
-        position: "top-right",
-        toastMsg: "Register Success! Please Login.",
-        autoCloseTime: 4000,
-        canClose: true,
-        showProgress: true,
-        pauseOnHover: true,
-        pauseOnFocusLoss: true,
-        type: "success",
-        theme: "light",
-      });
-
-      params.delete("register");
-      const newSearch = params.toString();
-      const newUrl =
-        window.location.pathname + (newSearch ? `?${newSearch}` : "");
-      window.history.replaceState({}, "", newUrl);
-    }
-  }, []);
-
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     try {
-      authService.login({ email, password });
-      router.push("/");
+      const result = await authService.login({ email, password });
+      if (result) {
+        router.push("/");
+      }
     } catch (err: any) {
       setError(err.message || "Terjadi kesalahan saat login bro");
     } finally {

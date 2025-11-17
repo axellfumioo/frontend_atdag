@@ -1,28 +1,40 @@
 import axios from "axios";
-
+import { BASE_URL } from "./loadEnv";
 
 const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
-    headers: {
-        'Content-Type': 'application/json'
-    }
-})
+  baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 api.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('TOKEN')
-        if (token) config.headers['Authorization'] = `Bearer ${token}`
-        return config
-    },
-    (error) => Promise.reject(error)
-)
+  (config) => {
+    if (typeof window !== "undefined") {
+      const token = sessionStorage.getItem("jwt_token");
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 api.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        const msg = error.response?.data?.error || error.response?.data?.message || error.message
-        return Promise.reject(new Error(msg))
-    }
-)
+  (response) => response,
+  (error) => {
+    const msg =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      "Request failed";
 
-export default api
+    return Promise.reject({
+      message: msg,
+      status: error.response?.status,
+      data: error.response?.data,
+    });
+  }
+);
+
+export default api;

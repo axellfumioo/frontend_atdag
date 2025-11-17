@@ -1,8 +1,9 @@
-'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Mail, Lock, UserPlus } from 'lucide-react';
-import api from '@/common/lib/apiClient';
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Mail, Lock, UserPlus } from "lucide-react";
+import api from "@/common/lib/apiClient";
+import { authService } from "@/services/AuthService";
 
 interface FormData {
   name: string;
@@ -13,9 +14,9 @@ interface FormData {
 export default function RegisPage() {
   const router = useRouter();
   const [form, setForm] = useState<FormData>({
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
   });
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,23 +33,27 @@ export default function RegisPage() {
     setSuccess(null);
 
     if (!form.name || form.name.length < 3)
-      return setError('Nama harus lebih dari 3 huruf');
-    if (!form.email) return setError('Email harus diisi');
+      return setError("Nama harus lebih dari 3 huruf");
+    if (!form.email) return setError("Email harus diisi");
     if (!form.password || form.password.length < 6)
-      return setError('Password lebih dari 6 huruf');
+      return setError("Password lebih dari 6 huruf");
 
     setLoading(true);
 
     try {
-      const res = await api.post('/auth/register', form);
-      setSuccess(res.data.message);
-      setForm({ name: '', email: '', password: '' });
-
-      setTimeout(() => {
-        router.push('/auth/login?register=true');
-      }, 1500);
+      const res = await authService.register({
+        email: form.email,
+        password: form.password,
+        name: form.name,
+      });
+      setForm({ name: "", email: "", password: "" });
+      if (res) {
+        setTimeout(() => {
+          router.push("/auth/login?register=true");
+        }, 1500);
+      }
     } catch (err: any) {
-      setError(err.message || 'Terjadi kesalahan');
+      setError(err.message || "Terjadi kesalahan");
     } finally {
       setLoading(false);
     }
@@ -72,7 +77,7 @@ export default function RegisPage() {
                   name="name"
                   value={form.name}
                   onChange={handleChange}
-                className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
+                  className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
                   placeholder="John Doe"
                 />
               </div>
@@ -88,7 +93,7 @@ export default function RegisPage() {
                   type="email"
                   value={form.email}
                   onChange={handleChange}
-                    className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
+                  className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
                   placeholder="john@example.com"
                 />
               </div>
@@ -96,7 +101,9 @@ export default function RegisPage() {
 
             {/* PASSWORD */}
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">Password</label>
+              <label className="text-sm font-medium text-gray-700">
+                Password
+              </label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
@@ -104,7 +111,7 @@ export default function RegisPage() {
                   type="password"
                   value={form.password}
                   onChange={handleChange}
-                className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
+                  className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
                   placeholder="******"
                 />
               </div>
@@ -116,16 +123,16 @@ export default function RegisPage() {
             <button
               type="submit"
               disabled={loading}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md text-white bg-yellow-500 hover:bg-yellow-600 transition font-medium shadow-sm"
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md text-white bg-yellow-500 hover:bg-yellow-600 transition font-medium shadow-sm"
             >
-              {loading ? 'Registering...' : 'Register'}
+              {loading ? "Registering..." : "Register"}
             </button>
           </form>
 
           <p className="text-sm text-center text-gray-500 mt-6">
-            Sudah punya akun?{' '}
+            Sudah punya akun?{" "}
             <button
-              onClick={() => router.push('/auth/login')}
+              onClick={() => router.push("/auth/login")}
               className="text-yellow-500 hover:underline font-medium"
             >
               Login di sini
