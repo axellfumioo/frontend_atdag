@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 
 import { useRouter, usePathname } from "next/navigation";
+import { authService } from "@/services/AuthService";
 
 interface SubMenuItem {
   name: string;
@@ -45,14 +46,37 @@ const menuItems: MenuItem[] = [
   { name: "Investors", icon: Users, path: "/dashboard/investors" },
   { name: "Investments", icon: TrendingUp, path: "/dashboard/investments" },
   {
-    name: "WA Broadcast", icon: MessageCircle, hasArrow: true, path: "/dashboard/wabroadcast",
+    name: "WA Broadcast",
+    icon: MessageCircle,
+    hasArrow: true,
+    path: "/dashboard/wabroadcast",
     subItems: [
-      { name: "Contacts", path: "/dashboard/wabroadcast/contacts", icon: Phone },
-      { name: "WA Groups", path: "/dashboard/wabroadcast/wagroups", icon: UserSquare2 },
-      { name: "Templates", path: "/dashboard/wabroadcast/templates", icon: FileText },
-      { name: "Broadcast Groups", path: "/dashboard/wabroadcast/broadcastgroups", icon: Radio },
-      { name: "Broadcasts", path: "/dashboard/wabroadcast/broadcasts", icon: Megaphone },
-    ]
+      {
+        name: "Contacts",
+        path: "/dashboard/wabroadcast/contacts",
+        icon: Phone,
+      },
+      {
+        name: "WA Groups",
+        path: "/dashboard/wabroadcast/wagroups",
+        icon: UserSquare2,
+      },
+      {
+        name: "Templates",
+        path: "/dashboard/wabroadcast/templates",
+        icon: FileText,
+      },
+      {
+        name: "Broadcast Groups",
+        path: "/dashboard/wabroadcast/broadcastgroups",
+        icon: Radio,
+      },
+      {
+        name: "Broadcasts",
+        path: "/dashboard/wabroadcast/broadcasts",
+        icon: Megaphone,
+      },
+    ],
   },
   {
     name: "Master Data",
@@ -60,11 +84,27 @@ const menuItems: MenuItem[] = [
     hasArrow: true,
     path: "/dashboard/masterdata",
     subItems: [
-      { name: "Investment Status", path: "/dashboard/masterdata/investmentstatus", icon: RefreshCw },
-      { name: "Investment Stages", path: "/dashboard/masterdata/investmentstages", icon: Layers },
-      { name: "Investor Types", path: "/dashboard/masterdata/investortypes", icon: Users },
-      { name: "Currencies", path: "/dashboard/masterdata/currencies", icon: DollarSign }
-    ]
+      {
+        name: "Investment Status",
+        path: "/dashboard/masterdata/investmentstatus",
+        icon: RefreshCw,
+      },
+      {
+        name: "Investment Stages",
+        path: "/dashboard/masterdata/investmentstages",
+        icon: Layers,
+      },
+      {
+        name: "Investor Types",
+        path: "/dashboard/masterdata/investortypes",
+        icon: Users,
+      },
+      {
+        name: "Currencies",
+        path: "/dashboard/masterdata/currencies",
+        icon: DollarSign,
+      },
+    ],
   },
 ];
 
@@ -116,7 +156,9 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
       <aside
         className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 
         transform transition-transform duration-300 
-        ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"} flex flex-col`}
+        ${
+          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        } flex flex-col`}
       >
         <nav className="p-3 space-y-1 mt-5 flex-1 overflow-y-auto">
           {/* mapping buat menu item yg didalamnya ada variabel juga */}
@@ -136,7 +178,11 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
                   onClick={() => handleMenuClick(item)}
                   className={`
                     w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm
-                    ${isActive ? "bg-yellow-50 text-yellow-600 font-medium" : "text-gray-700 hover:bg-gray-50"}
+                    ${
+                      isActive
+                        ? "bg-yellow-50 text-yellow-600 font-medium"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }
                   `}
                 >
                   <div className="flex items-center space-x-3">
@@ -168,7 +214,11 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
                           }}
                           className={`
                             w-full flex items-center space-x-2 px-3 py-2 rounded-lg text-sm
-                            ${isSubActive ? "bg-yellow-50 text-yellow-600" : "text-gray-600 hover:bg-gray-100"}
+                            ${
+                              isSubActive
+                                ? "bg-yellow-50 text-yellow-600"
+                                : "text-gray-600 hover:bg-gray-100"
+                            }
                           `}
                         >
                           <SubIcon className="w-4 h-4" />
@@ -191,12 +241,17 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
                 <User className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900">{userData?.name}</p>
-                <p className="text-xs text-gray-500">{userData?.role.role_name}</p>
+                <p className="text-sm font-semibold text-gray-900">
+                  {userData?.name}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {userData?.role?.role_name}
+                </p>
               </div>
             </div>
             <button
               type="button"
+              onClick={() => authService.logout()}
               className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow hover:bg-yellow-600 transition-colors"
             >
               <LogOut className="w-4 h-4" />
@@ -204,9 +259,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
             </button>
           </div>
         </div>
-
       </aside>
-
     </>
   );
 }
