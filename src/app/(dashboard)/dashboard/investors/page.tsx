@@ -2,9 +2,11 @@
 
 import React, { useState } from "react";
 import { Search, Filter, RefreshCw, Plus, ArrowUpDown } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function InvestorsPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter()
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
@@ -62,7 +64,9 @@ export default function InvestorsPage() {
                 <span>Refresh</span>
               </button>
 
-              <button className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition-colors">
+              <button className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition-colors"
+              onClick={() => router.push("/dashboard/investors/add")}
+              >
                 <Plus className="w-4 h-4" />
                 <span>Add Investor</span>
               </button>
