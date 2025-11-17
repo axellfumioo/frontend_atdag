@@ -10,78 +10,54 @@ import {
   Pencil,
   Trash2,
 } from "lucide-react";
-
-const CURRENCIES_DATA = [
-  {
-    order: 1,
-    code: "USD",
-    symbol: "$",
-    name: "US Dollar",
-    dateCreated: "02 Oct 2025",
-    dateUpdated: "02 Oct 2025",
-  },
-  {
-    order: 2,
-    code: "EUR",
-    symbol: "€",
-    name: "Euro",
-    dateCreated: "02 Oct 2025",
-    dateUpdated: "02 Oct 2025",
-  },
-  {
-    order: 3,
-    code: "GBP",
-    symbol: "£",
-    name: "British Pound",
-    dateCreated: "02 Oct 2025",
-    dateUpdated: "02 Oct 2025",
-  },
-  {
-    order: 4,
-    code: "JPY",
-    symbol: "¥",
-    name: "Japanese Yen",
-    dateCreated: "02 Oct 2025",
-    dateUpdated: "02 Oct 2025",
-  },
-  {
-    order: 5,
-    code: "IDR",
-    symbol: "Rp",
-    name: "Indonesian Rupiah",
-    dateCreated: "02 Oct 2025",
-    dateUpdated: "02 Oct 2025",
-  },
-  {
-    order: 6,
-    code: "SGD",
-    symbol: "S$",
-    name: "Singapore Dollar",
-    dateCreated: "02 Oct 2025",
-    dateUpdated: "02 Oct 2025",
-  },
-  {
-    order: 7,
-    code: "MYR",
-    symbol: "RM",
-    name: "Malaysian Ringgit",
-    dateCreated: "02 Oct 2025",
-    dateUpdated: "02 Oct 2025",
-  },
-];
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { currencyService } from "@/services/CurrencyService";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function CurrenciesPage() {
   const [searchQuery, setSearchQuery] = useState("");
-
-  const filteredData = CURRENCIES_DATA.filter((item) => {
-    const q = searchQuery.toLowerCase();
-    return (
-      item.code.toLowerCase().includes(q) ||
-      item.name.toLowerCase().includes(q) ||
-      item.symbol.toLowerCase().includes(q)
-    );
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const {
+    data: currencies,
+    isLoading: isLoadingCurrencies,
+    isSuccess: isSuccessCurrencies,
+  } = useQuery({
+    queryKey: ["currencies"],
+    queryFn: currencyService.getAllCurrencies,
   });
 
+  const { mutate: deleteCurrency } = useMutation({
+    mutationKey: ["deleteCurrency"],
+    mutationFn: currencyService.deleteCurrency,
+    onSuccess: () => {
+      toast.success("Currency deleted successfully!");
+      queryClient.invalidateQueries({
+        queryKey: ["currencies"],
+      });
+    },
+  });
+
+  // const filteredData = CURRENCIES_DATA.filter((item) => {
+  //   const q = searchQuery.toLowerCase();
+  //   return (
+  //     item.code.toLowerCase().includes(q) ||
+  //     item.name.toLowerCase().includes(q) ||
+  //     item.symbol.toLowerCase().includes(q)
+  //   );
+  // });
+
+  function handleDeleteCurrency(id: number) {
+    deleteCurrency(id);
+  }
+
+  function handleRefresh() {
+    queryClient.invalidateQueries({
+      queryKey: ["currencies"],
+    });
+    toast.success("Currencies refreshed successfully!");
+  }
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
       <div className="mb-6">
@@ -112,14 +88,14 @@ export default function CurrenciesPage() {
           </div>
 
           <div className="flex gap-3 justify-end">
-            <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+            <button  onClick={handleRefresh} className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors">
               <RefreshCw className="w-4 h-4" />
               <span>Refresh</span>
             </button>
-            <button className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition-colors">
+            <button onClick={() => {router.push("/dashboard/masterdata/currencies/add")}} className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition-colors">
               <Plus className="w-4 h-4" />
               <span>Add Currency</span>
-            </button>
+            </button >
           </div>
         </div>
 
@@ -168,36 +144,61 @@ export default function CurrenciesPage() {
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((item) => (
-                <tr key={item.order} className="border-b border-gray-100 last:border-0">
-                  <td className="px-6 py-3 text-sm text-gray-700">{item.order}</td>
-                  <td className="px-6 py-3 text-sm font-semibold text-gray-800">
-                    {item.code}
-                  </td>
-                  <td className="px-6 py-3 text-sm text-gray-700">
-                    {item.symbol}
-                  </td>
-                  <td className="px-6 py-3 text-sm text-gray-700">
-                    {item.name}
-                  </td>
-                  <td className="px-6 py-3 text-sm text-gray-700">
-                    {item.dateCreated}
-                  </td>
-                  <td className="px-6 py-3 text-sm text-gray-700">
-                    {item.dateUpdated}
-                  </td>
-                  <td className="px-6 py-3">
-                    <div className="flex items-center gap-2">
-                      <button className="p-1.5 rounded border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700">
-                        <Pencil className="w-4 h-4" />
-                      </button>
-                      <button className="p-1.5 rounded border border-gray-200 hover:bg-red-50 text-red-500 hover:text-red-600">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
+              {currencies?.length === 0 && !isLoadingCurrencies && (
+                <tr>
+                  <td colSpan={7} className="px-6 py-3 text-sm text-gray-700">
+                    No currencies found.
                   </td>
                 </tr>
-              ))}
+              )}
+              {isLoadingCurrencies && (
+                <tr>
+                  <td colSpan={7} className="px-6 py-4 text-sm text-gray-500">
+                    Loading currencies...
+                  </td>
+                </tr>
+              )}
+
+              {isSuccessCurrencies &&
+                currencies?.map((item) => (
+                  <tr
+                    key={item.id}
+                    className="border-b border-gray-100 last:border-0"
+                  >
+                    <td className="px-6 py-3 text-sm text-gray-700">
+                      {item.order}
+                    </td>
+                    <td className="px-6 py-3 text-sm font-semibold text-gray-800">
+                      {item.code}
+                    </td>
+                    <td className="px-6 py-3 text-sm text-gray-700">
+                      {item.symbol}
+                    </td>
+                    <td className="px-6 py-3 text-sm text-gray-700">
+                      {item.name}
+                    </td>
+                    <td className="px-6 py-3 text-sm text-gray-700">
+                      {new Date(item.created_at).toLocaleDateString("id-ID")}
+                    </td>
+                    <td className="px-6 py-3 text-sm text-gray-700">
+                      {new Date(item.updated_at).toLocaleDateString("id-ID")}
+                    </td>
+                    <td className="px-6 py-3">
+                      <div className="flex items-center gap-2">
+                        <button className="p-1.5 rounded border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700">
+                          <Pencil className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteCurrency(item.id)}
+                          className="p-1.5 rounded border border-gray-200 hover:bg-red-50 text-red-500 hover:text-red-600"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              {/* 
               {filteredData.length === 0 && (
                 <tr>
                   <td
@@ -207,7 +208,7 @@ export default function CurrenciesPage() {
                     No currencies found.
                   </td>
                 </tr>
-              )}
+              )} */}
             </tbody>
           </table>
         </div>
