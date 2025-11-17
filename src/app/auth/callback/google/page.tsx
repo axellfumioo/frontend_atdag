@@ -22,5 +22,15 @@ export default function GoogleCallbackPage() {
     }
   }, [router]);
 
-  return <p>Processing Google login...</p>;
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+      {/* Spinner */}
+      <div className="w-16 h-16 border-4 border-yellow-400 border-t-orange-500 rounded-full animate-spin"></div>
+
+      {/* Text */}
+      <p className="mt-6 text-lg font-medium text-orange-600">
+        Sedang memproses Google Login...
+      </p>
+    </div>
+  );
 }
