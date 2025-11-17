@@ -20,7 +20,7 @@ class CurrencyService {
   }
 
   public async updateCurrency(id: number, dto: UpdateCurrencyDto) {
-    const res = await api.put<{ data: Currency }>(`${BASE_URL}/currencies/${id}`, dto);
+    const res = await api.patch<{ data: Currency }>(`${BASE_URL}/currencies/${id}`, dto);
     return res.data.data;
   }
 }

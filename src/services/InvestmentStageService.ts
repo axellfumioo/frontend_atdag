@@ -1,4 +1,4 @@
-import { CreateInvestmentStage } from "@/common/dto/investmentStage.dto";
+import { CreateInvestmentStage, UpdateInvestmentStage } from "@/common/dto/investmentStage.dto";
 import api from "@/common/lib/apiClient";
 import { BASE_URL } from "@/common/lib/loadEnv";
 import { InvestmentStage } from "@/common/model";
@@ -16,6 +16,11 @@ class InvestmentStageService {
 
     public async deleteInvestmentStage(id: number) {
         const res = await api.delete<{ data: InvestmentStage }>(`${BASE_URL}/investment-stages/${id}`);
+        return res.data.data;
+    }
+
+    public async updateInvestmentStage(id: number, dto: UpdateInvestmentStage) {
+        const res = await api.patch<{ data: InvestmentStage }>(`${BASE_URL}/investment-stages/${id}`, dto);
         return res.data.data;
     }
 }
