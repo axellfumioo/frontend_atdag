@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, LogIn } from "lucide-react";
 import api from "@/common/lib/apiClient";
+import Toast from 'typescript-toastify';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,23 +12,48 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("register") === "true") {
+      new Toast({
+        position: "top-right",
+        toastMsg: "Register Success! Please Login.",
+        autoCloseTime: 4000,
+        canClose: true,
+        showProgress: true,
+        pauseOnHover: true,
+        pauseOnFocusLoss: true,
+        type: "success",
+        theme: "light",
+      });
+
+      params.delete("register");
+      const newSearch = params.toString();
+      const newUrl =
+        window.location.pathname + (newSearch ? `?${newSearch}` : "");
+      window.history.replaceState({}, "", newUrl);
+    }
+  }, []);
+
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     try {
-      const res = await api.post("/api/v1/auth/login", { email, password });
+      const res = await api.post(
+        process.env.NEXT_PUBLIC_API_BASE_URL + "/auth/login",
+        { email, password }
+      );
 
       const { token, user } = res.data.data;
 
-      // Simpan token dan user info ke localStorage
-      localStorage.setItem("TOKEN", token);
-      localStorage.setItem("USER", JSON.stringify(user));
+      sessionStorage.setItem("jwt_token", token);
+      sessionStorage.setItem("user", JSON.stringify(user));
 
       router.push("/");
     } catch (err: any) {
-      setError(err.message || "Terjadi kesalahan saat login");
+      setError(err.message || "Terjadi kesalahan saat login bro");
     } finally {
       setLoading(false);
     }
@@ -45,7 +71,7 @@ export default function LoginPage() {
             <div className="text-center mt-4">
               <button
                 type="button"
-                onClick={() => router.push('/auth/regis')}
+                onClick={() => router.push('/auth/register')}
                 className="text-yellow-600 hover:text-yellow-800 font-medium text-sm"
               >
                 Belum punya akun? Daftar di sini

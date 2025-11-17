@@ -40,13 +40,12 @@ export default function RegisPage() {
     setLoading(true);
 
     try {
-      const res = await api.post('/api/v1/auth/register', form);
+      const res = await api.post('/auth/register', form);
       setSuccess(res.data.message);
       setForm({ name: '', email: '', password: '' });
 
-      // Redirect ke login setelah sukses
       setTimeout(() => {
-        router.push('/auth/login');
+        router.push('/auth/login?register=true');
       }, 1500);
     } catch (err: any) {
       setError(err.message || 'Terjadi kesalahan');
