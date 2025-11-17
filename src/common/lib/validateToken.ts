@@ -19,7 +19,7 @@ export async function validateToken(token: string) {
           sessionStorage.clear();
           
           document.cookie = "token=; Max-Age=0; path=/;";
-          window.location.href = "/login";
+          window.location.href = "/auth/login";
         } catch (e) {
           
         }
@@ -34,7 +34,7 @@ export async function validateToken(token: string) {
       try {
         sessionStorage.clear();
         document.cookie = "token=; Max-Age=0; path=/;";
-        window.location.href = "/login";
+        window.location.href = "/auth/login";
       } catch (e) {
         
       }
