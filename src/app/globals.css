@@ -3,27 +3,51 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ===== FIX TOASTER BURAM / BURIK ===== */
+[data-sonner-toast] {
+  border-radius: 0.5rem; /* 8px */
+  font-weight: 500;
+  backdrop-filter: blur(6px);
+  padding: 0.75rem 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: white;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* ===== TOASTER STYLING CLEAN & ELEGAN ===== */
 [data-sonner-toast] {
   border-radius: 8px !important;
   font-weight: 500 !important;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important; /* untuk Safari */
+  padding: 0.75rem 1rem !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+  color: white !important;
+  border: none !important; /* hilangkan border hitam */
+  background-clip: padding-box !important;
+  transition: transform 0.2s ease, opacity 0.2s ease !important;
 }
 
+/* SUCCESS TOAST */
 [data-sonner-toast][data-type="success"] {
-  background: #16a34a !important; /* hijau */
-  color: white !important;
+  background-color: rgba(22, 163, 74, 0.85) !important; /* hijau semi-transparan */
 }
 
+/* ERROR TOAST */
 [data-sonner-toast][data-type="error"] {
-  background: #dc2626 !important; /* merah */
-  color: white !important;
+  background-color: rgba(220, 38, 38, 0.85) !important; /* merah semi-transparan */
 }
 
+/* INFO TOAST */
 [data-sonner-toast][data-type="info"] {
-  background: #2563eb !important; /* biru */
-  color: white !important;
+  background-color: rgba(37, 99, 235, 0.85) !important; /* biru semi-transparan */
 }
+
+/* HOVER EFFECT */
+[data-sonner-toast]:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+}
+
 
 @theme inline {
   --color-background: var(--background);

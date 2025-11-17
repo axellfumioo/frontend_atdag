@@ -8,3 +8,12 @@ export interface Currency {
   created_at: string;
   updated_at: string;
 }
+
+
+export interface InvestmentStage {
+  id: number;
+  order: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
