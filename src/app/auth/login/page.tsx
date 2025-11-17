@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, LogIn } from "lucide-react";
-import api from "@/common/lib/apiClient";
 import Toast from "typescript-toastify";
+import { authService } from "@/services/AuthService";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,16 +41,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await api.post(
-        process.env.NEXT_PUBLIC_API_BASE_URL + "/auth/login",
-        { email, password }
-      );
-
-      const { token, user } = res.data.data;
-
-      sessionStorage.setItem("jwt_token", token);
-      sessionStorage.setItem("user", JSON.stringify(user));
-
+      authService.login({ email, password });
       router.push("/");
     } catch (err: any) {
       setError(err.message || "Terjadi kesalahan saat login bro");
