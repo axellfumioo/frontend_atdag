@@ -44,18 +44,19 @@ const menuItems: MenuItem[] = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
   { name: "Investors", icon: Users, path: "/dashboard/investors" },
   { name: "Investments", icon: TrendingUp, path: "/dashboard/investments" },
-  { name: "WA Broadcast", icon: MessageCircle, hasArrow: true, path: "/dashboard/wabroadcast", 
+  {
+    name: "WA Broadcast", icon: MessageCircle, hasArrow: true, path: "/dashboard/wabroadcast",
     subItems: [
-      { name: "Contacts", path:"/dashboard/wabroadcast/contacts", icon: Phone},
-      { name: "WA Groups", path:"/dashboard/wabroadcast/wagroups", icon: UserSquare2},
-      { name: "Templates", path:"/dashboard/wabroadcast/templates", icon: FileText},
-      { name: "Broadcast Groups", path:"/dashboard/wabroadcast/broadcastgroups", icon: Radio},
-      { name: "Broadcasts", path:"/dashboard/wabroadcast/broadcasts", icon: Megaphone},
+      { name: "Contacts", path: "/dashboard/wabroadcast/contacts", icon: Phone },
+      { name: "WA Groups", path: "/dashboard/wabroadcast/wagroups", icon: UserSquare2 },
+      { name: "Templates", path: "/dashboard/wabroadcast/templates", icon: FileText },
+      { name: "Broadcast Groups", path: "/dashboard/wabroadcast/broadcastgroups", icon: Radio },
+      { name: "Broadcasts", path: "/dashboard/wabroadcast/broadcasts", icon: Megaphone },
     ]
   },
-  { 
-    name: "Master Data", 
-    icon: Database, 
+  {
+    name: "Master Data",
+    icon: Database,
     hasArrow: true,
     path: "/dashboard/masterdata",
     subItems: [
@@ -77,6 +78,17 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [expandedMenu, setExpandedMenu] = React.useState<string | null>(null);
+  const [userData, setUser] = React.useState<Record<string, any> | null>(null);
+
+  React.useEffect(() => {
+    const raw = sessionStorage.getItem("user");
+    if (!raw) return;
+    try {
+      setUser(JSON.parse(raw));
+    } catch (err) {
+      console.error("Failed to parse user from sessionStorage", err);
+    }
+  }, []);
 
   const toggleSubmenu = (menuName: string) => {
     setExpandedMenu(expandedMenu === menuName ? null : menuName);
@@ -131,7 +143,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
                     <Icon className="w-5 h-5" />
                     <span>{item.name}</span>
                   </div>
-                    {/* dropdown item buat wabroadcast sm masterdata */}
+                  {/* dropdown item buat wabroadcast sm masterdata */}
                   {item.hasArrow && (
                     <ChevronDown
                       className={`w-4 h-4 transform transition duration-200 
@@ -171,7 +183,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
           })}
         </nav>
 
-          {/* profile */}
+        {/* profile */}
         <div className="mt-auto border-t border-gray-100 px-4 py-4">
           <div className="rounded-2xl border border-yellow-100 bg-white shadow-sm p-4">
             <div className="flex items-center gap-3">
@@ -179,8 +191,8 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
                 <User className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900">July</p>
-                <p className="text-xs text-gray-500">Administrator</p>
+                <p className="text-sm font-semibold text-gray-900">{userData?.name}</p>
+                <p className="text-xs text-gray-500">{userData?.role.role_name}</p>
               </div>
             </div>
             <button
