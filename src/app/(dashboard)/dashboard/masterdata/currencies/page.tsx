@@ -58,6 +58,16 @@ export default function CurrenciesPage() {
     });
     toast.success("Currencies refreshed successfully!");
   }
+
+  const filteredCurrencies = currencies?.filter((item) => {
+    const q = searchQuery.toLowerCase();
+    return (
+      item.code.toLowerCase().includes(q) ||
+      item.name.toLowerCase().includes(q) ||
+      (item.symbol?.toLowerCase() || "").includes(q)
+    );
+  });
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
       <div className="mb-6">
@@ -88,14 +98,22 @@ export default function CurrenciesPage() {
           </div>
 
           <div className="flex gap-3 justify-end">
-            <button  onClick={handleRefresh} className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+            <button
+              onClick={handleRefresh}
+              className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+            >
               <RefreshCw className="w-4 h-4" />
               <span>Refresh</span>
             </button>
-            <button onClick={() => {router.push("/dashboard/masterdata/currencies/add")}} className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition-colors">
+            <button
+              onClick={() => {
+                router.push("/dashboard/masterdata/currencies/add");
+              }}
+              className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition-colors"
+            >
               <Plus className="w-4 h-4" />
               <span>Add Currency</span>
-            </button >
+            </button>
           </div>
         </div>
 
@@ -144,13 +162,6 @@ export default function CurrenciesPage() {
               </tr>
             </thead>
             <tbody>
-              {currencies?.length === 0 && !isLoadingCurrencies && (
-                <tr>
-                  <td colSpan={7} className="px-6 py-3 text-sm text-gray-700">
-                    No currencies found.
-                  </td>
-                </tr>
-              )}
               {isLoadingCurrencies && (
                 <tr>
                   <td colSpan={7} className="px-6 py-4 text-sm text-gray-500">
@@ -159,8 +170,16 @@ export default function CurrenciesPage() {
                 </tr>
               )}
 
-              {isSuccessCurrencies &&
-                currencies?.map((item) => (
+              {!isLoadingCurrencies && filteredCurrencies?.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="px-6 py-3 text-sm text-gray-700">
+                    No currencies found.
+                  </td>
+                </tr>
+              )}
+
+              {!isLoadingCurrencies &&
+                filteredCurrencies?.map((item) => (
                   <tr
                     key={item.id}
                     className="border-b border-gray-100 last:border-0"
@@ -198,17 +217,6 @@ export default function CurrenciesPage() {
                     </td>
                   </tr>
                 ))}
-              {/* 
-              {filteredData.length === 0 && (
-                <tr>
-                  <td
-                    className="px-6 py-10 text-center text-sm text-gray-400"
-                    colSpan={7}
-                  >
-                    No currencies found.
-                  </td>
-                </tr>
-              )} */}
             </tbody>
           </table>
         </div>

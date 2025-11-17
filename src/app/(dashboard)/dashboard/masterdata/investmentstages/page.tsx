@@ -10,99 +10,61 @@ import {
   Pencil,
   Trash2,
 } from "lucide-react";
-
-type InvestmentStage = {
-  order: number;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-const investmentStages: InvestmentStage[] = [
-  {
-    order: 1,
-    name: "Pre-Seed",
-    createdAt: "02 Oct 2025",
-    updatedAt: "02 Oct 2025",
-  },
-  {
-    order: 2,
-    name: "Seed",
-    createdAt: "02 Oct 2025",
-    updatedAt: "02 Oct 2025",
-  },
-  {
-    order: 3,
-    name: "Series A",
-    createdAt: "02 Oct 2025",
-    updatedAt: "02 Oct 2025",
-  },
-  {
-    order: 4,
-    name: "Series B",
-    createdAt: "02 Oct 2025",
-    updatedAt: "02 Oct 2025",
-  },
-  {
-    order: 5,
-    name: "Series C",
-    createdAt: "02 Oct 2025",
-    updatedAt: "02 Oct 2025",
-  },
-  {
-    order: 6,
-    name: "Series D+",
-    createdAt: "02 Oct 2025",
-    updatedAt: "02 Oct 2025",
-  },
-  {
-    order: 7,
-    name: "Bridge Round",
-    createdAt: "02 Oct 2025",
-    updatedAt: "02 Oct 2025",
-  },
-  {
-    order: 8,
-    name: "Pre-IPO",
-    createdAt: "02 Oct 2025",
-    updatedAt: "02 Oct 2025",
-  },
-  {
-    order: 9,
-    name: "IPO",
-    createdAt: "02 Oct 2025",
-    updatedAt: "02 Oct 2025",
-  },
-  {
-    order: 10,
-    name: "Post-IPO",
-    createdAt: "02 Oct 2025",
-    updatedAt: "02 Oct 2025",
-  },
-  {
-    order: 11,
-    name: "Post-IPO",
-    createdAt: "02 Oct 2025",
-    updatedAt: "02 Oct 2025",
-  },
-];
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { investmentStageService } from "@/services/InvestmentStageService";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function InvestmentStagesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredStages = investmentStages.filter((stage) =>
-    stage.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
-  const pageSize = 10;
-  const totalPages = Math.max(1, Math.ceil(filteredStages.length / pageSize));
-  const startIndex = (currentPage - 1) * pageSize;
-  const paginatedStages = filteredStages.slice(
-    startIndex,
-    startIndex + pageSize
-  );
+  const {
+    data: stages,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["investmentStages", currentPage],
+    queryFn: () => investmentStageService.getInvestmentStages(currentPage),
+  });
 
+  const { mutate: deleteInvestmentStage } = useMutation({
+    mutationKey: ["deleteInvestmentStage"],
+    mutationFn: investmentStageService.deleteInvestmentStage,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["investmentStages"],
+      });
+      toast.success("Investment Stage deleted successfully!");
+      router.push("/dashboard/masterdata/investmentstages");
+    },
+    onError: (err: any) => {
+      toast.error("Failed to delete Investment Stage");
+    },
+  });
+
+  const filteredStages = stages
+    ? stages.filter((stage) =>
+        stage.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
+
+  const handleDelete = (id: number) => {
+    deleteInvestmentStage(id);
+  };
+
+ function handleRefresh() {
+   queryClient.invalidateQueries({
+     queryKey: ["investmentStages"],
+   });
+   toast.success("Investment Stages refreshed successfully!");
+   refetch().then(() => {
+     setCurrentPage(1);
+   })
+  }
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
       <div className="mb-6">
@@ -111,7 +73,9 @@ export default function InvestmentStagesPage() {
             <Layers className="w-4 h-4 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Investment Stages</h1>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Investment Stages
+            </h1>
             <p className="text-gray-600">
               Configure investment stages in sequential order (Pre-Seed, Seed,
               Series A, etc.).
@@ -138,11 +102,20 @@ export default function InvestmentStagesPage() {
             </div>
 
             <div className="flex gap-3">
-              <button className="flex items-center space-x-2 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+              <button
+                onClick={() => handleRefresh()}
+                className="flex items-center space-x-2 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+              >
                 <RefreshCw className="h-4 w-4" />
                 <span>Refresh</span>
               </button>
-              <button className="flex items-center space-x-2 rounded-lg bg-yellow-500 px-4 py-2 text-sm text-white hover:bg-yellow-600">
+
+              <button
+                onClick={() =>
+                  router.push("/dashboard/masterdata/investmentstages/add")
+                }
+                className="flex items-center space-x-2 rounded-lg bg-yellow-500 px-4 py-2 text-sm text-white hover:bg-yellow-600"
+              >
                 <Plus className="h-4 w-4" />
                 <span>Add Stage</span>
               </button>
@@ -183,8 +156,18 @@ export default function InvestmentStagesPage() {
                 </th>
               </tr>
             </thead>
+
             <tbody>
-              {filteredStages.length === 0 ? (
+              {isLoading ? (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="px-6 py-10 text-center text-sm text-gray-400"
+                  >
+                    Loading...
+                  </td>
+                </tr>
+              ) : filteredStages.length === 0 ? (
                 <tr>
                   <td
                     colSpan={5}
@@ -194,9 +177,9 @@ export default function InvestmentStagesPage() {
                   </td>
                 </tr>
               ) : (
-                paginatedStages.map((stage) => (
+                filteredStages.map((stage: any) => (
                   <tr
-                    key={stage.order}
+                    key={stage.id}
                     className="border-b border-gray-100 last:border-b-0 hover:bg-gray-50"
                   >
                     <td className="px-6 py-3 text-sm text-gray-900">
@@ -206,17 +189,20 @@ export default function InvestmentStagesPage() {
                       {stage.name}
                     </td>
                     <td className="px-6 py-3 text-sm text-gray-700">
-                      {stage.createdAt}
+                      {new Date(stage.created_at).toLocaleDateString("id-ID")}
                     </td>
                     <td className="px-6 py-3 text-sm text-gray-700">
-                      {stage.updatedAt}
+                      {new Date(stage.updated_at).toLocaleDateString("id-ID")}
                     </td>
                     <td className="px-6 py-3 text-sm">
                       <div className="flex items-center space-x-2">
                         <button className="rounded border border-gray-200 p-1 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
                           <Pencil className="h-4 w-4" />
                         </button>
-                        <button className="rounded border border-gray-200 p-1 text-red-500 hover:bg-red-50">
+                        <button
+                          onClick={() => handleDelete(stage.id)}
+                          className="rounded border border-gray-200 p-1 text-red-500 hover:bg-red-50"
+                        >
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
@@ -227,36 +213,25 @@ export default function InvestmentStagesPage() {
             </tbody>
           </table>
         </div>
-        {filteredStages.length > pageSize && (
-          <div className="flex items-center justify-between px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
-            <div>
-              Showing {filteredStages.length === 0 ? 0 : startIndex + 1} -
-              {" "}
-              {Math.min(startIndex + pageSize, filteredStages.length)} of
-              {" "}
-              {filteredStages.length} stages
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                className="px-3 py-1 rounded border border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              >
-                Prev
-              </button>
-              <span>
-                Page {currentPage} of {totalPages}
-              </span>
-              <button
-                className="px-3 py-1 rounded border border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
-                disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        )}
+
+        <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
+          <button
+            className="px-3 py-1 rounded border border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((p) => p - 1)}
+          >
+            Prev
+          </button>
+
+          <span>Page {currentPage}</span>
+
+          <button
+            className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
+            onClick={() => setCurrentPage((p) => p + 1)}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
