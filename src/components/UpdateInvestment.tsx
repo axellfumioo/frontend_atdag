@@ -80,11 +80,11 @@ export default function UpdateInvestment({
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["investments"] });
-      toast.success("Investment updated successfully!");
+      toast.success("Berhasil memperbarui investment");
       setIsOpen(false);
     },
     onError: () => {
-      toast.error("Failed to update investment");
+      toast.error("Gagal memperbarui investment");
     },
   });
 
