@@ -28,7 +28,11 @@ export default function InvestmentsPage() {
   } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: investmentsData, isLoading } = useQuery({
+  const {
+    data: investmentsData,
+    isLoading,
+    refetch: refetchInvestments,
+  } = useQuery({
     queryKey: ["investments"],
     queryFn: () => investmentService.getAllInvestments(currentPage),
   });
@@ -59,7 +63,9 @@ export default function InvestmentsPage() {
         <ConfirmDialog
           isOpen={isOpenDelete}
           onClose={() => setIsopenDelete(false)}
-          onConfirm={() => deleteInvestment(selectedInvestmentType?.investment_id!)}
+          onConfirm={() =>
+            deleteInvestment(selectedInvestmentType?.investment_id!)
+          }
           title="Hapus Investment"
           cancelText="Batal"
           description={`Anda yakin ingin menghapus Investment ${selectedInvestmentType?.name}`}
@@ -105,7 +111,10 @@ export default function InvestmentsPage() {
               </div>
 
               <div className="flex gap-3">
-                <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                <button
+                  onClick={() => refetchInvestments()}
+                  className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                >
                   <RefreshCw className="w-4 h-4" />
                   <span>Refresh</span>
                 </button>
@@ -185,7 +194,30 @@ export default function InvestmentsPage() {
                 </tr>
               </thead>
               <tbody>
-                {filteredInvesmentsData?.length! > 0 &&
+                {!isLoading && !filteredInvesmentsData ? (
+                  <tr>
+                    <td colSpan={11} className="px-6 py-16">
+                      <div className="flex flex-col items-center justify-center text-center">
+                        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                          <svg
+                            className="w-10 h-10 text-gray-300"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            />
+                          </svg>
+                        </div>
+                        <p className="text-gray-400 text-sm">No data</p>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
                   filteredInvesmentsData?.map((item) => {
                     return (
                       <tr
@@ -246,30 +278,7 @@ export default function InvestmentsPage() {
                         </td>
                       </tr>
                     );
-                  })}
-                {filteredInvesmentsData?.length! === 0 && (
-                  <tr>
-                    <td colSpan={11} className="px-6 py-16">
-                      <div className="flex flex-col items-center justify-center text-center">
-                        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                          <svg
-                            className="w-10 h-10 text-gray-300"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={1.5}
-                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                            />
-                          </svg>
-                        </div>
-                        <p className="text-gray-400 text-sm">No data</p>
-                      </div>
-                    </td>
-                  </tr>
+                  })
                 )}
               </tbody>
             </table>
