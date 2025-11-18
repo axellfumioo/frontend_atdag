@@ -9,6 +9,8 @@ import {
   Plus,
   ArrowUpDown,
   TrendingUp,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { investmentService } from "@/services/InvestmentService";
@@ -146,14 +148,63 @@ export default function InvestmentsPage() {
                 </th>
               </tr>
             </thead>
-            <tbody>
-              {filteredInvesmentsData?.length! > 0 ? (
-                <tr>
-                  <td>
-
-                  </td>
-                </tr>
-              ) : (
+            <tbody key={1}>
+              {filteredInvesmentsData?.length! > 0 &&
+                filteredInvesmentsData?.map((item) => {
+                  return (
+                    <tr
+                      key={item.id}
+                      className="border-b border-gray-100 last:border-0"
+                    >
+                      <td className="px-6 py-3 text-sm text-gray-700">
+                        {item.name}
+                      </td>
+                      <td className="px-6 py-3 text-sm font-semibold text-gray-800">
+                        {item.investor.name}
+                      </td>
+                      <td className="px-6 py-3 text-sm text-gray-700">
+                        {item.investment_stage.name}
+                      </td>
+                      <td className="px-6 py-3 text-sm text-gray-700">
+                        {item.investment_status.status_name}
+                      </td>
+                      <td className="px-6 py-3 text-sm text-gray-700">
+                        {item.value}
+                      </td>
+                      <td className="px-6 py-3 text-sm text-gray-700">
+                        {item.expected_closing_date}
+                      </td>
+                      <td className="px-6 py-3 text-sm text-gray-700">
+                        {item.closing_date}
+                      </td>
+                      <td className="px-6 py-3 text-sm text-gray-700">
+                        {new Date(item.created_at).toLocaleDateString("id-ID")}
+                      </td>
+                      <td className="px-6 py-3 text-sm text-gray-700">
+                        {new Date(item.updated_at).toLocaleDateString("id-ID")}
+                      </td>
+                      <td className="px-6 py-3">
+                        <div className="flex items-center gap-2">
+                          <button
+                            title="edit"
+                            onClick={() => {}}
+                            className="p-1.5 rounded border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                          <button
+                            title="delete"
+                            onClick={() => {}}
+                            className="p-1.5 rounded border border-gray-200 hover:bg-red-50 text-red-500 hover:text-red-600"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              {filteredInvesmentsData?.length! === 0 && (
                 <tr>
                   <td colSpan={11} className="px-6 py-16">
                     <div className="flex flex-col items-center justify-center text-center">

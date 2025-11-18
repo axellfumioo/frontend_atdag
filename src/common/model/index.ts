@@ -41,7 +41,7 @@ export interface Investment {
   investment_stage: InvestmentStage;
 
   investment_status_id: number;
-  investment_status: any;
+  investment_status: InvestmentStatus;
 
   currency_id: number;
   currency: Currency;
