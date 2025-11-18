@@ -7,7 +7,8 @@ export interface CreateInvestmentDto {
   currency_id: number;             // required
 
   value: string;                   // decimal.Decimal → string
+  description: string
 
-  expected_closing_date: string;   // time.Time → ISO string
-  actual_closing_date: string;     // time.Time → ISO string
+  expected_closing_date: Date;   // time.Time → ISO string
+  actual_closing_date: Date;     // time.Time → ISO string
 }

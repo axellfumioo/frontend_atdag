@@ -99,7 +99,7 @@ export default function AddInvestorPage() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
               >
                 <option value="">Select Type</option>
-                {types.map((type) => (
+                {types?.map((type) => (
                   <option key={type.id} value={type.id}>
                     {type.name}
                   </option>
