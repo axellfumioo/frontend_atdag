@@ -22,7 +22,7 @@ export interface InvestmentStage {
 }
 
 export interface Investment {
-  id: number;
+  investment_id: number;
   name: string;
 
   main_currency_value: string; // decimal → string
@@ -56,6 +56,14 @@ export interface InvestmentStatus {
 
   investments: Investment[]; // relasi, opsional
 
+  created_at: string;
+  updated_at: string;
+}
+
+export interface InvestorType {
+  id: number;
+  name: string;
+  color: string;
   created_at: string;
   updated_at: string;
 }

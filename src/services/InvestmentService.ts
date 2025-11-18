@@ -9,11 +9,15 @@ class InvestmentService {
         return res.data.data
     }
     public async createInvestmentType(dto: CreateInvestmentDto) {
-        const res = await api.get<{ message: string, data: Investment }>(`${BASE_URL}/investments/create`, {
+        const res = await api.post<{ message: string, data: Investment }>(`${BASE_URL}/investments/create`, {
             data: dto
         })
 
         return res?.data
+    }
+    public async deleteInvestment(investmentId: number): Promise<Investment> {
+        const res = await api.delete<{ data: Investment }>(`/investments/${investmentId}`)
+        return res?.data.data
     }
 }
 
