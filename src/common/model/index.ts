@@ -18,12 +18,20 @@ export interface InvestmentStage {
   updated_at: string;
 }
 
+export interface InvestorType {
+  id: number;
+  name: string;
+  color: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Investor {
   id: number;
   name: string;
   website: string;
   investor_type_id: number;
-
+  investor_type?: InvestorType;
   created_at: string;
   updated_at: string;
 }
