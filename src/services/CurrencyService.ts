@@ -4,8 +4,8 @@ import { BASE_URL } from "@/common/lib/loadEnv";
 import { Currency } from "@/common/model";
 
 class CurrencyService {
-  public async getAllCurrencies(): Promise<Currency[]> {
-    const res = await api.get<{ data: Currency[] }>(`${BASE_URL}/currencies`);
+  public async getAllCurrencies(page?: number, page_size?: number): Promise<Currency[]> {
+    const res = await api.get<{ data: Currency[] }>(`${BASE_URL}/currencies?page=${page}&page_size=${page_size}`);
     return res.data.data;
   }
 

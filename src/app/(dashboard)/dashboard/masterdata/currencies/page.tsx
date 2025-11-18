@@ -34,7 +34,7 @@ export default function CurrenciesPage() {
     isSuccess: isSuccessCurrencies,
   } = useQuery({
     queryKey: ["currencies"],
-    queryFn: currencyService.getAllCurrencies,
+    queryFn: () => currencyService.getAllCurrencies(1),
   });
 
   const { mutate: deleteCurrency } = useMutation({

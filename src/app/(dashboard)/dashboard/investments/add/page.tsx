@@ -3,12 +3,31 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, BarChart2, Calendar } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { investmentStageService } from "@/services/InvestmentStageService";
+import { currencyService } from "@/services/CurrencyService";
+import { investmentStatusService } from "@/services/InvestmentStatusService";
 
 export default function AddInvestmentPage() {
   const router = useRouter();
   const [description, setDescription] = useState("");
-
+  const [currentPage, setCurrentPage] = useState(1);
   const maxDescriptionLength = 500;
+
+  const { data: stages, isLoading: isLoadingStages } = useQuery({
+    queryKey: ["investmentStages"],
+    queryFn: () => investmentStageService.getInvestmentStages(1),
+  });
+
+  const { data: currencies, isLoading: isLoadingCurrencies } = useQuery({
+    queryKey: ["currencies"],
+    queryFn: () => currencyService.getAllCurrencies(1, 100),
+  });
+
+  const { data: status, isLoading: isLoadingStatus } = useQuery({
+    queryKey: ["investmentStatus"],
+    queryFn: () => investmentStatusService.getAllInvestmentStatus(1, 100),
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
@@ -17,7 +36,7 @@ export default function AddInvestmentPage() {
         type="button"
         onClick={() => router.push("/dashboard/investments")}
         className="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4"
-     >
+      >
         <ArrowLeft className="w-4 h-4 mr-1" />
         <span>Back to Investments</span>
       </button>
@@ -54,7 +73,11 @@ export default function AddInvestmentPage() {
               <label className="text-sm font-medium text-gray-700 mb-1">
                 Investor
               </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+              <select
+                title="investor"
+                defaultValue={""}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+              >
                 <option value="">Select an investor</option>
               </select>
             </div>
@@ -64,8 +87,20 @@ export default function AddInvestmentPage() {
               <label className="text-sm font-medium text-gray-700 mb-1">
                 Investment Stage
               </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+              <select
+                title="stage"
+                defaultValue={""}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+              >
                 <option value="">Select investment stage</option>
+                {stages?.length! > 0 &&
+                  stages?.map((item) => {
+                    return (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
 
@@ -74,8 +109,20 @@ export default function AddInvestmentPage() {
               <label className="text-sm font-medium text-gray-700 mb-1">
                 Investment Status
               </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+              <select
+                title="investment-status"
+                defaultValue={""}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+              >
                 <option value="">Select investment status</option>
+                {status?.length! > 0 &&
+                  status?.map((item) => {
+                    return (
+                      <option key={item.id} value={item.id}>
+                        {item.status_name}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
 
@@ -84,8 +131,20 @@ export default function AddInvestmentPage() {
               <label className="text-sm font-medium text-gray-700 mb-1">
                 Currency
               </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+              <select
+                title="currency"
+                defaultValue={""}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+              >
                 <option value="">Select currency</option>
+                {currencies?.length! > 0 &&
+                  currencies?.map((item) => {
+                    return (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
 
@@ -105,11 +164,15 @@ export default function AddInvestmentPage() {
 
             {/* Expected Closing Date */}
             <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="expected-date"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
                 Expected Closing Date
               </label>
               <div className="relative">
                 <input
+                  id="expected-date"
                   type="date"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                 />
@@ -119,11 +182,15 @@ export default function AddInvestmentPage() {
 
             {/* Actual Closing Date */}
             <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="closing-date"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
                 Actual Closing Date
               </label>
               <div className="relative">
                 <input
+                  id="closing-date"
                   type="date"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                 />
