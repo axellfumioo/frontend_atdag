@@ -65,7 +65,7 @@ export interface Investor {
   name: string;
   website: string;
   investor_type_id: number;
-
+  investor_type?: InvestorType;
   created_at: string;
   updated_at: string;
 }
