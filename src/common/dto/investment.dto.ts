@@ -12,3 +12,7 @@ export interface CreateInvestmentDto {
   expected_closing_date: Date;   // time.Time → ISO string
   actual_closing_date: Date;     // time.Time → ISO string
 }
+
+export interface UpdateInvestmentDto extends CreateInvestmentDto {
+  investment_id: number
+}

@@ -52,7 +52,7 @@ export default function AddInvestmentPage() {
   const { mutate: createInvestment, isPending: isLoadingCreateInvestment } =
     useMutation({
       mutationKey: ["createInvestment"],
-      mutationFn: (dto: CreateInvestmentDto) => investmentService.createInvestmentType(dto),
+      mutationFn: (dto: CreateInvestmentDto) => investmentService.createInvestment(dto),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["investments"] });
         toast.success("Berhasil membuat investment");

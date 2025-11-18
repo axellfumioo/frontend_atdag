@@ -27,6 +27,7 @@ export interface Investment {
 
   main_currency_value: string; // decimal → string
   value: string;               // decimal → string
+  description:string
 
   expected_closing_date: string; // ISO date string
   closing_date: string;

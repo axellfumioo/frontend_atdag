@@ -16,16 +16,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { investmentService } from "@/services/InvestmentService";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { toast } from "sonner";
+import UpdateInvestment from "@/components/UpdateInvestment";
+import { Investment } from "@/common/model";
 
 export default function InvestmentsPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
+  const [isOpenUpdate, setIsOpenUpdate] = useState(false);
   const [isOpenDelete, setIsopenDelete] = useState(false);
-  const [selectedInvestmentType, setSelectedInvestmentType] = useState<{
-    investment_id: number;
-    name: string;
-  } | null>(null);
+  const [selectedInvestmentType, setSelectedInvestmentType] =
+    useState<Investment | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   const {
@@ -70,6 +71,13 @@ export default function InvestmentsPage() {
           cancelText="Batal"
           description={`Anda yakin ingin menghapus Investment ${selectedInvestmentType?.name}`}
           confirmText="Hapus"
+        />
+      )}
+      {isOpenUpdate && selectedInvestmentType && (
+        <UpdateInvestment
+          investment={selectedInvestmentType!}
+          isOpen={isOpenUpdate}
+          setIsOpen={setIsOpenUpdate}
         />
       )}
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -259,7 +267,10 @@ export default function InvestmentsPage() {
                           <div className="flex items-center gap-2">
                             <button
                               title="edit"
-                              onClick={() => {}}
+                              onClick={() => {
+                                setIsOpenUpdate(true);
+                                setSelectedInvestmentType(item);
+                              }}
                               className="p-1.5 rounded border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700"
                             >
                               <Pencil className="w-4 h-4" />
