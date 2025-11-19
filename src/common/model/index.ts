@@ -9,9 +9,7 @@ export interface Currency {
   updated_at: string;
 }
 
-export interface Investment {
 
-}
 
 export interface InvestmentStage {
   id: number;
