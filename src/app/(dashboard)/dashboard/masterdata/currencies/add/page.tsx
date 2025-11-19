@@ -1,20 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Wallet } from "lucide-react";
-import api from "@/common/lib/apiClient";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+// import api from "@/common/lib/apiClient";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "@tanstack/react-form";
 import { currencyService } from "@/services/CurrencyService";
 import { toast } from "sonner";
+import { createCurrenciesValidation } from "@/common/validation/currenciesSchema";
+import FieldInfo from "@/components/FieldInfo";
 
 export default function AddCurrencyPage() {
   const router = useRouter();
 
-  const [name, setName] = useState("");
-  const [symbol, setSymbol] = useState("");
-  const [code, setCode] = useState("");
-  const [order, setOrder] = useState<number | string>("");
   const queryClient = useQueryClient();
 
   const { mutate: createCurrency, isPending: isCreating } = useMutation({
@@ -27,35 +26,37 @@ export default function AddCurrencyPage() {
       toast.success("Currency created successfully!");
       router.push("/dashboard/masterdata/currencies");
     },
-    onError: (err: any) => {
+    onError: () => {
       toast.error("Failed to create currency");
     },
   });
 
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-
-    const payload = {
-      name,
-      symbol,
-      code,
-      currency_order: Number(order),
-    };
-    createCurrency({
-      name: payload.name,
-      symbol: payload.symbol,
-      code: payload.code,
-      order: payload.currency_order,
-    });
-  }
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      symbol: "",
+      code: "",
+      order: 1,
+    },
+    validators: {
+      onChange: createCurrenciesValidation,
+    },
+    onSubmit: async ({ value }) => {
+      createCurrency({
+        name: value.name,
+        code: value.code,
+        symbol: value.symbol,
+        order: value.order,
+      });
+    },
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
       {/* Back */}
       <button
         type="button"
-        onClick={() => router.push("/dashboard/currencies")}
+        onClick={() => router.push("/dashboard/masterdata/currencies")}
         className="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4"
       >
         <ArrowLeft className="w-4 h-4 mr-1" />
@@ -72,66 +73,117 @@ export default function AddCurrencyPage() {
 
       {/* FULL CARD */}
       <div className="bg-white rounded-lg shadow border border-gray-200 p-8">
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+          className="space-y-8"
+        >
           {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Name */}
-            <div className="flex flex-col space-y-1">
-              <label className="text-sm font-medium text-gray-700">Name</label>
-              <input
-                type="text"
-                placeholder="e.g. Indonesian Rupiah"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm 
+            <form.Field name="name">
+              {(field) => {
+                return (
+                  <div className="flex flex-col space-y-1">
+                    <label className="text-sm font-medium text-gray-700">
+                      Name
+                    </label>
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      type="text"
+                      placeholder="e.g. Indonesian Rupiah"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm 
                 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                required
-              />
-            </div>
+                      required
+                    />
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
+            <form.Field name="symbol">
+              {(field) => {
+                return (
+                  <div className="flex flex-col space-y-1">
+                    <label className="text-sm font-medium text-gray-700">
+                      Symbol
+                    </label>
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      type="text"
+                      placeholder="e.g. Rp"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm 
+                focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      required
+                    />
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
 
-            {/* Symbol */}
-            <div className="flex flex-col space-y-1">
-              <label className="text-sm font-medium text-gray-700">
-                Symbol
-              </label>
-              <input
-                type="text"
-                placeholder="e.g. Rp"
-                value={symbol}
-                onChange={(e) => setSymbol(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm 
+            <form.Field name="code">
+              {(field) => {
+                return (
+                  <div className="flex flex-col space-y-1">
+                    <label className="text-sm font-medium text-gray-700">
+                      Code
+                    </label>
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      type="text"
+                      placeholder="e.g. Rp"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm 
                 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                required
-              />
-            </div>
+                      required
+                    />
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
 
-            {/* Code */}
-            <div className="flex flex-col space-y-1">
-              <label className="text-sm font-medium text-gray-700">Code</label>
-              <input
-                type="text"
-                placeholder="e.g. IDR"
-                value={code}
-                onChange={(e) => setCode(e.target.value.toUpperCase())}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm uppercase
+            <form.Field name="order">
+              {(field) => {
+                return (
+                  <div className="flex flex-col space-y-1">
+                    <label className="text-sm font-medium text-gray-700">
+                      Order
+                    </label>
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) =>
+                        field.handleChange(Number(e.target.value))
+                      }
+                      type="text"
+                      placeholder="e.g. Rp"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm 
                 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                required
-              />
-            </div>
-
-            {/* Order */}
-            <div className="flex flex-col space-y-1">
-              <label className="text-sm font-medium text-gray-700">Order</label>
-              <input
-                type="number"
-                placeholder="e.g. 1"
-                value={order}
-                onChange={(e) => setOrder(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm 
-                focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                required
-              />
-            </div>
+                      required
+                    />
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
           </div>
 
           {/* Actions */}

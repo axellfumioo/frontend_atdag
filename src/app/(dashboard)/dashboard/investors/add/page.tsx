@@ -5,45 +5,51 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, UserCircle } from "lucide-react";
 import { investorService } from "@/services/InvestorService";
 import { investorTypeService } from "@/services/InvestortypeService";
-import { CreateInvestorDto } from "@/common/dto/investorDto";
 import { InvestorType } from "@/common/model";
 import { toast } from "sonner";
+import { useForm } from "@tanstack/react-form";
+import { createInvestorValidation } from "@/common/validation/investorSchema";
+import FieldInfo from "@/components/FieldInfo";
+import { useMutation } from "@tanstack/react-query";
 
 export default function AddInvestorPage() {
   const router = useRouter();
-  const [form, setForm] = useState<CreateInvestorDto>({
-    investor_name: "",
-    website: "",
-    investor_type_id: 0,
-  });
+
   const [types, setTypes] = useState<InvestorType[]>([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     investorTypeService.getAllInvestorTypes(1, 100).then(setTypes);
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: name === "investor_type_id" ? Number(value) : value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await investorService.createInvestor(form);
-      toast.success("Successly create investor")
+  const { mutate: createInvestor, isPending: isCreating } = useMutation({
+    mutationKey: ["createInvestor"],
+    mutationFn: investorService.createInvestor,
+    onSuccess: () => {
+      toast.success("Successly create investor");
       router.push("/dashboard/investors");
-    } catch (err) {
-      console.error("Failed to create investor", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    onError: () => {
+      toast.error("Failed create Investor");
+    },
+  });
+
+  const formValidasi = useForm({
+    defaultValues: {
+      investor_name: "",
+      website: "",
+      investor_type_id: 0,
+    },
+    validators: {
+      onChange: createInvestorValidation,
+    },
+    onSubmit: async ({ value }) => {
+      createInvestor({
+        investor_name: value.investor_name,
+        website: value.website,
+        investor_type_id: value.investor_type_id,
+      });
+    },
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
@@ -64,48 +70,91 @@ export default function AddInvestorPage() {
       </div>
 
       <div className="bg-white rounded-lg shadow border border-gray-200 p-8">
-        <form className="space-y-8" onSubmit={handleSubmit}>
+        <form
+          className="space-y-8"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            formValidasi.handleSubmit();
+          }}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="flex flex-col space-y-1">
-              <label className="text-sm font-medium text-gray-700">Name</label>
-              <input
-                type="text"
-                name="investor_name"
-                value={form.investor_name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              />
-            </div>
+            <formValidasi.Field name="investor_name">
+              {(field) => {
+                return (
+                  <div className="flex flex-col space-y-1">
+                    <label className="text-sm font-medium text-gray-700">
+                      Name
+                    </label>
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      type="text"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    />
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </formValidasi.Field>
 
-            <div className="flex flex-col space-y-1">
-              <label className="text-sm font-medium text-gray-700">Website</label>
-              <input
-                type="text"
-                name="website"
-                value={form.website}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              />
-            </div>
+            <formValidasi.Field name="website">
+              {(field) => {
+                return (
+                  <div className="flex flex-col space-y-1">
+                    <label className="text-sm font-medium text-gray-700">
+                      Website
+                    </label>
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      type="website"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    />
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </formValidasi.Field>
 
-            <div className="flex flex-col space-y-1">
-              <label className="text-sm font-medium text-gray-700">Investor Type</label>
-              <select
-                name="investor_type_id"
-                value={form.investor_type_id}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              >
-                <option value="">Select Type</option>
-                {types?.map((type) => (
-                  <option key={type.id} value={type.id}>
-                    {type.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <formValidasi.Field name="investor_type_id">
+              {(field) => {
+                return (
+                  <div className="flex flex-col space-y-1">
+                    <label className="text-sm font-medium text-gray-700">
+                      Investor Type
+                    </label>
+                    <select
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) =>
+                        field.handleChange(Number(e.target.value))
+                      }
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    >
+                      <option value="">Select Type</option>
+                      {types?.map((type) => (
+                        <option key={type.id} value={type.id}>
+                          {type.name}
+                        </option>
+                      ))}
+                    </select>
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </formValidasi.Field>
           </div>
 
           <div className="flex justify-end gap-3 pt-4">
@@ -118,10 +167,10 @@ export default function AddInvestorPage() {
             </button>
             <button
               type="submit"
-              disabled={loading}
+              disabled={isCreating}
               className="px-5 py-2.5 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
             >
-              {loading ? "Saving..." : "Save Investor"}
+              {isCreating ? "Saving..." : "Save Investor"}
             </button>
           </div>
         </form>

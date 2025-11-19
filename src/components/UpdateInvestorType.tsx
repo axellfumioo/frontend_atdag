@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/common/shadcn/ui/button";
 import {
   Dialog,
@@ -12,6 +12,10 @@ import { InvestorType } from "@/common/model";
 import { investorTypeService } from "@/services/InvestortypeService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useForm } from "@tanstack/react-form";
+import { updateInvestortypeValidation } from "@/common/validation/investortypeSchema";
+import FieldInfo from "./FieldInfo";
+import { UpdateInvestortypeDto } from "@/common/dto/investortypeDto";
 
 interface Props {
   isOpen: boolean;
@@ -24,23 +28,16 @@ export default function UpdateInvestorType({
   setIsOpen,
   investorType,
 }: Props) {
-  const [name, setName] = useState(investorType.name);
-  const [color, setColor] = useState(investorType.color);
+
 
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    setName(investorType.name);
-    setColor(investorType.color);
-  }, [investorType]);
 
-  const { mutate: updateType, isPending } = useMutation({
+
+  const { mutate: updateInvestorType, isPending } = useMutation({
     mutationKey: ["updateInvestorType"],
-    mutationFn: () =>
-      investorTypeService.updateInvestorType(investorType.id, {
-        name,
-        color,
-      }),
+    mutationFn: (dto: UpdateInvestortypeDto) =>
+      investorTypeService.updateInvestorType(investorType.id, dto),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["investorType"] });
       toast.success("Investor type updated successfully!");
@@ -51,9 +48,23 @@ export default function UpdateInvestorType({
     },
   });
 
-  function handleSubmit() {
-    updateType();
-  }
+
+
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      color: "#000000"
+    },
+    validators:{
+      onChange: updateInvestortypeValidation
+    },
+    onSubmit: async ({value}) => {
+      updateInvestorType({
+        name: value.name,
+        color: value.color
+      })
+    }
+  })
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -61,53 +72,91 @@ export default function UpdateInvestorType({
         <DialogHeader>
           <DialogTitle>Update Investor Type</DialogTitle>
         </DialogHeader>
-
+      <form 
+      onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+      >
         <div className="space-y-4 mt-4">
-          <div>
+          <form.Field name="name">
+          {(field) => {
+            return (
+              <div>
             <label className="block font-medium mb-1">Name</label>
             <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
               placeholder="e.g. Venture Capital"
               className="w-full border rounded px-3 py-2"
             />
+                                <FieldInfo field={field} />
+            
           </div>
+            )
+          }}
+          </form.Field>
 
-         <div>
+          <form.Field name="color">
+          {(field) => {
+            return (
+                       <div>
             <label className="block font-medium mb-1">Color</label>
             <div className="flex items-center gap-3">
                 {/* Input Color Picker */}
                 <input
                 type="color"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
+                id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
                 className="h-10 w-16 rounded cursor-pointer border"
                 />
 
                 {/* Hex Text Input */}
-                <input
-                type="text"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-                placeholder="#FFAA00"
-                className="w-full border rounded px-3 py-2"
-                />
+                 <input
+                        type="text"
+                        name="color"
+                        value={field.state.value}
+                        onChange={(e) => {
+                          const v = e.target.value.startsWith("#")
+                            ? e.target.value
+                            : `#${e.target.value}`;
+                          field.handleChange(v);
+                        }}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                                          <FieldInfo field={field} />
+                      
             </div>
             </div>
+            )
+          }}
+          </form.Field>
+
 
           <div className="flex justify-end gap-2 mt-4">
             <Button variant="outline" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
             <Button
-              onClick={handleSubmit}
               disabled={isPending}
               className="bg-yellow-500 hover:bg-yellow-600"
+              type="submit"
             >
               {isPending ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </div>
+
+      </form>
+       
+
       </DialogContent>
     </Dialog>
   );
