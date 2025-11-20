@@ -1,6 +1,9 @@
+// Refactored AddInvestmentPage using full TanStack React Form
+// Without any useState for fields, clean controlled fields, no nested <form>
+
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, BarChart2, Calendar, Loader2Icon } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -8,43 +11,33 @@ import { investmentStageService } from "@/services/InvestmentStageService";
 import { currencyService } from "@/services/CurrencyService";
 import { investmentStatusService } from "@/services/InvestmentStatusService";
 import { investmentService } from "@/services/InvestmentService";
-import { CreateInvestmentDto } from "@/common/dto/investment.dto";
 import { investorService } from "@/services/InvestorService";
+import { CreateInvestmentDto } from "@/common/dto/investment.dto";
+import { useForm } from "@tanstack/react-form";
+import { createInvesmentnValidation } from "@/common/validation/investmentSchema";
+import FieldInfo from "@/components/FieldInfo";
 import { toast } from "sonner";
 
 export default function AddInvestmentPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [currentPage, setCurrentPage] = useState(1);
-  const maxDescriptionLength = 500;
 
-  // Input state
-  const [name, setName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [value, setValue] = useState<string>("");
-  const [investorId, setInvestorId] = useState<number>();
-  const [stageId, setStageId] = useState<number>();
-  const [statusId, setStatusId] = useState<number>();
-  const [currencyId, setCurrencyId] = useState<number>();
-  const [expectClosingDate, setExpectClosingDate] = useState<Date>();
-  const [actualClosingDate, setActualClosingDate] = useState<Date>();
-
-  const { data: stages, isLoading: isLoadingStages } = useQuery({
+  const { data: stages } = useQuery({
     queryKey: ["investmentStages"],
     queryFn: () => investmentStageService.getInvestmentStages(1),
   });
 
-  const { data: currencies, isLoading: isLoadingCurrencies } = useQuery({
+  const { data: currencies } = useQuery({
     queryKey: ["currencies"],
     queryFn: () => currencyService.getAllCurrencies(1, 100),
   });
 
-  const { data: status, isLoading: isLoadingStatus } = useQuery({
+  const { data: status } = useQuery({
     queryKey: ["investmentStatus"],
     queryFn: () => investmentStatusService.getAllInvestmentStatus(1, 100),
   });
 
-  const { data: investores, isLoading: isLoadingInvestores } = useQuery({
+  const { data: investores } = useQuery({
     queryKey: ["investor"],
     queryFn: () => investorService.getAllInvestors(1, 100),
   });
@@ -52,19 +45,47 @@ export default function AddInvestmentPage() {
   const { mutate: createInvestment, isPending: isLoadingCreateInvestment } =
     useMutation({
       mutationKey: ["createInvestment"],
-      mutationFn: (dto: CreateInvestmentDto) => investmentService.createInvestment(dto),
+      mutationFn: investmentService.createInvestment,
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["investments"] });
         toast.success("Berhasil membuat investment");
+        router.push("/dashboard/investments");
       },
-      onError: () => {
-        toast.error("Gagal membuat investment");
-      },
+      onError: () => toast.error("Gagal membuat investment"),
     });
+
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      investor_id: 0,
+      investment_stage_id: 0,
+      investment_status_id: 0,
+      currency_id: 0,
+      value: "",
+      description: "",
+      expected_closing_date: "",
+      actual_closing_date: "",
+    },
+    validators: {
+      onChange: createInvesmentnValidation,
+    },
+    onSubmit: async ({ value }) => {
+      createInvestment({
+        name: value.name,
+        investor_id: value.investor_id,
+        investment_stage_id: value.investment_stage_id,
+        investment_status_id: value.investment_status_id,
+        currency_id: value.currency_id,
+        value: value.value,
+        description: value.description,
+        expected_closing_date: new Date(value.expected_closing_date),
+        actual_closing_date: new Date(value.actual_closing_date),
+      });
+    },
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
-      {/* Back */}
       <button
         type="button"
         onClick={() => router.push("/dashboard/investments")}
@@ -74,237 +95,283 @@ export default function AddInvestmentPage() {
         <span>Back to Investments</span>
       </button>
 
-      {/* Header */}
       <div className="flex items-center space-x-3 mb-6">
         <div className="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center">
           <BarChart2 className="w-4 h-4 text-white" />
         </div>
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Add Investment</h1>
-        </div>
+        <h1 className="text-3xl font-bold text-gray-900">Add Investment</h1>
       </div>
 
-      {/* Card */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            createInvestment({
-              name,
-              value,
-              description,
-              currency_id: currencyId!,
-              investment_stage_id: stageId!,
-              investor_id: investorId!,
-              investment_status_id: statusId!,
-              actual_closing_date: actualClosingDate!,
-              expected_closing_date: expectClosingDate!,
-            });
+            e.stopPropagation();
+            form.handleSubmit();
           }}
           className="space-y-6"
         >
-          {/* 2-column grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Investment Name */}
-            <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-700 mb-1">
-                Investment Name
-              </label>
-              <input
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-                type="text"
-                placeholder="Enter investment name"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                required
-              />
-            </div>
+            {/* Name */}
+            <form.Field name="name">
+              {(field) => {
+                return (
+                  <div className="flex flex-col">
+                    <label className="text-sm font-medium text-gray-700 mb-1">
+                      Investment Name
+                    </label>
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value || ""}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      type="text"
+                      placeholder="Enter investment name"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      required
+                    />
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
 
             {/* Investor */}
-            <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-700 mb-1">
-                Investor
-              </label>
-              <select
-                title="investor"
-                defaultValue={""}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                required
-                onChange={(e) => {
-                  setInvestorId(Number(e.target.value));
-                }}
-              >
-                <option value="">Select an investor</option>
-                {investores?.length! > 0 &&
-                  investores?.map((item) => {
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
+            <form.Field name="investor_id">
+              {(field) => {
+                return (
+                  <div className="flex flex-col">
+                    <label className="text-sm font-medium text-gray-700 mb-1">
+                      Investor
+                    </label>
+                    <select
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value || 0}
+                      onBlur={field.handleBlur}
+                      onChange={(e) =>
+                        field.handleChange(Number(e.target.value))
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      required
+                    >
+                      <option value={0}>Select an investor</option>
+                      {investores?.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.name || item.investor_name}
+                        </option>
+                      ))}
+                    </select>
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
 
-            {/* Investment Stage */}
-            <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-700 mb-1">
-                Investment Stage
-              </label>
-              <select
-                title="stage"
-                defaultValue={""}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                required
-                onChange={(e) => {
-                  setStageId(Number(e.target.value));
-                }}
-              >
-                <option value="">Select investment stage</option>
-                {stages?.length! > 0 &&
-                  stages?.map((item) => {
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
+            {/* Stage */}
+            <form.Field name="investment_stage_id">
+              {(field) => {
+                return (
+                  <div className="flex flex-col">
+                    <label className="text-sm font-medium text-gray-700 mb-1">
+                      Investment Stage
+                    </label>
+                    <select
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value || 0}
+                      onBlur={field.handleBlur}
+                      onChange={(e) =>
+                        field.handleChange(Number(e.target.value))
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      required
+                    >
+                      <option value={0}>Select stage</option>
+                      {stages?.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </select>
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
 
-            {/* Investment Status */}
-            <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-700 mb-1">
-                Investment Status
-              </label>
-              <select
-                title="investment-status"
-                defaultValue={""}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                required
-                onChange={(e) => {
-                  setStatusId(Number(e.target.value));
-                }}
-              >
-                <option value="">Select investment status</option>
-                {status?.length! > 0 &&
-                  status?.map((item) => {
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {item.status_name}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
+            {/* Status */}
+            <form.Field name="investment_status_id">
+              {(field) => {
+                return (
+                  <div className="flex flex-col">
+                    <label className="text-sm font-medium text-gray-700 mb-1">
+                      Investment Status
+                    </label>
+                    <select
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value || 0}
+                      onBlur={field.handleBlur}
+                      onChange={(e) =>
+                        field.handleChange(Number(e.target.value))
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      required
+                    >
+                      <option value={0}>Select status</option>
+                      {status?.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.status_name || item.name}
+                        </option>
+                      ))}
+                    </select>
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
 
             {/* Currency */}
-            <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-700 mb-1">
-                Currency
-              </label>
-              <select
-                title="currency"
-                defaultValue={""}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                required
-                onChange={(e) => {
-                  setCurrencyId(Number(e.target.value));
-                }}
-              >
-                <option value="">Select currency</option>
-                {currencies?.length! > 0 &&
-                  currencies?.map((item) => {
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
+            <form.Field name="currency_id">
+              {(field) => {
+                return (
+                  <div className="flex flex-col">
+                    <label className="text-sm font-medium text-gray-700 mb-1">
+                      Currency
+                    </label>
+                    <select
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value || 0}
+                      onBlur={field.handleBlur}
+                      onChange={(e) =>
+                        field.handleChange(Number(e.target.value))
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      required
+                    >
+                      <option value={0}>Select currency</option>
+                      {currencies?.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.name || item.code}
+                        </option>
+                      ))}
+                    </select>
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
 
-            {/* Investment Value */}
-            <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-700 mb-1">
-                Investment Value
-              </label>
-              <div className="relative">
-                <input
-                  type="number"
-                  placeholder="Enter investment value"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                  required
-                  onChange={(e) => {
-                    setValue(e.target.value);
-                  }}
-                />
-              </div>
-            </div>
+            {/* Value */}
+            <form.Field name="value">
+              {(field) => {
+                return (
+                  <div className="flex flex-col">
+                    <label className="text-sm font-medium text-gray-700 mb-1">
+                      Investment Value
+                    </label>
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      type="text"
+                      placeholder="Enter value"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-yellow-500"
+                      required
+                    />
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
 
-            {/* Expected Closing Date */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="expected-date"
-                className="text-sm font-medium text-gray-700 mb-1"
-              >
-                Expected Closing Date
-              </label>
-              <div className="relative">
-                <input
-                  id="expected-date"
-                  type="date"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                  required
-                  onChange={(e) => {
-                    setExpectClosingDate(new Date(e.target.value));
-                  }}
-                />
-                <Calendar className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
-            </div>
+            {/* Expected Date */}
+            <form.Field name="expected_closing_date">
+              {(field) => {
+                return (
+                  <div className="flex flex-col">
+                    <label className="text-sm font-medium text-gray-700 mb-1">
+                      Expected Closing Date
+                    </label>
+                    <div className="relative">
+                      <input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value || ""}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        type="date"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm pr-10 focus:ring-2 focus:ring-yellow-500"
+                        required
+                      />
+                      <Calendar className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2" />
+                    </div>
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
 
-            {/* Actual Closing Date */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="closing-date"
-                className="text-sm font-medium text-gray-700 mb-1"
-              >
-                Actual Closing Date
-              </label>
-              <div className="relative">
-                <input
-                  id="closing-date"
-                  type="date"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                  required
-                  onChange={(e) => {
-                    setActualClosingDate(new Date(e.target.value));
-                  }}
-                />
-                <Calendar className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
-            </div>
+            {/* Actual Date */}
+            <form.Field name="actual_closing_date">
+              {(field) => {
+                return (
+                  <div className="flex flex-col">
+                    <label className="text-sm font-medium text-gray-700 mb-1">
+                      Actual Closing Date
+                    </label>
+                    <div className="relative">
+                      <input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value || ""}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        type="date"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm pr-10 focus:ring-2 focus:ring-yellow-500"
+                        required
+                      />
+                      <Calendar className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2" />
+                    </div>
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
           </div>
 
           {/* Description */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">
-              Description
-            </label>
-            <textarea
-              rows={4}
-              maxLength={maxDescriptionLength}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter investment description (optional)"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent resize-y min-h-[120px]"
-            />
-            <div className="mt-1 text-xs text-gray-400 text-right">
-              {description.length} / {maxDescriptionLength}
-            </div>
-          </div>
+          <form.Field name="description">
+            {(field) => {
+              return (
+                <div className="flex flex-col">
+                  <label className="text-sm font-medium text-gray-700 mb-1">
+                    Description
+                  </label>
+                  <textarea
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value || ""}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    rows={4}
+                    maxLength={500}
+                    placeholder="Enter description"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-yellow-500"
+                  />
+                  <div className="text-xs text-gray-400 text-right">
+                    {(field.state.value || "").length} / 500
+                  </div>
+                  <FieldInfo field={field} />
+                </div>
+              );
+            }}
+          </form.Field>
 
           {/* Actions */}
           <div className="flex justify-end gap-3 pt-2">
@@ -315,6 +382,7 @@ export default function AddInvestmentPage() {
             >
               Cancel
             </button>
+
             <button
               type="submit"
               className="px-4 py-2 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
