@@ -43,7 +43,7 @@ export default function UpdateInvestor({ isOpen, setIsOpen, investor }: Props) {
       setIsOpen(false);
     },
     onError: () => {
-      toast.error("Failed to update investor");
+      toast.error("Failed to updated investor");
     },
   });
 

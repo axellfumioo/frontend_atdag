@@ -46,11 +46,11 @@ export default function InvestorsPage() {
       queryClient.invalidateQueries({
         queryKey: ["investors"],
       });
-      toast.success("Successly delete investor");
+      toast.success("Successly deleted investor");
       setIsopenDelete(false);
     },
     onError: () => {
-      toast.error("Failed delete investor");
+      toast.error("Failed deleted investor");
       setIsopenDelete(false);
     },
   });
@@ -65,7 +65,7 @@ export default function InvestorsPage() {
     queryClient.invalidateQueries({
       queryKey: ["investors"],
     });
-    toast.success("Successly refresh");
+    toast.success("Investors Refreshed");
   }
 
   return (

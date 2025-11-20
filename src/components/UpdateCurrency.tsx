@@ -38,7 +38,7 @@ export default function UpdateCurrency({ isOpen, setIsOpen, currency }: Props) {
       setIsOpen(false);
     },
     onError: () => {
-      toast.error("Failed to update currency");
+      toast.error("Failed to updated currency");
     },
   });
 

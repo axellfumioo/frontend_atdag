@@ -1,6 +1,3 @@
-// Refactored AddInvestmentPage using full TanStack React Form
-// Without any useState for fields, clean controlled fields, no nested <form>
-
 "use client";
 
 import React from "react";
@@ -12,7 +9,6 @@ import { currencyService } from "@/services/CurrencyService";
 import { investmentStatusService } from "@/services/InvestmentStatusService";
 import { investmentService } from "@/services/InvestmentService";
 import { investorService } from "@/services/InvestorService";
-import { CreateInvestmentDto } from "@/common/dto/investment.dto";
 import { useForm } from "@tanstack/react-form";
 import { createInvesmentnValidation } from "@/common/validation/investmentSchema";
 import FieldInfo from "@/components/FieldInfo";
@@ -48,10 +44,10 @@ export default function AddInvestmentPage() {
       mutationFn: investmentService.createInvestment,
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["investments"] });
-        toast.success("Berhasil membuat investment");
+        toast.success("Successffully Created Investment");
         router.push("/dashboard/investments");
       },
-      onError: () => toast.error("Gagal membuat investment"),
+      onError: () => toast.error("Failed Created Investment"),
     });
 
   const form = useForm({
@@ -159,7 +155,7 @@ export default function AddInvestmentPage() {
                       <option value={0}>Select an investor</option>
                       {investores?.map((item) => (
                         <option key={item.id} value={item.id}>
-                          {item.name || item.investor_name}
+                          {item.name}
                         </option>
                       ))}
                     </select>
@@ -223,7 +219,7 @@ export default function AddInvestmentPage() {
                       <option value={0}>Select status</option>
                       {status?.map((item) => (
                         <option key={item.id} value={item.id}>
-                          {item.status_name || item.name}
+                          {item.status_name}
                         </option>
                       ))}
                     </select>

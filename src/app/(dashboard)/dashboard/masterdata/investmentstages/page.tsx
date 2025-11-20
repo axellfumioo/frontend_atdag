@@ -51,7 +51,7 @@ export default function InvestmentStagesPage() {
       setIsDeleteOpen(false);
     },
     onError: (err: any) => {
-      toast.error("Failed to delete Investment Stage");
+      toast.error("Failed to deleted Investment Stage");
     },
   });
 
@@ -69,7 +69,7 @@ export default function InvestmentStagesPage() {
     queryClient.invalidateQueries({
       queryKey: ["investmentStages"],
     });
-    toast.success("Investment Stages refreshed successfully!");
+    toast.success("Investment Stages Refreshed");
     refetch().then(() => {
       setCurrentPage(1);
     });

@@ -50,11 +50,11 @@ export default function InvestmentsPage() {
       queryClient.invalidateQueries({
         queryKey: ["investments"],
       });
-      toast.success("Berhasil menghapus investment");
+      toast.success("Successfully Deleted Investment");
       setIsopenDelete(false);
     },
     onError: () => {
-      toast.error("Gagal menghapus investment");
+      toast.error("Failed Deleted Investment");
       setIsopenDelete(false);
     },
   });
@@ -120,7 +120,10 @@ export default function InvestmentsPage() {
 
               <div className="flex gap-3">
                 <button
-                  onClick={() => refetchInvestments()}
+                   onClick={async () => {
+                    await refetchInvestments();
+                    toast.success("Investment Refreshed");
+                  }}
                   className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   <RefreshCw className="w-4 h-4" />

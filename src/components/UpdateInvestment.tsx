@@ -84,7 +84,7 @@ export default function UpdateInvestment({
       setIsOpen(false);
     },
     onError: () => {
-      toast.error("Gagal memperbarui investment");
+      toast.error("Failed to Updated Investment");
     },
   });
 

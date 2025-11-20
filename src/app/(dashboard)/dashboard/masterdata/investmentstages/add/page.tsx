@@ -25,7 +25,7 @@ export default function AddInvestmentStagePage() {
       router.push("/dashboard/masterdata/investmentstages");
     },
     onError: () => {
-      toast.error("Failed to create Investment Stage");
+      toast.error("Failed to created Investment Stage");
     },
   });
 
@@ -134,7 +134,7 @@ export default function AddInvestmentStagePage() {
           <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
-              onClick={() => router.push("/dashboard/investments")}
+              onClick={() => router.push("/dashboard/investmentstages")}
               className="px-4 py-2 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
             >
               Cancel

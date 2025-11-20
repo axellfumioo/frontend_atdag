@@ -20,7 +20,7 @@ export default function GoogleCallbackPage() {
       router.replace("/");
     } else {
       router.replace("/auth/login?error=google_failed");
-      toast.error("Login failed");
+      toast.error("Login Failed");
     }
   }, [router]);
 
