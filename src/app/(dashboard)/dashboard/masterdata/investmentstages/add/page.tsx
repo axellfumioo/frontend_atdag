@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, BarChart2 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { investmentStageService } from "@/services/InvestmentStageService";
 import { toast } from "sonner";
+import { useForm } from "@tanstack/react-form";
+import { createInvestmentstageValidation } from "@/common/validation/investmentstageSchema";
+import FieldInfo from "@/components/FieldInfo";
 
 export default function AddInvestmentStagePage() {
   const router = useRouter();
-
-  const [name, setName] = useState("");
-  const [order, setOrder] = useState<number | "">("");
   const queryClient = useQueryClient();
 
   const { mutate: createInvestmentStage, isPending: isCreating } = useMutation({
@@ -24,15 +24,23 @@ export default function AddInvestmentStagePage() {
       toast.success("Investment Stage created successfully!");
       router.push("/dashboard/masterdata/investmentstages");
     },
-    onError: (err: any) => {
+    onError: () => {
       toast.error("Failed to create Investment Stage");
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    createInvestmentStage({ name, order: Number(order) });
-  };
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      order: 1,
+    },
+    validators: {
+      onChange: createInvestmentstageValidation,
+    },
+    onSubmit: async ({ value }) => {
+      createInvestmentStage(value);
+    },
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
@@ -56,40 +64,70 @@ export default function AddInvestmentStagePage() {
         </h1>
       </div>
 
-      {/* Form Card */}
+      {/* Form */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
           {/* Stage Name */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">
-              Stage Name
-            </label>
-            <input
-              type="text"
-              placeholder="Enter stage name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-            />
-          </div>
+          <form.Field name="name">
+            {(field) => (
+              <div className="flex flex-col">
+                <label className="text-sm font-medium text-gray-700 mb-1">
+                  Stage Name
+                </label>
+
+                <input
+                  id={field.name}
+                  name={field.name}
+                  type="text"
+                  placeholder="Enter stage name"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                />
+
+                <FieldInfo field={field} />
+              </div>
+            )}
+          </form.Field>
 
           {/* Stage Order */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">
-              Stage Order
-            </label>
-            <input
-              type="number"
-              placeholder="Enter stage order"
-              value={order}
-              onChange={(e) =>
-                setOrder(e.target.value === "" ? "" : Number(e.target.value))
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-            />
-          </div>
+          <form.Field name="order">
+            {(field) => (
+              <div className="flex flex-col">
+                <label className="text-sm font-medium text-gray-700 mb-1">
+                  Stage Order
+                </label>
 
-          {/* Submit Button */}
+                <input
+                  id={field.name}
+                  name={field.name}
+                  type="number"
+                  placeholder="Enter stage order"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  // onChange={(e) =>
+                  //   field.handleChange(
+                  //     e.target.value === "" ? "" : Number(e.target.value)
+                  //   )
+                  // }
+                                        onChange={(e) => field.handleChange(Number(e.target.value))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                />
+
+                <FieldInfo field={field} />
+              </div>
+            )}
+          </form.Field>
+
+          {/* Buttons */}
           <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
@@ -98,11 +136,13 @@ export default function AddInvestmentStagePage() {
             >
               Cancel
             </button>
+
             <button
               type="submit"
-              className="px-4 py-2 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+              disabled={isCreating}
+              className="px-4 py-2 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 disabled:opacity-50"
             >
-              Save Stage
+              {isCreating ? "Saving..." : "Save Stage"}
             </button>
           </div>
         </form>
