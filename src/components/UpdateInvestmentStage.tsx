@@ -48,8 +48,8 @@ export default function UpdateInvestmentStage({
   });
 
   const form = useForm({
-    defaultValues: {}
-  })
+    defaultValues: {},
+  });
 
   const handleSubmit = () => {
     updateStage();
