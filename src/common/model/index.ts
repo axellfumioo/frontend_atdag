@@ -42,7 +42,7 @@ export interface Investment {
   investment_status_id: number;
   investment_status: InvestmentStatus;
 
-  currency_id: number;
+  investment_currency_id: number;
   currency: Currency;
 }
 

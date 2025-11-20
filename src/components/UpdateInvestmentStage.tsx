@@ -12,6 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { investmentStageService } from "@/services/InvestmentStageService";
 import { InvestmentStage } from "@/common/model";
+import { useForm } from "@tanstack/react-form";
 
 interface Props {
   isOpen: boolean;
@@ -45,6 +46,10 @@ export default function UpdateInvestmentStage({
       toast.error("Failed to update investment stage");
     },
   });
+
+  const form = useForm({
+    defaultValues: {}
+  })
 
   const handleSubmit = () => {
     updateStage();

@@ -174,6 +174,12 @@ export default function InvestmentsPage() {
                   </th>
                   <th className="px-6 py-3 text-left">
                     <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
+                      Description
+                    </span>
+                  </th>
+
+                  <th className="px-6 py-3 text-left">
+                    <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
                       Expected Closing
                     </span>
                   </th>
@@ -248,10 +254,17 @@ export default function InvestmentsPage() {
                           {item.value}
                         </td>
                         <td className="px-6 py-3 text-sm text-gray-700">
-                          {item.expected_closing_date}
+                          {item.description}
                         </td>
                         <td className="px-6 py-3 text-sm text-gray-700">
-                          {item.closing_date}
+                          {new Date(item.expected_closing_date).toLocaleDateString(
+                            "id-ID"
+                          )}
+                        </td>
+                        <td className="px-6 py-3 text-sm text-gray-700">
+                          {new Date (item.closing_date).toLocaleDateString(
+                            "id-ID"
+                          )}
                         </td>
                         <td className="px-6 py-3 text-sm text-gray-700">
                           {new Date(item.created_at).toLocaleDateString(
