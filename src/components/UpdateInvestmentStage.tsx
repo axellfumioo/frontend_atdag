@@ -23,7 +23,6 @@ interface Props {
   investmentStage: InvestmentStage;
 }
 
-// 🚨 RENAME COMPONENT AGAR TIDAK BENTROK DENGAN INTERFACE UpdateInvestmentStage
 export default function UpdateInvestmentStageDialog({
   isOpen,
   setIsOpen,
