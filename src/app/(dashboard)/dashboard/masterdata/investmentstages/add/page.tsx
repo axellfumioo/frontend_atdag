@@ -38,7 +38,10 @@ export default function AddInvestmentStagePage() {
       onChange: createInvestmentstageValidation,
     },
     onSubmit: async ({ value }) => {
-      createInvestmentStage(value);
+      createInvestmentStage({
+        name: value.name,
+        order: value.order
+      });
     },
   });
 

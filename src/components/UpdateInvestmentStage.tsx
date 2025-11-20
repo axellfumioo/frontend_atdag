@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/common/shadcn/ui/button";
 import {
   Dialog,
@@ -13,6 +13,9 @@ import { toast } from "sonner";
 import { investmentStageService } from "@/services/InvestmentStageService";
 import { InvestmentStage } from "@/common/model";
 import { useForm } from "@tanstack/react-form";
+import { updateInvestmentstageValidation } from "@/common/validation/investmentstageSchema";
+import FieldInfo from "./FieldInfo";
+import { UpdateInvestmentStage } from "@/common/dto/investmentStage.dto";
 
 interface Props {
   isOpen: boolean;
@@ -20,40 +23,48 @@ interface Props {
   investmentStage: InvestmentStage;
 }
 
-export default function UpdateInvestmentStage({
+// 🚨 RENAME COMPONENT AGAR TIDAK BENTROK DENGAN INTERFACE UpdateInvestmentStage
+export default function UpdateInvestmentStageDialog({
   isOpen,
   setIsOpen,
   investmentStage,
 }: Props) {
-  const [order, setOrder] = useState(investmentStage.order);
-  const [name, setName] = useState(investmentStage.name);
-
   const queryClient = useQueryClient();
 
-  const { mutate: updateStage } = useMutation({
+  const { mutate: updateStage, isPending } = useMutation({
     mutationKey: ["updateStage"],
-    mutationFn: () =>
-      investmentStageService.updateInvestmentStage(investmentStage.id, {
-        order,
-        name,
-      }),
+    mutationFn: (payload: { id: number; data: UpdateInvestmentStage }) =>
+      investmentStageService.updateInvestmentStage(payload.id, payload.data),
+
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["investmentStages"] });
       toast.success("Investment stage updated successfully!");
       setIsOpen(false);
     },
+
     onError: () => {
       toast.error("Failed to update investment stage");
     },
   });
 
   const form = useForm({
-    defaultValues: {},
+    defaultValues: {
+      order: investmentStage.order,
+      name: investmentStage.name,
+    },
+    validators: {
+      onChange: updateInvestmentstageValidation,
+    },
+    onSubmit: async ({ value }) => {
+      updateStage({
+        id: investmentStage.id,
+        data: {
+          order: value.order,
+          name: value.name,
+        },
+      });
+    },
   });
-
-  const handleSubmit = () => {
-    updateStage();
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -62,46 +73,75 @@ export default function UpdateInvestmentStage({
           <DialogTitle>Update Investment Stage</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4 mt-4">
-          <div>
-            <label htmlFor="order" className="block font-medium mb-1">
-              Order
-            </label>
-            <input
-              id="order"
-              type="number"
-              value={order}
-              onChange={(e) => setOrder(Number(e.target.value))}
-              placeholder="1"
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
+        <form
+          className="space-y-4 mt-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            form.handleSubmit();
+          }}
+        >
+          {/* ORDER FIELD */}
+          <form.Field name="order">
+            {(field) => (
+              <div>
+                <label htmlFor={field.name} className="block font-medium mb-1">
+                  Order
+                </label>
 
-          <div>
-            <label htmlFor="name" className="block font-medium mb-1">
-              Stage Name
-            </label>
-            <input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Seed Stage"
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
+                <input
+                  id={field.name}
+                  name={field.name}
+                  type="number"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(Number(e.target.value))}
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="1"
+                />
 
+                <FieldInfo field={field} />
+              </div>
+            )}
+          </form.Field>
+
+          {/* NAME FIELD */}
+          <form.Field name="name">
+            {(field) => (
+              <div>
+                <label htmlFor={field.name} className="block font-medium mb-1">
+                  Stage Name
+                </label>
+
+                <input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="e.g. Seed Stage"
+                />
+
+                <FieldInfo field={field} />
+              </div>
+            )}
+          </form.Field>
+
+          {/* BUTTONS */}
           <div className="flex justify-end gap-2 mt-4">
             <Button variant="outline" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
+
             <Button
-              onClick={handleSubmit}
+              type="submit"
+              disabled={isPending}
               className="bg-yellow-500 hover:bg-yellow-600"
             >
-              Save Changes
+              {isPending ? "Saving..." : "Save Changes"}
             </Button>
           </div>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
