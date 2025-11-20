@@ -21,7 +21,7 @@ export default function AddInvestorTypePage() {
       router.push("/dashboard/masterdata/investortypes");
     },
     onError: () => {
-      toast.error("Failed to create investor type");
+      toast.error("Failed to created investor type");
     },
   });
 

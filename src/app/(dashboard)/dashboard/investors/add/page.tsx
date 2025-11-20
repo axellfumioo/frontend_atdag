@@ -25,11 +25,11 @@ export default function AddInvestorPage() {
     mutationKey: ["createInvestor"],
     mutationFn: investorService.createInvestor,
     onSuccess: () => {
-      toast.success("Successly create investor");
+      toast.success("Successly created investor");
       router.push("/dashboard/investors");
     },
     onError: () => {
-      toast.error("Failed create Investor");
+      toast.error("Failed to created Investor");
     },
   });
 

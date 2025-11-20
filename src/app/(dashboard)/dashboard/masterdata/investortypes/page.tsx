@@ -38,11 +38,11 @@ export default function InvestorTypesPage() {
       queryClient.invalidateQueries({
         queryKey: ["investorType"],
       });
-      toast.success("Successly delete investor type");
+      toast.success("Successly deleted investor type");
       setIsopenDelete(false);
     },
     onError: () => {
-      toast.error("Failed delete investor type");
+      toast.error("Failed to deleted investor type");
       setIsopenDelete(false);
     },
   });
@@ -52,7 +52,7 @@ export default function InvestorTypesPage() {
     queryClient.invalidateQueries({
       queryKey:["investorType"]
     })
-    toast.success('Update Berhasil')
+    toast.success('Investor Types Refreshed')
   }
 
   const {

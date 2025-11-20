@@ -44,7 +44,7 @@ export default function UpdateInvestorType({
       setIsOpen(false);
     },
     onError: () => {
-      toast.error("Failed to update investor type");
+      toast.error("Failed to updated investor type");
     },
   });
 

@@ -27,7 +27,7 @@ export default function AddCurrencyPage() {
       router.push("/dashboard/masterdata/currencies");
     },
     onError: () => {
-      toast.error("Failed to create currency");
+      toast.error("Failed to created currency");
     },
   });
 

@@ -62,7 +62,7 @@ export default function CurrenciesPage() {
     queryClient.invalidateQueries({
       queryKey: ["currencies"],
     });
-    toast.success("Currencies refreshed successfully!");
+    toast.success("Currencies Refreshed ");
   }
 
   const filteredCurrencies = currencies?.filter((item) => {
