@@ -59,11 +59,9 @@ export default function AddUserPage() {
         onClick={() => router.push("/dashboard/users")}
         className="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4"
       >
-        {" "}
         <ArrowLeft className="w-4 h-4 mr-1" />
         Back to Users{" "}
       </button>
-      ```
       {/* Heading */}
       <div className="flex items-center space-x-3 mb-6">
         <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center">

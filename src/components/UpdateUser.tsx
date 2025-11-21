@@ -25,7 +25,6 @@ interface Props {
 
 export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
   const queryClient = useQueryClient();
-//   const [roleId, setRoleId] = useState(user.roleId ?? 1);
 
   const { mutate: updateUser, isPending } = useMutation({
     mutationKey: ["updateUser"],
@@ -66,14 +65,11 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {" "}
       <DialogContent className="sm:max-w-lg">
-        {" "}
         <DialogHeader>
-          {" "}
-          <DialogTitle>Update User</DialogTitle>{" "}
+          <DialogTitle>Update User</DialogTitle>
         </DialogHeader>
-        ```
+
         <form
           className="space-y-4 mt-4"
           onSubmit={(e) => {
@@ -82,6 +78,7 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
             form.handleSubmit();
           }}
         >
+          {/* NAME */}
           <form.Field name="name">
             {(field) => (
               <div>
@@ -101,64 +98,48 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
             )}
           </form.Field>
 
-          <form.Field name="email">
-            {(field) => (
-              <div>
-                <label htmlFor="email" className="block font-medium mb-1">
-                  Email
-                </label>
-                <input
-                  id={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="user@example.com"
-                  className="w-full border rounded px-3 py-2"
-                />
-                <FieldInfo field={field} />
-              </div>
-            )}
-          </form.Field>
+          {/* EMAIL + PHONE (ROW) */}
+          <div className="flex gap-4">
+            <form.Field name="email">
+              {(field) => (
+                <div className="flex-1">
+                  <label htmlFor="email" className="block font-medium mb-1">
+                    Email
+                  </label>
+                  <input
+                    id={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="user@example.com"
+                    className="w-full border rounded px-3 py-2"
+                  />
+                  <FieldInfo field={field} />
+                </div>
+              )}
+            </form.Field>
 
-          <form.Field name="password">
-            {(field) => (
-              <div>
-                <label htmlFor="password" className="block font-medium mb-1">
-                  Password
-                </label>
-                <input
-                  id={field.name}
-                  type="password"
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="Leave blank to keep current"
-                  className="w-full border rounded px-3 py-2"
-                />
-                <FieldInfo field={field} />
-              </div>
-            )}
-          </form.Field>
+            <form.Field name="phone">
+              {(field) => (
+                <div className="flex-1">
+                  <label htmlFor="phone" className="block font-medium mb-1">
+                    Phone
+                  </label>
+                  <input
+                    id={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="Phone number"
+                    className="w-full border rounded px-3 py-2"
+                  />
+                  <FieldInfo field={field} />
+                </div>
+              )}
+            </form.Field>
+          </div>
 
-          <form.Field name="phone">
-            {(field) => (
-              <div>
-                <label htmlFor="phone" className="block font-medium mb-1">
-                  Phone
-                </label>
-                <input
-                  id={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="Phone number"
-                  className="w-full border rounded px-3 py-2"
-                />
-                <FieldInfo field={field} />
-              </div>
-            )}
-          </form.Field>
-
+          {/* ADDRESS (ROW SENDIRI) */}
           <form.Field name="address">
             {(field) => (
               <div>
@@ -179,6 +160,7 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
             )}
           </form.Field>
 
+          {/* ROLE */}
           <form.Field name="roleId">
             {(field) => (
               <div>
@@ -189,10 +171,8 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
                   id={field.name}
                   value={field.state.value ?? 1}
                   onBlur={field.handleBlur}
-                  onChange={(e) => {
-                    field.handleChange(Number(e.target.value));
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  onChange={(e) => field.handleChange(Number(e.target.value))}
+                  className="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 >
                   <option value={1}>Admin</option>
                   <option value={2}>User</option>
@@ -203,6 +183,7 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
             )}
           </form.Field>
 
+          {/* BUTTONS */}
           <div className="flex justify-end gap-2 mt-4">
             <Button variant="outline" onClick={() => setIsOpen(false)}>
               Cancel
