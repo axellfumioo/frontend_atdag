@@ -43,7 +43,6 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
     defaultValues: {
       name: user.name,
       email: user.email,
-      password: "",
       phone: user.phone || "",
       address: user.address || "",
       roleId: user.roleId,
@@ -55,7 +54,6 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
       updateUser({
         name: value.name,
         email: value.email,
-        password: value.password || undefined,
         phone: value.phone || "",
         address: value.address || "",
         roleId: Number(value.roleId),
@@ -139,28 +137,7 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
             </form.Field>
           </div>
 
-          {/* PASSWORD (ROW SENDIRI) */}
-          <form.Field name="password">
-            {(field) => (
-              <div>
-                <label htmlFor="password" className="block font-medium mb-1">
-                  Password
-                </label>
-                <input
-                  id={field.name}
-                  type="password"
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="Leave blank to keep current"
-                  className="w-full border rounded px-3 py-2"
-                />
-                <FieldInfo field={field} />
-              </div>
-            )}
-          </form.Field>
-
-          {/* ADDRESS */}
+          {/* ADDRESS (ROW SENDIRI) */}
           <form.Field name="address">
             {(field) => (
               <div>
