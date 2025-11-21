@@ -34,13 +34,13 @@ export default function InvestmentsPage() {
     isLoading,
     refetch: refetchInvestments,
   } = useQuery({
-    queryKey: ["investments"],
+    queryKey: ["investments", currentPage],
     queryFn: () => investmentService.getAllInvestments(currentPage),
   });
 
-  const filteredInvesmentsData = investmentsData?.filter((item) => {
+  const filteredInvesmentsData = investmentsData? investmentsData.filter((item) => {
     return item.name.toLowerCase().includes(searchQuery.toLowerCase());
-  });
+  }) : [];
 
   const { mutate: deleteInvestment } = useMutation({
     mutationKey: ["deleteInvestment"],
@@ -309,6 +309,24 @@ export default function InvestmentsPage() {
                 )}
               </tbody>
             </table>
+          </div>
+          <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
+            <button
+              className="px-3 py-1 rounded border border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => p - 1)}
+            >
+              Prev
+            </button>
+
+            <span>Page {currentPage}</span>
+
+            <button
+              className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
+              onClick={() => setCurrentPage((p) => p + 1)}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>

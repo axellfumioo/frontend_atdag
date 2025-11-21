@@ -20,7 +20,7 @@ import UpdateInvestmentStatus from "@/components/UpdateInvestmentStatus";
 export default function InvestmentStatusPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
-
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -29,9 +29,9 @@ export default function InvestmentStatusPage() {
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<InvestmentStatus | null>(null);
 
-  const { data: statuses = [], isLoading, refetch } = useQuery({
-    queryKey: ["investmentStatuses"],
-    queryFn: () => investmentStatusService.getAllInvestmentStatus(),
+  const { data: statuses , isLoading, refetch } = useQuery({
+    queryKey: ["investmentStatuses", currentPage],
+    queryFn: () => investmentStatusService.getAllInvestmentStatus(currentPage),
   });
 
   const { mutate: deleteInvestmentStatus } = useMutation({
@@ -58,9 +58,13 @@ export default function InvestmentStatusPage() {
     setIsDeleteOpen(true);
   };
 
-  const filteredStatuses = statuses.filter((item) =>
+  // const filteredStatuses = statuses?.filter((item) =>
+  //   item.status_name.toLowerCase().includes(searchQuery.toLowerCase())
+  // ) : [];
+
+  const filteredStatuses = statuses? statuses.filter((item) => 
     item.status_name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+ ) : [];
 
   const statusColors: Record<string, string> = {
     Open: "bg-green-100 text-green-800",
@@ -167,7 +171,7 @@ export default function InvestmentStatusPage() {
                 )}
 
                 {!isLoading &&
-                  filteredStatuses.map((item) => (
+                  filteredStatuses?.map((item) => (
                     <tr key={item.id} className="border-b">
                       <td className="px-6 py-3">{item.order}</td>
 
@@ -239,6 +243,25 @@ export default function InvestmentStatusPage() {
                 )}
               </tbody>
             </table>
+          </div>
+          
+          <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
+            <button
+              className="px-3 py-1 rounded border border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => p - 1)}
+            >
+              Prev
+            </button>
+
+            <span>Page {currentPage}</span>
+
+            <button
+              className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
+              onClick={() => setCurrentPage((p) => p + 1)}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>

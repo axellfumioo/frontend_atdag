@@ -25,6 +25,7 @@ export default function CurrenciesPage() {
   const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(
     null
   );
+      const [currentPage, setCurrentPage] = useState(1);
   const [currencyToDelete, setCurrencyToDelete] = useState<number | null>(null);
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -33,8 +34,8 @@ export default function CurrenciesPage() {
     isLoading: isLoadingCurrencies,
     isSuccess: isSuccessCurrencies,
   } = useQuery({
-    queryKey: ["currencies"],
-    queryFn: () => currencyService.getAllCurrencies(1),
+    queryKey: ["currencies", currentPage],
+    queryFn: () => currencyService.getAllCurrencies(currentPage),
   });
 
   const { mutate: deleteCurrency } = useMutation({
@@ -65,14 +66,18 @@ export default function CurrenciesPage() {
     toast.success("Currencies Refreshed ");
   }
 
-  const filteredCurrencies = currencies?.filter((item) => {
+
+  
+
+  const filteredCurrencies = currencies? currencies.filter((item) => {
     const q = searchQuery.toLowerCase();
     return (
       item.code.toLowerCase().includes(q) ||
       item.name.toLowerCase().includes(q) ||
-      (item.symbol?.toLowerCase() || "").includes(q)
+      (item.symbol?.toLowerCase() || "").includes(q) 
     );
-  });
+  })
+  : [];
 
   return (
     <>
@@ -256,6 +261,24 @@ export default function CurrenciesPage() {
                   ))}
               </tbody>
             </table>
+          </div>
+                    <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
+            <button
+              className="px-3 py-1 rounded border border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => p - 1)}
+            >
+              Prev
+            </button>
+
+            <span>Page {currentPage}</span>
+
+            <button
+              className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
+              onClick={() => setCurrentPage((p) => p + 1)}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>

@@ -31,7 +31,7 @@ export default function UpdateInvestmentStatus({
   const queryClient = useQueryClient();
 
   const { mutate: updateStatus, isPending } = useMutation({
-    mutationKey: ["updateInvestmentStatus"],
+    mutationKey: ["investmentStatuses"],
     mutationFn: (dto: updateInvestmentstatusDto) =>
       investmentStatusService.updateInvestmentStatus(
         investmentStatus.id,

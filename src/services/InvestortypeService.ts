@@ -4,9 +4,9 @@ import { BASE_URL } from "@/common/lib/loadEnv";
 import { InvestorType } from "@/common/model/index";
 
 class InvestorTypeService {
-  public async getAllInvestorTypes(page = 1, pageSize = 10): Promise<InvestorType[]> {
+  public async getAllInvestorTypes(page?: number, page_size?: number): Promise<InvestorType[]> {
     const res = await api.get<{ data: InvestorType[]}>(
-      `${BASE_URL}/investor-types?page=${page}&page_size=${pageSize}`
+      `${BASE_URL}/investor-types?page=${page}&page_size=${page_size}`
     );
     return res.data.data;
   }

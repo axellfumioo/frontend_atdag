@@ -76,3 +76,13 @@ export interface Investor {
   created_at: string;
   updated_at: string;
 }
+
+export interface InterfacePaginatio<T> {
+  data: T,
+  pagination: {
+    page: number,
+    page_size: number,
+    total_pages: number,
+    total_rows: number
+  }
+}

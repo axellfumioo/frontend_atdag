@@ -205,7 +205,7 @@ export default function InvestmentStagesPage() {
                     </td>
                   </tr>
                 ) : (
-                  filteredStages.map((stage: any) => (
+                  filteredStages.map((stage: InvestmentStage) => (
                     <tr
                       key={stage.id}
                       className="border-b border-gray-100 last:border-b-0 hover:bg-gray-50"
