@@ -5,7 +5,6 @@ import {
   Search,
   RefreshCw,
   Plus,
-  // ArrowUpDown,
   Tag,
   Pencil,
   Trash2,
@@ -15,6 +14,8 @@ import { investmentStatusService } from "@/services/InvestmentStatusService";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import { InvestmentStatus } from "@/common/model";
+import UpdateInvestmentStatus from "@/components/UpdateInvestmentStatus"; 
 
 export default function InvestmentStatusPage() {
   const router = useRouter();
@@ -23,6 +24,10 @@ export default function InvestmentStatusPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  // NEW STATES for Editing
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState<InvestmentStatus | null>(null);
 
   const { data: statuses = [], isLoading, refetch } = useQuery({
     queryKey: ["investmentStatuses"],
@@ -65,6 +70,7 @@ export default function InvestmentStatusPage() {
 
   return (
     <>
+      {/* DELETE DIALOG */}
       {isDeleteOpen && selectedId !== null && (
         <ConfirmDialog
           isOpen={isDeleteOpen}
@@ -74,6 +80,15 @@ export default function InvestmentStatusPage() {
           description="Are you sure you want to delete this Investment Status?"
           confirmText="Delete"
           cancelText="Cancel"
+        />
+      )}
+
+      {/* UPDATE MODAL */}
+      {isUpdateOpen && selectedStatus && (
+        <UpdateInvestmentStatus
+          isOpen={isUpdateOpen}
+          setIsOpen={setIsUpdateOpen}
+          investmentStatus={selectedStatus}
         />
       )}
 
@@ -191,17 +206,19 @@ export default function InvestmentStatusPage() {
 
                       <td className="px-6 py-3">
                         <div className="flex gap-2">
+
+                          {/* EDIT BUTTON */}
                           <button
-                            onClick={() =>
-                              router.push(
-                                `/dashboard/masterdata/investmentstatus/edit/${item.id}`
-                              )
-                            }
+                            onClick={() => {
+                              setSelectedStatus(item);
+                              setIsUpdateOpen(true);
+                            }}
                             className="p-1.5 border rounded text-gray-600 hover:bg-gray-50"
                           >
                             <Pencil className="w-4 h-4" />
                           </button>
 
+                          {/* DELETE BUTTON */}
                           <button
                             onClick={() => handleDeleteClick(item.id)}
                             className="p-1.5 border rounded text-red-500 hover:bg-red-50"
