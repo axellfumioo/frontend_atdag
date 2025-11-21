@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { InvestmentStatus } from "@/common/model";
 import UpdateInvestmentStatus from "@/components/UpdateInvestmentStatus";
+import UpdateInvestmentStatus from "@/components/UpdateInvestmentStatus";
 
 export default function InvestmentStatusPage() {
   const router = useRouter();
@@ -37,11 +38,10 @@ export default function InvestmentStatusPage() {
     mutationKey: ["deleteInvestmentStatus"],
     mutationFn: investmentStatusService.deleteInvestmentStatus,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["investmentStatuses"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["investmentStatuses"] });
       toast.success("Investment Status deleted successfully!");
       setIsDeleteOpen(false);
+      setSelectedId(null);
     },
     onError: () => {
       toast.error("Failed to delete Investment Status");
@@ -57,9 +57,10 @@ export default function InvestmentStatusPage() {
     setIsDeleteOpen(true);
   };
 
-  // const filteredStatuses = statuses?.filter((item) =>
-  //   item.status_name.toLowerCase().includes(searchQuery.toLowerCase())
-  // ) : [];
+  // normalize statuses to array (depends on service return shape)
+  const statusList: InvestmentStatus[] = Array.isArray(statuses)
+    ? statuses
+    : (statuses ?? []) as InvestmentStatus[];
 
   const filteredStatuses = statuses
     ? statuses.filter((item) =>
@@ -67,10 +68,11 @@ export default function InvestmentStatusPage() {
       )
     : [];
 
+  // colors mapping (case-insensitive)
   const statusColors: Record<string, string> = {
-    Open: "bg-green-100 text-green-800",
-    Closed: "bg-blue-100 text-blue-800",
-    Cancelled: "bg-red-100 text-red-800",
+    open: "bg-green-100 text-green-800",
+    closed: "bg-blue-100 text-blue-800",
+    cancelled: "bg-red-100 text-red-800",
   };
 
   return (
@@ -79,8 +81,14 @@ export default function InvestmentStatusPage() {
       {isDeleteOpen && selectedId !== null && (
         <ConfirmDialog
           isOpen={isDeleteOpen}
-          onClose={() => setIsDeleteOpen(false)}
-          onConfirm={() => handleDelete(selectedId)}
+          onClose={() => {
+            setIsDeleteOpen(false);
+            setSelectedId(null);
+          }}
+          onConfirm={() => {
+            // guard before calling delete
+            if (selectedId !== null) handleDelete(selectedId);
+          }}
           title="Delete Investment Status"
           description="Are you sure you want to delete this Investment Status?"
           confirmText="Delete"
@@ -138,9 +146,7 @@ export default function InvestmentStatusPage() {
               </button>
 
               <button
-                onClick={() =>
-                  router.push("/dashboard/masterdata/investmentstatus/add")
-                }
+                onClick={() => router.push("/dashboard/masterdata/investmentstatus/add")}
                 className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm"
               >
                 <Plus className="w-4 h-4" />
@@ -151,16 +157,18 @@ export default function InvestmentStatusPage() {
 
           {/* TABLE */}
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="min-w-full">
+
+
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3">Order</th>
-                  <th className="px-6 py-3 text-xs uppercase">Name</th>
-                  <th className="px-6 py-3 text-xs uppercase">Color</th>
-                  <th className="px-6 py-3 text-xs uppercase">Status Type</th>
-                  <th className="px-6 py-3">Date Created</th>
-                  <th className="px-6 py-3">Date Updated</th>
-                  <th className="px-6 py-3 text-xs uppercase">Actions</th>
+                  <th className="px-6 py-3 text-left align-middle font-semibold">Order</th>
+                  <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">Name</th>
+                  <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">Color</th>
+                  <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">Status Type</th>
+                  <th className="px-6 py-3 text-left align-middle font-semibold">Date Created</th>
+                  <th className="px-6 py-3 text-left align-middle font-semibold">Date Updated</th>
+                  <th className="px-6 py-3 text-right text-xs uppercase align-middle font-semibold">Actions</th>
                 </tr>
               </thead>
 
@@ -173,43 +181,49 @@ export default function InvestmentStatusPage() {
                   </tr>
                 )}
 
+                {!isLoading && filteredStatuses.length === 0 && (
+                  <tr>
+                    <td colSpan={7} className="text-center py-10 text-gray-400">
+                      Tidak ada status ditemukan.
+                    </td>
+                  </tr>
+                )}
+
                 {!isLoading &&
-                  filteredStatuses?.map((item) => (
-                    <tr key={item.id} className="border-b">
-                      <td className="px-6 py-3">{item.order}</td>
+                  filteredStatuses.map((item) => {
+                    const statusClass =
+                      statusColors[(item.status_type ?? "").toString().toLowerCase()] ||
+                      "bg-gray-100 text-gray-800";
 
-                      <td className="px-6 py-3">
-                        <div className="flex items-center gap-2">
-                          <span
-                            className="w-2 h-2 rounded-full"
-                            style={{ backgroundColor: item.status_color }}
-                          />
-                          {item.status_name}
-                        </div>
-                      </td>
+                    return (
+                      <tr key={item.id} className="border-b">
+                        <td className="px-6 py-3 align-middle">{item.order}</td>
 
-                      <td className="px-6 py-3 font-mono">
-                        {item.status_color}
-                      </td>
+                        <td className="px-6 py-3 align-middle">
+                          <div className="flex items-center gap-3">
+                            <span
+                              className="w-3 h-3 rounded-full inline-block"
+                              style={{ backgroundColor: item.status_color || "#ddd" }}
+                            />
+                            <span>{item.status_name}</span>
+                          </div>
+                        </td>
 
-                      <td className="px-6 py-3">
-                        <span
-                          className={`px-2 py-1 text-xs rounded-full ${
-                            statusColors[item.status_type] ||
-                            "bg-gray-100 text-gray-800"
-                          }`}
-                        >
-                          {item.status_type}
-                        </span>
-                      </td>
+                        <td className="px-6 py-3 align-middle font-mono">{item.status_color}</td>
 
-                      <td className="px-6 py-3">
-                        {new Date(item.created_at).toLocaleDateString("id-ID")}
-                      </td>
+                        <td className="px-6 py-3 align-middle">
+                          <span className={`px-2 py-1 text-xs rounded-full ${statusClass}`}>
+                            {item.status_type}
+                          </span>
+                        </td>
 
-                      <td className="px-6 py-3">
-                        {new Date(item.updated_at).toLocaleDateString("id-ID")}
-                      </td>
+                        <td className="px-6 py-3 align-middle">
+                          {item.created_at ? new Date(item.created_at).toLocaleDateString("id-ID") : "-"}
+                        </td>
+
+                        <td className="px-6 py-3 align-middle">
+                          {item.updated_at ? new Date(item.updated_at).toLocaleDateString("id-ID") : "-"}
+                        </td>
 
                       <td className="px-6 py-3">
                         <div className="flex gap-2">
@@ -266,11 +280,12 @@ export default function InvestmentStatusPage() {
             </table>
           </div>
 
+
           <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
             <button
               className="px-3 py-1 rounded border border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
               disabled={currentPage === 1}
-              onClick={() => setCurrentPage((p) => p - 1)}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             >
               Prev
             </button>

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Search,
-  Filter,
+  // Filter,
   RefreshCw,
   Plus,
   ArrowUpDown,
@@ -38,9 +38,11 @@ export default function InvestmentsPage() {
     queryFn: () => investmentService.getAllInvestments(currentPage),
   });
 
-  const filteredInvesmentsData = investmentsData? investmentsData.filter((item) => {
-    return item.name.toLowerCase().includes(searchQuery.toLowerCase());
-  }) : [];
+  const filteredInvesmentsData = investmentsData
+    ? investmentsData.filter((item) => {
+        return item.name.toLowerCase().includes(searchQuery.toLowerCase());
+      })
+    : [];
 
   const { mutate: deleteInvestment } = useMutation({
     mutationKey: ["deleteInvestment"],
@@ -60,16 +62,16 @@ export default function InvestmentsPage() {
   });
   return (
     <>
-      {setSelectedInvestmentType != null && isOpenDelete && (
+      {selectedInvestmentType && isOpenDelete && (
         <ConfirmDialog
           isOpen={isOpenDelete}
           onClose={() => setIsopenDelete(false)}
           onConfirm={() =>
-            deleteInvestment(selectedInvestmentType?.investment_id!)
+            deleteInvestment(selectedInvestmentType.investment_id)
           }
           title="Hapus Investment"
           cancelText="Batal"
-          description={`Anda yakin ingin menghapus Investment ${selectedInvestmentType?.name}`}
+          description={`Anda yakin ingin menghapus Investment ${selectedInvestmentType.name}`}
           confirmText="Hapus"
         />
       )}
@@ -112,15 +114,15 @@ export default function InvestmentsPage() {
                   />
                 </div>
 
-                <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                {/* <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                   <Filter className="w-4 h-4" />
                   <span>Advanced Filters</span>
-                </button>
+                </button> */}
               </div>
 
               <div className="flex gap-3">
                 <button
-                   onClick={async () => {
+                  onClick={async () => {
                     await refetchInvestments();
                     toast.success("Investment Refreshed");
                   }}
@@ -245,7 +247,7 @@ export default function InvestmentsPage() {
                           {item.name}
                         </td>
                         <td className="px-6 py-3 text-sm font-semibold text-gray-800">
-                          {item.investor.name}
+                          {item.investor?.name || ""}
                         </td>
                         <td className="px-6 py-3 text-sm text-gray-700">
                           {item.investment_stage.name}
@@ -260,12 +262,12 @@ export default function InvestmentsPage() {
                           {item.description}
                         </td>
                         <td className="px-6 py-3 text-sm text-gray-700">
-                          {new Date(item.expected_closing_date).toLocaleDateString(
-                            "id-ID"
-                          )}
+                          {new Date(
+                            item.expected_closing_date
+                          ).toLocaleDateString("id-ID")}
                         </td>
                         <td className="px-6 py-3 text-sm text-gray-700">
-                          {new Date (item.closing_date).toLocaleDateString(
+                          {new Date(item.closing_date).toLocaleDateString(
                             "id-ID"
                           )}
                         </td>

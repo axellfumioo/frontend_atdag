@@ -45,6 +45,7 @@ const menuItems: MenuItem[] = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
   { name: "Investors", icon: Users, path: "/dashboard/investors" },
   { name: "Investments", icon: TrendingUp, path: "/dashboard/investments" },
+  { name: "Users", icon: UserSquare2, path: "/dashboard/users" },
   {
     name: "WA Broadcast",
     icon: MessageCircle,
