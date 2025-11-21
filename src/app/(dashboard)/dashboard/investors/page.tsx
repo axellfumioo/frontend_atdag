@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import {
   Search,
-  Filter,
+  // Filter,
   RefreshCw,
   Plus,
   ArrowUpDown,
@@ -132,10 +132,10 @@ export default function InvestorsPage() {
                   />
                 </div>
 
-                <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                {/* <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                   <Filter className="w-4 h-4" />
                   <span>Advanced Filters</span>
-                </button>
+                </button> */}
               </div>
 
               <div className="flex gap-3">

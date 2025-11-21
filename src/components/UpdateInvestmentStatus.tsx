@@ -33,10 +33,7 @@ export default function UpdateInvestmentStatus({
   const { mutate: updateStatus, isPending } = useMutation({
     mutationKey: ["investmentStatuses"],
     mutationFn: (dto: updateInvestmentstatusDto) =>
-      investmentStatusService.updateInvestmentStatus(
-        investmentStatus.id,
-        dto
-      ),
+      investmentStatusService.updateInvestmentStatus(investmentStatus.id, dto),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["investmentStatus"] });
       toast.success("Investment status updated successfully!");
@@ -52,7 +49,7 @@ export default function UpdateInvestmentStatus({
       status_name: investmentStatus.status_name,
       order: investmentStatus.order,
       status_type: investmentStatus.status_type,
-      status_color: investmentStatus.status_color
+      status_color: investmentStatus.status_color,
     },
     validators: {
       onChange: updateInvestmentStatusValidation,
@@ -61,7 +58,7 @@ export default function UpdateInvestmentStatus({
       updateStatus({
         status_name: value.status_name,
         order: value.order,
-        status_type: value.status_type,
+        status_type: value.status_type.toLocaleUpperCase(),
         status_color: value.status_color,
       });
     },
@@ -107,9 +104,7 @@ export default function UpdateInvestmentStatus({
                   <label className="text-sm font-medium">Order</label>
                   <input
                     value={field.state.value}
-                    onChange={(e) =>
-                      field.handleChange(Number(e.target.value))
-                    }
+                    onChange={(e) => field.handleChange(Number(e.target.value))}
                     onBlur={field.handleBlur}
                     type="number"
                     className="w-full px-4 py-3 border rounded-lg"
@@ -137,11 +132,15 @@ export default function UpdateInvestmentStatus({
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     onBlur={field.handleBlur}
-                    className="w-full px-4 py-3 border rounded-lg"
+                    className="w-full px-3 py-3 border rounded-lg"
                   >
-                    <option value="Open">Open</option>
-                    <option value="Closed">Closed</option>
-                    <option value="Cancelled">Cancelled</option>
+                    <option value="">Select status type</option>
+
+                    {["OPEN", "CLOSED", "CANCELLED"].map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
                   </select>
                   <FieldInfo field={field} />
                 </div>

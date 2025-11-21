@@ -49,7 +49,7 @@ export default function AddInvestmentStatusPage() {
     onSubmit: async ({ value }) => {
       createStatus({
         status_name: value.status_name,
-        status_type: value.status_type,
+        status_type: value.status_type.toLocaleUpperCase(),
         status_color: value.status_color,
         order: value.order,
       });
@@ -114,9 +114,7 @@ export default function AddInvestmentStatusPage() {
                   <label className="text-sm font-medium">Order</label>
                   <input
                     value={field.state.value}
-                    onChange={(e) =>
-                      field.handleChange(Number(e.target.value))
-                    }
+                    onChange={(e) => field.handleChange(Number(e.target.value))}
                     onBlur={field.handleBlur}
                     type="number"
                     className="w-full px-4 py-3 border rounded-lg"
@@ -135,11 +133,15 @@ export default function AddInvestmentStatusPage() {
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     onBlur={field.handleBlur}
-                    className="w-full px-4 py-3 border rounded-lg"
+                    className="w-full px-3 py-3 border rounded-lg"
                   >
-                    <option value="Open">Open</option>
-                    <option value="Closed">Closed</option>
-                    <option value="Cancelled">Cancelled</option>
+                    <option value="">Select status type</option>
+
+                    {["OPEN", "CLOSED", "CANCELLED"].map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
                   </select>
                   <FieldInfo field={field} />
                 </div>

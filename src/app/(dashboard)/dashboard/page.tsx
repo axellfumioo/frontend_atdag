@@ -31,7 +31,7 @@ export default function DashboardStats() {
 
   // Fetch investment open
      const {data: openInvestment} = useQuery({
-    queryKey: ["dashboardTotalInvestment"],
+    queryKey: ["dashboardTotalInvestmentOpen"],
     queryFn: () => investmentService.getAllInvestmentOpen()
   })
 
