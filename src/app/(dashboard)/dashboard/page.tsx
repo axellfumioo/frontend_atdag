@@ -18,6 +18,7 @@ import { investorService } from "@/services/InvestorService";
 import { InvestmentStatusChart } from "@/components/InvestmentStatusChart";
 import { chartService } from "@/services/ChartService";
 import { InvestmentCurrencyChart } from "@/components/InvestmentCurrencyChart";
+import { convertToIDR } from "@/common/lib/idrConverter";
 
 export default function DashboardStats() {
   // Fetch investments
@@ -39,7 +40,10 @@ export default function DashboardStats() {
   });
 
   // Total investment amount
-  // const totalInvestmentAmount = investment ? investment.length :0;
+  const { data: investmentAmount } = useQuery({
+    queryKey: ["investmentAmount"],
+    queryFn: () => investmentService.getInvestmentAmount(),
+  });
 
   // Total investors count
   // const totalInvestors = investors ? investors.length : 0;
@@ -54,7 +58,7 @@ export default function DashboardStats() {
     },
     {
       title: "Investment Amount",
-      value: (totalInvestment ?? 0).toLocaleString("id-ID"),
+      value: convertToIDR((investmentAmount as string) || "0"),
       icon: BarChart3,
       iconBg: "bg-orange-50",
       iconColor: "text-orange-500",
@@ -165,7 +169,7 @@ export default function DashboardStats() {
         <InvestmentStatusChart data={investmentStatusChart ?? []} />
 
         {/* Chart 2 */}
-        <InvestmentCurrencyChart data= {investmentCurrencyChart ?? []} />
+        <InvestmentCurrencyChart data={investmentCurrencyChart ?? []} />
       </div>
     </div>
   );
