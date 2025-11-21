@@ -13,6 +13,10 @@ import { useForm } from "@tanstack/react-form";
 import { createInvesmentnValidation } from "@/common/validation/investmentSchema";
 import FieldInfo from "@/components/FieldInfo";
 import { toast } from "sonner";
+import { InvestmentStageSelector } from "@/components/selectors/InvestmentStageSelector";
+import { InvestorSelector } from "@/components/selectors/InvestorSelector";
+import { InvestmentStatusSelector } from "@/components/selectors/InvestmentStatusSelector";
+import { CurrencySelector } from "@/components/selectors/CurrencySelector";
 
 export default function AddInvestmentPage() {
   const router = useRouter();
@@ -141,24 +145,11 @@ export default function AddInvestmentPage() {
                     <label className="text-sm font-medium text-gray-700 mb-1">
                       Investor
                     </label>
-                    <select
-                      id={field.name}
-                      name={field.name}
+                    <InvestorSelector
+                      data={investores as []}
+                      onChange={field.handleChange}
                       value={field.state.value || 0}
-                      onBlur={field.handleBlur}
-                      onChange={(e) =>
-                        field.handleChange(Number(e.target.value))
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                      required
-                    >
-                      <option value={0}>Select an investor</option>
-                      {investores?.map((item) => (
-                        <option key={item.id} value={item.id}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                    />
                     <FieldInfo field={field} />
                   </div>
                 );
@@ -173,24 +164,11 @@ export default function AddInvestmentPage() {
                     <label className="text-sm font-medium text-gray-700 mb-1">
                       Investment Stage
                     </label>
-                    <select
-                      id={field.name}
-                      name={field.name}
+                    <InvestmentStageSelector
+                      data={stages as []}
+                      onChange={field.handleChange}
                       value={field.state.value || 0}
-                      onBlur={field.handleBlur}
-                      onChange={(e) =>
-                        field.handleChange(Number(e.target.value))
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                      required
-                    >
-                      <option value={0}>Select stage</option>
-                      {stages?.map((item) => (
-                        <option key={item.id} value={item.id}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                    />
                     <FieldInfo field={field} />
                   </div>
                 );
@@ -205,24 +183,11 @@ export default function AddInvestmentPage() {
                     <label className="text-sm font-medium text-gray-700 mb-1">
                       Investment Status
                     </label>
-                    <select
-                      id={field.name}
-                      name={field.name}
+                    <InvestmentStatusSelector
+                      data={status as []}
+                      onChange={field.handleChange}
                       value={field.state.value || 0}
-                      onBlur={field.handleBlur}
-                      onChange={(e) =>
-                        field.handleChange(Number(e.target.value))
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                      required
-                    >
-                      <option value={0}>Select status</option>
-                      {status?.map((item) => (
-                        <option key={item.id} value={item.id}>
-                          {item.status_name}
-                        </option>
-                      ))}
-                    </select>
+                    />
                     <FieldInfo field={field} />
                   </div>
                 );
@@ -237,24 +202,11 @@ export default function AddInvestmentPage() {
                     <label className="text-sm font-medium text-gray-700 mb-1">
                       Currency
                     </label>
-                    <select
-                      id={field.name}
-                      name={field.name}
+                    <CurrencySelector
+                      data={currencies as []}
+                      onChange={field.handleChange}
                       value={field.state.value || 0}
-                      onBlur={field.handleBlur}
-                      onChange={(e) =>
-                        field.handleChange(Number(e.target.value))
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                      required
-                    >
-                      <option value={0}>Select currency</option>
-                      {currencies?.map((item) => (
-                        <option key={item.id} value={item.id}>
-                          {item.name || item.code}
-                        </option>
-                      ))}
-                    </select>
+                    />
                     <FieldInfo field={field} />
                   </div>
                 );
@@ -296,6 +248,7 @@ export default function AddInvestmentPage() {
                     </label>
                     <div className="relative">
                       <input
+                        title={field.name}
                         id={field.name}
                         name={field.name}
                         value={field.state.value || ""}
@@ -323,6 +276,7 @@ export default function AddInvestmentPage() {
                     </label>
                     <div className="relative">
                       <input
+                        title={field.name}
                         id={field.name}
                         name={field.name}
                         value={field.state.value || ""}
