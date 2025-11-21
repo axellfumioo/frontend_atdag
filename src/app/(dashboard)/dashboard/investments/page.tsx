@@ -232,7 +232,7 @@ export default function InvestmentsPage() {
                             />
                           </svg>
                         </div>
-                        <p className="text-gray-400 text-sm">No data</p>
+                        <p className="text-gray-400 text-sm">No investment found</p>
                       </div>
                     </td>
                   </tr>

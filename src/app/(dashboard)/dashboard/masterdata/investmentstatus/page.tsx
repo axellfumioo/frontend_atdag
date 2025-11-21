@@ -9,7 +9,6 @@ import { toast } from "sonner";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { InvestmentStatus } from "@/common/model";
 import UpdateInvestmentStatus from "@/components/UpdateInvestmentStatus";
-import UpdateInvestmentStatus from "@/components/UpdateInvestmentStatus";
 
 export default function InvestmentStatusPage() {
   const router = useRouter();
@@ -60,7 +59,7 @@ export default function InvestmentStatusPage() {
   // normalize statuses to array (depends on service return shape)
   const statusList: InvestmentStatus[] = Array.isArray(statuses)
     ? statuses
-    : (statuses ?? []) as InvestmentStatus[];
+    : ((statuses ?? []) as InvestmentStatus[]);
 
   const filteredStatuses = statuses
     ? statuses.filter((item) =>
@@ -146,7 +145,9 @@ export default function InvestmentStatusPage() {
               </button>
 
               <button
-                onClick={() => router.push("/dashboard/masterdata/investmentstatus/add")}
+                onClick={() =>
+                  router.push("/dashboard/masterdata/investmentstatus/add")
+                }
                 className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm"
               >
                 <Plus className="w-4 h-4" />
@@ -158,17 +159,29 @@ export default function InvestmentStatusPage() {
           {/* TABLE */}
           <div className="overflow-x-auto">
             <table className="min-w-full">
-
-
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left align-middle font-semibold">Order</th>
-                  <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">Name</th>
-                  <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">Color</th>
-                  <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">Status Type</th>
-                  <th className="px-6 py-3 text-left align-middle font-semibold">Date Created</th>
-                  <th className="px-6 py-3 text-left align-middle font-semibold">Date Updated</th>
-                  <th className="px-6 py-3 text-right text-xs uppercase align-middle font-semibold">Actions</th>
+                  <th className="px-6 py-3 text-left align-middle font-semibold">
+                    Order
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">
+                    Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">
+                    Color
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">
+                    Status Type
+                  </th>
+                  <th className="px-6 py-3 text-left align-middle font-semibold">
+                    Date Created
+                  </th>
+                  <th className="px-6 py-3 text-left align-middle font-semibold">
+                    Date Updated
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs uppercase align-middle font-semibold">
+                    Actions
+                  </th>
                 </tr>
               </thead>
 
@@ -192,8 +205,9 @@ export default function InvestmentStatusPage() {
                 {!isLoading &&
                   filteredStatuses.map((item) => {
                     const statusClass =
-                      statusColors[(item.status_type ?? "").toString().toLowerCase()] ||
-                      "bg-gray-100 text-gray-800";
+                      statusColors[
+                        (item.status_type ?? "").toString().toLowerCase()
+                      ] || "bg-gray-100 text-gray-800";
 
                     return (
                       <tr key={item.id} className="border-b">
@@ -203,54 +217,69 @@ export default function InvestmentStatusPage() {
                           <div className="flex items-center gap-3">
                             <span
                               className="w-3 h-3 rounded-full inline-block"
-                              style={{ backgroundColor: item.status_color || "#ddd" }}
+                              style={{
+                                backgroundColor: item.status_color || "#ddd",
+                              }}
                             />
                             <span>{item.status_name}</span>
                           </div>
                         </td>
 
-                        <td className="px-6 py-3 align-middle font-mono">{item.status_color}</td>
+                        <td className="px-6 py-3 align-middle font-mono">
+                          {item.status_color}
+                        </td>
 
                         <td className="px-6 py-3 align-middle">
-                          <span className={`px-2 py-1 text-xs rounded-full ${statusClass}`}>
+                          <span
+                            className={`px-2 py-1 text-xs rounded-full ${statusClass}`}
+                          >
                             {item.status_type}
                           </span>
                         </td>
 
                         <td className="px-6 py-3 align-middle">
-                          {item.created_at ? new Date(item.created_at).toLocaleDateString("id-ID") : "-"}
+                          {item.created_at
+                            ? new Date(item.created_at).toLocaleDateString(
+                                "id-ID"
+                              )
+                            : "-"}
                         </td>
 
                         <td className="px-6 py-3 align-middle">
-                          {item.updated_at ? new Date(item.updated_at).toLocaleDateString("id-ID") : "-"}
+                          {item.updated_at
+                            ? new Date(item.updated_at).toLocaleDateString(
+                                "id-ID"
+                              )
+                            : "-"}
                         </td>
 
-                      <td className="px-6 py-3">
-                        <div className="flex gap-2">
-                          {/* EDIT BUTTON */}
-                          <button
-                            title="edit"
-                            onClick={() => {
-                              setSelectedStatus(item);
-                              setIsUpdateOpen(true);
-                            }}
-                            className="p-1.5 border rounded text-gray-600 hover:bg-gray-50"
-                          >
-                            <Pencil className="w-4 h-4" />
-                          </button>
+                        <td className="px-6 py-3">
+                          <div className="flex gap-2">
+                            {/* EDIT BUTTON */}
+                            <button
+                              title="edit"
+                              onClick={() => {
+                                setSelectedStatus(item);
+                                setIsUpdateOpen(true);
+                              }}
+                              className="p-1.5 border rounded text-gray-600 hover:bg-gray-50"
+                            >
+                              <Pencil className="w-4 h-4" />
+                            </button>
 
-                          {/* DELETE BUTTON */}
-                          <button
-                            title="delete"
-                            onClick={() => handleDeleteClick(item.id)}
-                            className="p-1.5 border rounded text-red-500 hover:bg-red-50"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                            {/* DELETE BUTTON */}
+                            <button
+                              title="delete"
+                              onClick={() => handleDeleteClick(item.id)}
+                              className="p-1.5 border rounded text-red-500 hover:bg-red-50"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
 
                 {!isLoading && filteredStatuses.length === 0 && (
                   <tr>
@@ -271,7 +300,9 @@ export default function InvestmentStatusPage() {
                             />
                           </svg>
                         </div>
-                        <p className="text-gray-400 text-sm">No investment status found</p>
+                        <p className="text-gray-400 text-sm">
+                          No investment status found
+                        </p>
                       </div>
                     </td>
                   </tr>
@@ -279,7 +310,6 @@ export default function InvestmentStatusPage() {
               </tbody>
             </table>
           </div>
-
 
           <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
             <button
