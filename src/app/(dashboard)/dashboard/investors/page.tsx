@@ -23,6 +23,8 @@ export default function InvestorsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpenDelete, setIsopenDelete] = useState(false);
   const queryClient = useQueryClient();
+        const [currentPage, setCurrentPage] = useState(1);
+  
   // const [isUpdateOpen, setIUpdateOpen] = useState(false)
   // const [selectedInvestor, setSelectedInvestor] = useState<Investor | null>(
   //   null
@@ -31,8 +33,8 @@ export default function InvestorsPage() {
     null
   );
   const { data: investordata, isLoading: isLoadingInvestor } = useQuery({
-    queryKey: ["investors"],
-    queryFn: () => investorService.getAllInvestors(1, 100),
+    queryKey: ["investors", currentPage],
+    queryFn: () => investorService.getAllInvestors(currentPage),
   });
 
   const [selectedInvestor, setSelectedInvestor] = useState<Investor | null>(
@@ -248,6 +250,24 @@ export default function InvestorsPage() {
                 )}
               </tbody>
             </table>
+          </div>
+                              <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
+            <button
+              className="px-3 py-1 rounded border border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => p - 1)}
+            >
+              Prev
+            </button>
+
+            <span>Page {currentPage}</span>
+
+            <button
+              className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
+              onClick={() => setCurrentPage((p) => p + 1)}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
