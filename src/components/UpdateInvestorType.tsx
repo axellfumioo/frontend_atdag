@@ -52,8 +52,8 @@ export default function UpdateInvestorType({
 
   const form = useForm({
     defaultValues: {
-      name: "",
-      color: "#000000"
+      name: investorType.name,
+      color: investorType.color
     },
     validators:{
       onChange: updateInvestortypeValidation

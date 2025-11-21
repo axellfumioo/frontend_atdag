@@ -86,3 +86,14 @@ export interface InterfacePaginatio<T> {
     total_rows: number
   }
 }
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  address?: string | null;
+  roleId?: number | null;
+  createdAt: string;
+  updatedAt: string;
+}
