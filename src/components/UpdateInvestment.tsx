@@ -56,22 +56,22 @@ export default function UpdateInvestment({
 
   const { data: stages, isLoading: isLoadingStages } = useQuery({
     queryKey: ["investmentStages"],
-    queryFn: () => investmentStageService.getInvestmentStages(1),
+    queryFn: () => investmentStageService.getInvestmentStages(),
   });
 
   const { data: currencies, isLoading: isLoadingCurrencies } = useQuery({
     queryKey: ["currencies"],
-    queryFn: () => currencyService.getAllCurrencies(1, 100),
+    queryFn: () => currencyService.getAllCurrencies(),
   });
 
   const { data: status, isLoading: isLoadingStatus } = useQuery({
     queryKey: ["investmentStatus"],
-    queryFn: () => investmentStatusService.getAllInvestmentStatus(1, 100),
+    queryFn: () => investmentStatusService.getAllInvestmentStatus(),
   });
 
   const { data: investores, isLoading: isLoadingInvestores } = useQuery({
     queryKey: ["investor"],
-    queryFn: () => investorService.getAllInvestors(1, 100),
+    queryFn: () => investorService.getAllInvestors(),
   });
 
   const { mutate: updateInvestment } = useMutation({

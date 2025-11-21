@@ -54,8 +54,8 @@ export default function InvestorTypesPage() {
   }
 
   const { data, isLoading: isLoadingInvestorType } = useQuery({
-    queryKey: ["investorType", currentPage],
-    queryFn: () => investorTypeService.getAllInvestorTypes(currentPage),
+    queryKey: ["investorTypeWithPagination", currentPage],
+    queryFn: () => investorTypeService.getAllInvestorTypesWithPagination(currentPage),
   });
 
   const filteredData = data

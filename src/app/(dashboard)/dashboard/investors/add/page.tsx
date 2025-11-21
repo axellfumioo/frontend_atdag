@@ -18,7 +18,7 @@ export default function AddInvestorPage() {
   const [types, setTypes] = useState<InvestorType[]>([]);
 
   useEffect(() => {
-    investorTypeService.getAllInvestorTypes(1, 100).then(setTypes);
+    investorTypeService.getAllInvestorTypes().then(setTypes);
   }, []);
 
   const { mutate: createInvestor, isPending: isCreating } = useMutation({

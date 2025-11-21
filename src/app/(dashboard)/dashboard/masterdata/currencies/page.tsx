@@ -34,8 +34,8 @@ export default function CurrenciesPage() {
     isLoading: isLoadingCurrencies,
     isSuccess: isSuccessCurrencies,
   } = useQuery({
-    queryKey: ["currencies", currentPage],
-    queryFn: () => currencyService.getAllCurrencies(currentPage),
+    queryKey: ["currenciesWithPagination", currentPage],
+    queryFn: () => currencyService.getAllCurrenciesWithpagination(currentPage),
   });
 
   const { mutate: deleteCurrency } = useMutation({
@@ -202,7 +202,7 @@ export default function CurrenciesPage() {
                 )}
 
                 {!isLoadingCurrencies && filteredCurrencies?.length === 0 && (
-<tr>
+                  <tr>
                     <td colSpan={11} className="px-6 py-16">
                       <div className="flex flex-col items-center justify-center text-center">
                         <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
@@ -220,7 +220,9 @@ export default function CurrenciesPage() {
                             />
                           </svg>
                         </div>
-                        <p className="text-gray-400 text-sm">No currencies found</p>
+                        <p className="text-gray-400 text-sm">
+                          No currencies found
+                        </p>
                       </div>
                     </td>
                   </tr>

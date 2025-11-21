@@ -36,8 +36,8 @@ export default function InvestmentStagesPage() {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["investmentStages", currentPage],
-    queryFn: () => investmentStageService.getInvestmentStages(currentPage),
+    queryKey: ["investmentStagesWithPagination", currentPage],
+    queryFn: () => investmentStageService.getInvestmentStagesWithPagination(currentPage),
   });
 
   const { mutate: deleteInvestmentStage } = useMutation({

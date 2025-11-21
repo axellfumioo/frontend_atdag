@@ -29,8 +29,8 @@ export default function InvestmentStatusPage() {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["investmentStatuses", currentPage],
-    queryFn: () => investmentStatusService.getAllInvestmentStatus(currentPage),
+    queryKey: ["investmentStatusesWithPagination", currentPage],
+    queryFn: () => investmentStatusService.getAllInvestmentStatusWithPagination(currentPage),
   });
 
   const { mutate: deleteInvestmentStatus } = useMutation({

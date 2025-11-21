@@ -20,22 +20,22 @@ export default function AddInvestmentPage() {
 
   const { data: stages } = useQuery({
     queryKey: ["investmentStages"],
-    queryFn: () => investmentStageService.getInvestmentStages(1),
+    queryFn: () => investmentStageService.getInvestmentStages(),
   });
 
   const { data: currencies } = useQuery({
     queryKey: ["currencies"],
-    queryFn: () => currencyService.getAllCurrencies(1, 100),
+    queryFn: () => currencyService.getAllCurrencies(),
   });
 
   const { data: status } = useQuery({
     queryKey: ["investmentStatus"],
-    queryFn: () => investmentStatusService.getAllInvestmentStatus(1, 100),
+    queryFn: () => investmentStatusService.getAllInvestmentStatus(),
   });
 
   const { data: investores } = useQuery({
     queryKey: ["investor"],
-    queryFn: () => investorService.getAllInvestors(1, 100),
+    queryFn: () => investorService.getAllInvestors(),
   });
 
   const { mutate: createInvestment, isPending: isLoadingCreateInvestment } =

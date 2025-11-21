@@ -4,7 +4,12 @@ import { BASE_URL } from "@/common/lib/loadEnv";
 import { InvestmentStage } from "@/common/model";
 
 class InvestmentStageService {
-    public async getInvestmentStages(page: number): Promise<InvestmentStage[]> {
+    public async getInvestmentStages(): Promise<InvestmentStage[]> {
+        const res = await api.get<{ data: InvestmentStage[] }>(`${BASE_URL}/investment-stages/all`);
+        return res.data.data;
+    }
+
+    public async getInvestmentStagesWithPagination(page: number): Promise<InvestmentStage[]> {
         const res = await api.get<{ data: InvestmentStage[] }>(`${BASE_URL}/investment-stages?page=${page}`);
         return res.data.data;
     }

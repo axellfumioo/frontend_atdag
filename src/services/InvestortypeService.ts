@@ -4,8 +4,15 @@ import { BASE_URL } from "@/common/lib/loadEnv";
 import { InvestorType } from "@/common/model/index";
 
 class InvestorTypeService {
-  public async getAllInvestorTypes(page?: number, page_size?: number): Promise<InvestorType[]> {
-    const res = await api.get<{ data: InvestorType[]}>(
+  public async getAllInvestorTypes(): Promise<InvestorType[]> {
+    const res = await api.get<{ data: InvestorType[] }>(
+      `${BASE_URL}/investor-types/all`
+    );
+    return res.data.data;
+  }
+
+  public async getAllInvestorTypesWithPagination(page?: number, page_size?: number): Promise<InvestorType[]> {
+    const res = await api.get<{ data: InvestorType[] }>(
       `${BASE_URL}/investor-types?page=${page}&page_size=${page_size}`
     );
     return res.data.data;

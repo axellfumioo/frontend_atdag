@@ -31,7 +31,7 @@ export default function UpdateInvestor({ isOpen, setIsOpen, investor }: Props) {
 
   const { data: investorType } = useQuery({
     queryKey: ["investorType"],
-    queryFn: () => investorTypeService.getAllInvestorTypes(1, 100),
+    queryFn: () => investorTypeService.getAllInvestorTypes(),
   });
 
   const { mutate: updateInvestor, isPending } = useMutation({

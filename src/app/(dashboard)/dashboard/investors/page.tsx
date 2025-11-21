@@ -33,8 +33,8 @@ export default function InvestorsPage() {
     null
   );
   const { data: investordata, isLoading: isLoadingInvestor } = useQuery({
-    queryKey: ["investors", currentPage],
-    queryFn: () => investorService.getAllInvestors(currentPage),
+    queryKey: ["investorsWithPagination", currentPage],
+    queryFn: () => investorService.getAllInvestorsWithPagination(currentPage),
   });
 
   const [selectedInvestor, setSelectedInvestor] = useState<Investor | null>(
