@@ -15,13 +15,16 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { investmentService } from "@/services/InvestmentService";
 import { investorService } from "@/services/InvestorService";
+import { InvestmentStatusChart } from "@/components/InvestmentStatusChart";
+import { chartService } from "@/services/ChartService";
+import { InvestmentCurrencyChart } from "@/components/InvestmentCurrencyChart";
 
 export default function DashboardStats() {
   // Fetch investments
-    const {data: totalInvestment} = useQuery({
+  const { data: totalInvestment } = useQuery({
     queryKey: ["dashboardTotalInvestment"],
-    queryFn: () => investmentService.getAllInvestmentsTotal()
-  })
+    queryFn: () => investmentService.getAllInvestmentsTotal(),
+  });
 
   // Fetch investors
   const { data: totalInvestors } = useQuery({
@@ -30,18 +33,17 @@ export default function DashboardStats() {
   });
 
   // Fetch investment open
-     const {data: openInvestment} = useQuery({
+  const { data: openInvestment } = useQuery({
     queryKey: ["dashboardTotalInvestmentOpen"],
-    queryFn: () => investmentService.getAllInvestmentOpen()
-  })
-
+    queryFn: () => investmentService.getAllInvestmentOpen(),
+  });
 
   // Total investment amount
   // const totalInvestmentAmount = investment ? investment.length :0;
 
   // Total investors count
   // const totalInvestors = investors ? investors.length : 0;
-  
+
   const statsCards = [
     {
       title: "Total Investors",
@@ -73,7 +75,7 @@ export default function DashboardStats() {
     // },
     {
       title: "Open Investments",
-      value: (openInvestment ?? 0),
+      value: openInvestment ?? 0,
       icon: LineChart,
       iconBg: "bg-yellow-50",
       iconColor: "text-yellow-500",
@@ -101,6 +103,16 @@ export default function DashboardStats() {
     // },
   ];
 
+  const { data: investmentStatusChart } = useQuery({
+    queryKey: ["investmentStatusChart"],
+    queryFn: () => chartService.getChartInvestmentPerStatus(),
+  });
+
+  const { data: investmentCurrencyChart } = useQuery({
+    queryKey: ["investmentCurrencyChart"],
+    queryFn: () => chartService.getChartInvestmentPerCurrency(),
+  });
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
       {/* Header */}
@@ -112,7 +124,8 @@ export default function DashboardStats() {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
             <p className="text-sm text-gray-500 mt-1">
-              Welcome back! Here&apos;s what&apos;s happening with your investments.
+              Welcome back! Here&apos;s what&apos;s happening with your
+              investments.
             </p>
           </div>
         </div>
@@ -149,26 +162,10 @@ export default function DashboardStats() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Chart 1 */}
-        <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-[0_1px_2px_rgba(15,23,42,0.06)] min-h-[260px]">
-          <h2 className="text-sm font-semibold text-gray-800 mb-3">
-            Investment Status Distribution
-          </h2>
-
-          <div className="h-full rounded-lg border border-dashed border-gray-200 flex items-center justify-center text-xs text-gray-400 bg-gray-50/40">
-            Chart placeholder
-          </div>
-        </div>
+        <InvestmentStatusChart data={investmentStatusChart ?? []} />
 
         {/* Chart 2 */}
-        <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-[0_1px_2px_rgba(15,23,42,0.06)] min-h-[260px]">
-          <h2 className="text-sm font-semibold text-gray-800 mb-3">
-            Investment Status Pipeline
-          </h2>
-
-          <div className="h-full rounded-lg border border-dashed border-gray-200 flex items-center justify-center text-xs text-gray-400 bg-gray-50/40">
-            Chart placeholder
-          </div>
-        </div>
+        <InvestmentCurrencyChart data= {investmentCurrencyChart ?? []} />
       </div>
     </div>
   );
