@@ -8,6 +8,17 @@ class InvestmentService {
         const res = await api.get<{ data: Investment[] }>(`${BASE_URL}/investments?page=${page}`)
         return res.data.data
     }
+
+    public async getAllInvestmentsTotal(): Promise<number> {
+        const res = await api.get(`${BASE_URL}/investments/total`)
+        return res.data.data
+    }
+
+    public async getAllInvestmentOpen(): Promise<number> {
+        const res = await api.get(`${BASE_URL}/investments/open/total`)
+        return res.data.data
+    }
+
     public async createInvestment(dto: CreateInvestmentDto) {
         const res = await api.post<{ message: string, data: Investment }>(`${BASE_URL}/investments/create`, dto)
         return res?.data.data
