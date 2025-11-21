@@ -9,7 +9,6 @@ import { toast } from "sonner";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { InvestmentStatus } from "@/common/model";
 import UpdateInvestmentStatus from "@/components/UpdateInvestmentStatus";
-import { success } from "zod";
 
 export default function InvestmentStatusPage() {
   const router = useRouter();
@@ -57,10 +56,7 @@ export default function InvestmentStatusPage() {
     setIsDeleteOpen(true);
   };
 
-  // normalize statuses to array (depends on service return shape)
-  const statusList: InvestmentStatus[] = Array.isArray(statuses)
-    ? statuses
-    : ((statuses ?? []) as InvestmentStatus[]);
+
 
   const filteredStatuses = statuses
     ? statuses.filter((item) =>

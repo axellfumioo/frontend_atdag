@@ -139,7 +139,28 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
             </form.Field>
           </div>
 
-          {/* ADDRESS (ROW SENDIRI) */}
+          {/* PASSWORD (ROW SENDIRI) */}
+          <form.Field name="password">
+            {(field) => (
+              <div>
+                <label htmlFor="password" className="block font-medium mb-1">
+                  Password
+                </label>
+                <input
+                  id={field.name}
+                  type="password"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  placeholder="Leave blank to keep current"
+                  className="w-full border rounded px-3 py-2"
+                />
+                <FieldInfo field={field} />
+              </div>
+            )}
+          </form.Field>
+
+          {/* ADDRESS */}
           <form.Field name="address">
             {(field) => (
               <div>
