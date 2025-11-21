@@ -9,6 +9,11 @@ class InvestmentService {
         return res.data.data
     }
 
+    public async getInvestmentAmount(): Promise<string> {
+        const res = await api.get<{ data: string }>(`${BASE_URL}/investments/amount`)
+        return res.data.data
+    }
+
     public async getAllInvestmentsTotal(): Promise<number> {
         const res = await api.get(`${BASE_URL}/investments/total`)
         return res.data.data
