@@ -11,6 +11,11 @@ class InvestorService {
       return res.data.data;
   }
 
+  public async getAllInvestorsTotal(): Promise<number> {
+    const res = await api.get(`${BASE_URL}/investor/total`);
+    return res.data.data
+  }
+
   public async getInvestorById(investorId: number): Promise<Investor | null> {
       const res = await api.get<{ data: Investor | null }>(
         `${BASE_URL}/investor/${investorId}/get`
