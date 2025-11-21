@@ -17,19 +17,15 @@ import {
   CommandList,
 } from "@/common/shadcn/ui/command";
 import { cn } from "@/common/lib/utils";
-import { InvestmentStage } from "@/common/model";
+import { InvestorType } from "@/common/model";
 
 interface Props {
-  data: InvestmentStage[];
+  data: InvestorType[];
   value: number;
   onChange: (value: number) => void;
 }
 
-export function InvestmentStageSelector({
-  data,
-  value,
-  onChange,
-}: Props) {
+export function InvestorSelector({ data, value, onChange }: Props) {
   const [open, setOpen] = React.useState(false);
   const currentValue = value;
 
@@ -44,7 +40,7 @@ export function InvestmentStageSelector({
         >
           {value
             ? data.find((stage) => stage.id === value)?.name
-            : "Select stage..."}
+            : "Select investor..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -52,22 +48,22 @@ export function InvestmentStageSelector({
         <Command>
           <CommandInput placeholder="Search stages..." className="h-9" />
           <CommandList>
-            <CommandEmpty>No InvestmentStage found.</CommandEmpty>
+            <CommandEmpty>No Investors found.</CommandEmpty>
             <CommandGroup>
-              {data?.map((stage) => (
+              {data?.map((investor) => (
                 <CommandItem
-                  key={stage.id}
-                  value={stage.name.toLowerCase()}
+                  key={investor.id}
+                  value={investor.name.toLowerCase()}
                   onSelect={() => {
-                    onChange(stage.id);
+                    onChange(investor.id);
                     setOpen(false);
                   }}
                 >
-                  {stage.name}
+                  {investor.name}
                   <Check
                     className={cn(
                       "ml-auto",
-                      currentValue === stage.id ? "opacity-100" : "opacity-0"
+                      currentValue === investor.id ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>
