@@ -97,3 +97,15 @@ export interface User {
   createdAt: string;
   updatedAt: string;
 }
+
+
+export interface ChartInvestmentPerStatus {
+  status: string;
+  total: number;
+}
+
+export interface ChartInvestmentPerCurrency {
+  currency_name: string;
+  total: number;
+  currency_code: number
+}
