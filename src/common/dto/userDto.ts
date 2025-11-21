@@ -1,18 +1,19 @@
 export interface CreateUsereDto {
-    name: string;
-    email: string;
-    password: string;
-    phone: number;
-    address: string;
+  name: string;
+  email: string;
+  password: string;
+  phone: string;   
+  address: string;
+  role_Id: number;  
 }
 
 export interface UpdateUserDto {
-    name: string;
-    email: string;
-    password: string;
-    phone: number;
-    address: string;
-    roleId?: number | null;
+  name?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  address?: string;
+  roleId?: number | null;
 }
 
 export interface ChangePasswordDTO {
