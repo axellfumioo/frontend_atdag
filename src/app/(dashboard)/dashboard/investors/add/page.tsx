@@ -11,6 +11,7 @@ import { useForm } from "@tanstack/react-form";
 import { createInvestorValidation } from "@/common/validation/investorSchema";
 import FieldInfo from "@/components/FieldInfo";
 import { useMutation } from "@tanstack/react-query";
+import { InvestorTypeSelector } from "@/components/selectors/InvestorTypeSelector";
 
 export default function AddInvestorPage() {
   const router = useRouter();
@@ -87,6 +88,7 @@ export default function AddInvestorPage() {
                       Name
                     </label>
                     <input
+                      title={field.name}
                       id={field.name}
                       name={field.name}
                       value={field.state.value}
@@ -110,6 +112,7 @@ export default function AddInvestorPage() {
                       Website
                     </label>
                     <input
+                      title={field.name}
                       id={field.name}
                       name={field.name}
                       value={field.state.value}
@@ -132,24 +135,11 @@ export default function AddInvestorPage() {
                     <label className="text-sm font-medium text-gray-700">
                       Investor Type
                     </label>
-                    <select
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) =>
-                        field.handleChange(Number(e.target.value))
-                      }
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    >
-                      <option value="">Select Type</option>
-                      {types?.map((type) => (
-                        <option key={type.id} value={type.id}>
-                          {type.name}
-                        </option>
-                      ))}
-                    </select>
+                    <InvestorTypeSelector
+                      data={types as []}
+                      onChange={field.handleChange}
+                      value={field.state.value || 0}
+                    />
                     <FieldInfo field={field} />
                   </div>
                 );
