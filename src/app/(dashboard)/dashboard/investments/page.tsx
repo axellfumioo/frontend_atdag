@@ -211,7 +211,7 @@ export default function InvestmentsPage() {
                 </tr>
               </thead>
               <tbody>
-                {!isLoading && !filteredInvesmentsData ? (
+                {!isLoading && filteredInvesmentsData.length === 0 ? (
                   <tr>
                     <td colSpan={11} className="px-6 py-16">
                       <div className="flex flex-col items-center justify-center text-center">

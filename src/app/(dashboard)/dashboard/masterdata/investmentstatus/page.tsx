@@ -1,21 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Search,
-  RefreshCw,
-  Plus,
-  Tag,
-  Pencil,
-  Trash2,
-} from "lucide-react";
+import { Search, RefreshCw, Plus, Tag, Pencil, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { investmentStatusService } from "@/services/InvestmentStatusService";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { InvestmentStatus } from "@/common/model";
-import UpdateInvestmentStatus from "@/components/UpdateInvestmentStatus"; 
+import UpdateInvestmentStatus from "@/components/UpdateInvestmentStatus";
 
 export default function InvestmentStatusPage() {
   const router = useRouter();
@@ -27,9 +20,15 @@ export default function InvestmentStatusPage() {
 
   // NEW STATES for Editing
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState<InvestmentStatus | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<InvestmentStatus | null>(
+    null
+  );
 
-  const { data: statuses , isLoading, refetch } = useQuery({
+  const {
+    data: statuses,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["investmentStatuses", currentPage],
     queryFn: () => investmentStatusService.getAllInvestmentStatus(currentPage),
   });
@@ -62,9 +61,11 @@ export default function InvestmentStatusPage() {
   //   item.status_name.toLowerCase().includes(searchQuery.toLowerCase())
   // ) : [];
 
-  const filteredStatuses = statuses? statuses.filter((item) => 
-    item.status_name.toLowerCase().includes(searchQuery.toLowerCase())
- ) : [];
+  const filteredStatuses = statuses
+    ? statuses.filter((item) =>
+        item.status_name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
 
   const statusColors: Record<string, string> = {
     Open: "bg-green-100 text-green-800",
@@ -103,7 +104,9 @@ export default function InvestmentStatusPage() {
             <Tag className="w-4 h-4 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Investment Status</h1>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Investment Status
+            </h1>
             <p className="text-gray-600 text-sm">
               Atur kategori status investasi lengkap dengan warna.
             </p>
@@ -210,9 +213,9 @@ export default function InvestmentStatusPage() {
 
                       <td className="px-6 py-3">
                         <div className="flex gap-2">
-
                           {/* EDIT BUTTON */}
                           <button
+                            title="edit"
                             onClick={() => {
                               setSelectedStatus(item);
                               setIsUpdateOpen(true);
@@ -224,6 +227,7 @@ export default function InvestmentStatusPage() {
 
                           {/* DELETE BUTTON */}
                           <button
+                            title="delete"
                             onClick={() => handleDeleteClick(item.id)}
                             className="p-1.5 border rounded text-red-500 hover:bg-red-50"
                           >
@@ -236,15 +240,32 @@ export default function InvestmentStatusPage() {
 
                 {!isLoading && filteredStatuses.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="text-center py-10 text-gray-400">
-                      Tidak ada status ditemukan.
+                    <td colSpan={11} className="px-6 py-16">
+                      <div className="flex flex-col items-center justify-center text-center">
+                        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                          <svg
+                            className="w-10 h-10 text-gray-300"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            />
+                          </svg>
+                        </div>
+                        <p className="text-gray-400 text-sm">No investment status found</p>
+                      </div>
                     </td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
-          
+
           <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
             <button
               className="px-3 py-1 rounded border border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"

@@ -23,8 +23,8 @@ export default function InvestorsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpenDelete, setIsopenDelete] = useState(false);
   const queryClient = useQueryClient();
-        const [currentPage, setCurrentPage] = useState(1);
-  
+  const [currentPage, setCurrentPage] = useState(1);
+
   // const [isUpdateOpen, setIUpdateOpen] = useState(false)
   // const [selectedInvestor, setSelectedInvestor] = useState<Investor | null>(
   //   null
@@ -39,7 +39,7 @@ export default function InvestorsPage() {
 
   const [selectedInvestor, setSelectedInvestor] = useState<Investor | null>(
     null
-  )
+  );
 
   const { mutate: deleteInvestor } = useMutation({
     mutationKey: ["deleteInvestor"],
@@ -58,10 +58,10 @@ export default function InvestorsPage() {
   });
 
   const filteredInvestors = investordata?.filter((inv) =>
-    inv.name.toLowerCase().includes(searchQuery.toLowerCase())
+    inv?.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const [isUpdateOpen, setIsUpdateOpen] = useState(false)
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
 
   function handleRefresh() {
     queryClient.invalidateQueries({
@@ -83,13 +83,13 @@ export default function InvestorsPage() {
           confirmText="Hapus"
         />
       )}
-     {isUpdateOpen && selectedInvestor && (
+      {isUpdateOpen && selectedInvestor && (
         <UpdateInvestor
           investor={selectedInvestor}
           isOpen={isUpdateOpen}
           setIsOpen={setIsUpdateOpen}
         />
-     )}
+      )}
       <div className="max-w-7xl mx-auto px-4 py-4">
         {/* Header Section */}
         <div className="mb-6">
@@ -177,22 +177,27 @@ export default function InvestorsPage() {
                 </tr>
               </thead>
               <tbody>
-                {isLoadingInvestor ? (
+                {!isLoadingInvestor && !filteredInvestors ? (
                   <tr>
-                    <td
-                      colSpan={6}
-                      className="px-6 py-10 text-center text-sm text-gray-400"
-                    >
-                      Loading...
-                    </td>
-                  </tr>
-                ) : filteredInvestors?.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan={6}
-                      className="px-6 py-10 text-center text-sm text-gray-400"
-                    >
-                      No investors found.
+                    <td colSpan={11} className="px-6 py-16">
+                      <div className="flex flex-col items-center justify-center text-center">
+                        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                          <svg
+                            className="w-10 h-10 text-gray-300"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            />
+                          </svg>
+                        </div>
+                        <p className="text-gray-400 text-sm">No data</p>
+                      </div>
                     </td>
                   </tr>
                 ) : (
@@ -226,15 +231,18 @@ export default function InvestorsPage() {
                       </td>
                       <td className="px-6 py-3">
                         <div className="flex items-center gap-2">
-                          <button className="p-1.5 rounded border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700"
-                          onClick={() => {
-                            setSelectedInvestor(inv)
-                            setIsUpdateOpen(true)
-                          }}
+                          <button
+                            title="update"
+                            className="p-1.5 rounded border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700"
+                            onClick={() => {
+                              setSelectedInvestor(inv);
+                              setIsUpdateOpen(true);
+                            }}
                           >
                             <Pencil className="w-4 h-4" />
                           </button>
                           <button
+                            title="delete"
                             onClick={() => {
                               setIsopenDelete(true);
                               setSelectedInvestorId(inv.id);
@@ -251,7 +259,7 @@ export default function InvestorsPage() {
               </tbody>
             </table>
           </div>
-                              <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
+          <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
             <button
               className="px-3 py-1 rounded border border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
               disabled={currentPage === 1}

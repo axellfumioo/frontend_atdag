@@ -25,7 +25,7 @@ export default function CurrenciesPage() {
   const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(
     null
   );
-      const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [currencyToDelete, setCurrencyToDelete] = useState<number | null>(null);
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -66,18 +66,16 @@ export default function CurrenciesPage() {
     toast.success("Currencies Refreshed ");
   }
 
-
-  
-
-  const filteredCurrencies = currencies? currencies.filter((item) => {
-    const q = searchQuery.toLowerCase();
-    return (
-      item.code.toLowerCase().includes(q) ||
-      item.name.toLowerCase().includes(q) ||
-      (item.symbol?.toLowerCase() || "").includes(q) 
-    );
-  })
-  : [];
+  const filteredCurrencies = currencies
+    ? currencies.filter((item) => {
+        const q = searchQuery.toLowerCase();
+        return (
+          item.code.toLowerCase().includes(q) ||
+          item.name.toLowerCase().includes(q) ||
+          (item.symbol?.toLowerCase() || "").includes(q)
+        );
+      })
+    : [];
 
   return (
     <>
@@ -204,9 +202,26 @@ export default function CurrenciesPage() {
                 )}
 
                 {!isLoadingCurrencies && filteredCurrencies?.length === 0 && (
-                  <tr>
-                    <td colSpan={7} className="px-6 py-3 text-sm text-gray-700">
-                      No currencies found.
+<tr>
+                    <td colSpan={11} className="px-6 py-16">
+                      <div className="flex flex-col items-center justify-center text-center">
+                        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                          <svg
+                            className="w-10 h-10 text-gray-300"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            />
+                          </svg>
+                        </div>
+                        <p className="text-gray-400 text-sm">No currencies found</p>
+                      </div>
                     </td>
                   </tr>
                 )}
@@ -238,6 +253,7 @@ export default function CurrenciesPage() {
                       <td className="px-6 py-3">
                         <div className="flex items-center gap-2">
                           <button
+                            title="update"
                             onClick={() => {
                               setSelectedCurrency(item);
                               setIsUpdateOpen(true);
@@ -247,6 +263,7 @@ export default function CurrenciesPage() {
                             <Pencil className="w-4 h-4" />
                           </button>
                           <button
+                            title="delete"
                             onClick={() => {
                               setIsOpen(true);
                               setCurrencyToDelete(item.id);
@@ -262,7 +279,7 @@ export default function CurrenciesPage() {
               </tbody>
             </table>
           </div>
-                    <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
+          <div className="flex items-center justify-end gap-4 px-6 py-3 border-t border-gray-200 text-sm text-gray-600">
             <button
               className="px-3 py-1 rounded border border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
               disabled={currentPage === 1}
