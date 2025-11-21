@@ -13,6 +13,7 @@ import { useForm } from "@tanstack/react-form";
 import { createInvesmentnValidation } from "@/common/validation/investmentSchema";
 import FieldInfo from "@/components/FieldInfo";
 import { toast } from "sonner";
+import { InvestmentStageSelector } from "@/components/selectors/InvestmentStageSelector";
 
 export default function AddInvestmentPage() {
   const router = useRouter();
