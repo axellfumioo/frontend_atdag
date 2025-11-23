@@ -42,7 +42,7 @@ export default function CurrenciesPage() {
     mutationKey: ["deleteCurrency"],
     mutationFn: currencyService.deleteCurrency,
     onSuccess: () => {
-      toast.success("Currency deleted successfully!");
+      toast.success("Mata uang berhasil dihapus!");
       queryClient.invalidateQueries({
         queryKey: ["currencies"],
       });
@@ -63,7 +63,7 @@ export default function CurrenciesPage() {
     queryClient.invalidateQueries({
       queryKey: ["currencies"],
     });
-    toast.success("Currencies Refreshed ");
+    toast.success("Data mata uang diperbarui");
   }
 
   const filteredCurrencies = currencies
@@ -89,8 +89,8 @@ export default function CurrenciesPage() {
         }}
         cancelText="Batal"
         confirmText="Hapus"
-        description="Anda yakin ingin menghapus currency ini"
-        title="Delete Currency"
+        description="Apakah kamu yakin ingin menghapus mata uang ini?"
+        title="Hapus Mata Uang"
       />
       {isUpdateOpen && selectedCurrency && (
         <UpdateCurrency
@@ -107,10 +107,8 @@ export default function CurrenciesPage() {
               <CircleDollarSign className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Currencies</h1>
-              <p className="text-gray-600 text-sm">
-                Manage currencies used for investments and financial tracking.
-              </p>
+              <h1 className="text-3xl font-bold text-gray-900">Mata Uang</h1>
+              <p className="text-gray-600 text-sm">Kelola mata uang yang digunakan untuk investasi dan pelacakan keuangan.</p>
             </div>
           </div>
         </div>
@@ -121,7 +119,7 @@ export default function CurrenciesPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search currencies..."
+                placeholder="Cari mata uang..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
@@ -134,7 +132,7 @@ export default function CurrenciesPage() {
                 className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 <RefreshCw className="w-4 h-4" />
-                <span>Refresh</span>
+                <span>Segarkan</span>
               </button>
               <button
                 onClick={() => {
@@ -143,7 +141,7 @@ export default function CurrenciesPage() {
                 className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition-colors"
               >
                 <Plus className="w-4 h-4" />
-                <span>Add Currency</span>
+                <span>Tambah Mata Uang</span>
               </button>
             </div>
           </div>
@@ -154,40 +152,40 @@ export default function CurrenciesPage() {
                 <tr>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
-                      <span>Order</span>
+                      <span>Urutan</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
                   <th className="px-6 py-3 text-left">
                     <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Code
+                      Kode
                     </span>
                   </th>
                   <th className="px-6 py-3 text-left">
                     <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Symbol
+                      Simbol
                     </span>
                   </th>
                   <th className="px-6 py-3 text-left">
                     <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Name
+                      Nama
                     </span>
                   </th>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
-                      <span>Date Created</span>
+                      <span>Tanggal Dibuat</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
-                      <span>Date Updated</span>
+                      <span>Tanggal Diperbarui</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
                   <th className="px-6 py-3 text-left">
                     <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Actions
+                      Aksi
                     </span>
                   </th>
                 </tr>
@@ -196,7 +194,7 @@ export default function CurrenciesPage() {
                 {isLoadingCurrencies && (
                   <tr>
                     <td colSpan={7} className="px-6 py-4 text-sm text-gray-500">
-                      Loading currencies...
+                      Memuat mata uang...
                     </td>
                   </tr>
                 )}
@@ -220,9 +218,7 @@ export default function CurrenciesPage() {
                             />
                           </svg>
                         </div>
-                        <p className="text-gray-400 text-sm">
-                          No currencies found
-                        </p>
+                        <p className="text-gray-400 text-sm">Tidak ada mata uang</p>
                       </div>
                     </td>
                   </tr>
@@ -287,16 +283,16 @@ export default function CurrenciesPage() {
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
             >
-              Prev
+              Sebelumnya
             </button>
 
-            <span>Page {currentPage}</span>
+            <span>Halaman {currentPage}</span>
 
             <button
               className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
               onClick={() => setCurrentPage((p) => p + 1)}
             >
-              Next
+              Berikutnya
             </button>
           </div>
         </div>

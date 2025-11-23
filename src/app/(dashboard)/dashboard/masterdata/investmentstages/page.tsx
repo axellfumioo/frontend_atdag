@@ -47,11 +47,11 @@ export default function InvestmentStagesPage() {
       queryClient.invalidateQueries({
         queryKey: ["investmentStages"],
       });
-      toast.success("Investment Stage deleted successfully!");
+      toast.success("Berhasil menghapus tahapan investasi!");
       setIsDeleteOpen(false);
     },
-    onError: (err: any) => {
-      toast.error("Failed to deleted Investment Stage");
+    onError: () => {
+      toast.error("Gagal menghapus tahapan investasi");
     },
   });
 
@@ -69,7 +69,7 @@ export default function InvestmentStagesPage() {
     queryClient.invalidateQueries({
       queryKey: ["investmentStages"],
     });
-    toast.success("Investment Stages Refreshed");
+    toast.success("Data tahapan diperbarui");
     refetch().then(() => {
       setCurrentPage(1);
     });
@@ -81,10 +81,10 @@ export default function InvestmentStagesPage() {
           isOpen={isDeleteOpen}
           onClose={() => setIsDeleteOpen(false)}
           onConfirm={() => handleDelete(selectedStageId)}
-          title="Delete Investment Stage"
-          description="Are you sure you want to delete this Investment Stage?"
-          confirmText="Delete"
-          cancelText="Cancel"
+          title="Hapus Tahapan Investasi"
+          description="Apakah kamu yakin ingin menghapus tahapan investasi ini?"
+          confirmText="Hapus"
+          cancelText="Batal"
         />
       )}
       {isUpdateOpen && selectedStage !== null && (
@@ -101,13 +101,8 @@ export default function InvestmentStagesPage() {
               <Layers className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Investment Stages
-              </h1>
-              <p className="text-gray-600">
-                Configure investment stages in sequential order (Pre-Seed, Seed,
-                Series A, etc.).
-              </p>
+              <h1 className="text-3xl font-bold text-gray-900">Tahapan Investasi</h1>
+              <p className="text-gray-600">Atur tahapan investasi secara berurutan (Pre-Seed, Seed, Series A, dll.).</p>
             </div>
           </div>
         </div>
@@ -119,7 +114,7 @@ export default function InvestmentStagesPage() {
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search stages..."
+                  placeholder="Cari tahapan..."
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
@@ -135,7 +130,7 @@ export default function InvestmentStagesPage() {
                   className="flex items-center space-x-2 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                 >
                   <RefreshCw className="h-4 w-4" />
-                  <span>Refresh</span>
+                  <span>Segarkan</span>
                 </button>
 
                 <button
@@ -145,7 +140,7 @@ export default function InvestmentStagesPage() {
                   className="flex items-center space-x-2 rounded-lg bg-yellow-500 px-4 py-2 text-sm text-white hover:bg-yellow-600"
                 >
                   <Plus className="h-4 w-4" />
-                  <span>Add Stage</span>
+                  <span>Tambah Tahapan</span>
                 </button>
               </div>
             </div>
@@ -157,30 +152,30 @@ export default function InvestmentStagesPage() {
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700">
                     <button className="flex items-center space-x-1 hover:text-gray-900">
-                      <span>Order</span>
+                      <span>Urutan</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </button>
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700">
                     <button className="flex items-center space-x-1 hover:text-gray-900">
-                      <span>Stage Name</span>
+                      <span>Nama Tahapan</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </button>
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700">
                     <button className="flex items-center space-x-1 hover:text-gray-900">
-                      <span>Date Created</span>
+                      <span>Tanggal Dibuat</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </button>
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700">
                     <button className="flex items-center space-x-1 hover:text-gray-900">
-                      <span>Date Updated</span>
+                      <span>Tanggal Diperbarui</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </button>
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700">
-                    Actions
+                    Aksi
                   </th>
                 </tr>
               </thead>
@@ -192,7 +187,7 @@ export default function InvestmentStagesPage() {
                       colSpan={5}
                       className="px-6 py-10 text-center text-sm text-gray-400"
                     >
-                      Loading...
+                      Memuat...
                     </td>
                   </tr>
                 ) : filteredStages.length === 0 ? (
@@ -214,7 +209,7 @@ export default function InvestmentStagesPage() {
                             />
                           </svg>
                         </div>
-                        <p className="text-gray-400 text-sm">No stages found</p>
+                        <p className="text-gray-400 text-sm">Tidak ada tahapan</p>
                       </div>
                     </td>
                   </tr>
@@ -273,16 +268,16 @@ export default function InvestmentStagesPage() {
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
             >
-              Prev
+              Sebelumnya
             </button>
 
-            <span>Page {currentPage}</span>
+            <span>Halaman {currentPage}</span>
 
             <button
               className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
               onClick={() => setCurrentPage((p) => p + 1)}
             >
-              Next
+              Berikutnya
             </button>
           </div>
         </div>

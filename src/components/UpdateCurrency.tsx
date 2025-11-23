@@ -34,11 +34,11 @@ export default function UpdateCurrency({ isOpen, setIsOpen, currency }: Props) {
       queryClient.invalidateQueries({
         queryKey: ["currencies"],
       });
-      toast.success("Currency updated successfully!");
+      toast.success("Mata uang berhasil diperbarui!");
       setIsOpen(false);
     },
     onError: () => {
-      toast.error("Failed to updated currency");
+      toast.error("Gagal memperbarui mata uang");
     },
   });
 
@@ -66,7 +66,7 @@ export default function UpdateCurrency({ isOpen, setIsOpen, currency }: Props) {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Update Currency</DialogTitle>
+          <DialogTitle>Perbarui Mata Uang</DialogTitle>
         </DialogHeader>
 
         <form
@@ -81,16 +81,14 @@ export default function UpdateCurrency({ isOpen, setIsOpen, currency }: Props) {
             {(field) => {
               return (
                 <div>
-                  <label htmlFor="name" className="block font-medium mb-1">
-                    Currency Name
-                  </label>
+                  <label htmlFor="name" className="block font-medium mb-1">Nama Mata Uang</label>
                   <input
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="e.g. USD"
+                    placeholder="contoh: IDR"
                     className="w-full border rounded px-3 py-2"
                   />
                   <FieldInfo field={field} />
@@ -103,9 +101,7 @@ export default function UpdateCurrency({ isOpen, setIsOpen, currency }: Props) {
             {(field) => {
               return (
                 <div>
-                  <label htmlFor="symbol" className="block font-medium mb-1">
-                    Currency Symbol
-                  </label>
+                  <label htmlFor="symbol" className="block font-medium mb-1">Simbol Mata Uang</label>
                   <input
                     id={field.name}
                     name={field.name}
@@ -125,9 +121,7 @@ export default function UpdateCurrency({ isOpen, setIsOpen, currency }: Props) {
             {(field) => {
               return (
                 <div>
-                  <label htmlFor="code" className="block font-medium mb-1">
-                    Currency Code
-                  </label>
+                  <label htmlFor="code" className="block font-medium mb-1">Kode Mata Uang</label>
                   <input
                     id={field.name}
                     name={field.name}
@@ -147,9 +141,7 @@ export default function UpdateCurrency({ isOpen, setIsOpen, currency }: Props) {
             {(field) => {
               return (
                 <div>
-                  <label htmlFor="order" className="block font-medium mb-1">
-                    Currency Order
-                  </label>
+                  <label htmlFor="order" className="block font-medium mb-1">Urutan Mata Uang</label>
                   <input
                     id={field.name}
                     name={field.name}
@@ -167,10 +159,10 @@ export default function UpdateCurrency({ isOpen, setIsOpen, currency }: Props) {
 
           <div className="flex justify-end gap-2 mt-4">
             <Button variant="outline" onClick={() => setIsOpen(false)}>
-              Cancel
+              Batal
             </Button>
             <Button type="submit" className="bg-yellow-500 hover:bg-yellow-600">
-              Save Changes
+              Simpan Perubahan
             </Button>
           </div>
         </form>

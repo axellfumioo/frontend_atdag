@@ -28,11 +28,11 @@ export default function AddInvestmentStatusPage() {
     mutationFn: investmentStatusService.createInvestmentStatus,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["investmentStatuses"] });
-      toast.success("Successfully Created Investment Status");
+      toast.success("Berhasil membuat status investasi");
       router.push("/dashboard/masterdata/investmentstatus");
     },
     onError: () => {
-      toast.error("Failed to Created Investment Status");
+      toast.error("Gagal membuat status investasi");
     },
   });
 
@@ -65,7 +65,7 @@ export default function AddInvestmentStatusPage() {
         className="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4"
       >
         <ArrowLeft className="w-4 h-4 mr-1" />
-        <span>Kembali ke Investment Status</span>
+        <span>Kembali ke Status Investasi</span>
       </button>
 
       {/* Header */}
@@ -73,9 +73,7 @@ export default function AddInvestmentStatusPage() {
         <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center">
           <Tag className="w-5 h-5 text-white" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">
-          Tambah Investment Status
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-900">Tambah Status Investasi</h1>
       </div>
 
       {/* Card */}
@@ -111,7 +109,7 @@ export default function AddInvestmentStatusPage() {
             <form.Field name="order">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium">Order</label>
+                  <label className="text-sm font-medium">Urutan</label>
                   <input
                     value={field.state.value}
                     onChange={(e) => field.handleChange(Number(e.target.value))}
@@ -128,14 +126,14 @@ export default function AddInvestmentStatusPage() {
             <form.Field name="status_type">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium">Status Type</label>
+                  <label className="text-sm font-medium">Tipe Status</label>
                   <select
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     onBlur={field.handleBlur}
                     className="w-full px-3 py-3 border rounded-lg"
                   >
-                    <option value="">Select status type</option>
+                    <option value="">Pilih tipe status</option>
 
                     {["OPEN", "CLOSED", "CANCELLED"].map((type) => (
                       <option key={type} value={type}>
@@ -153,7 +151,7 @@ export default function AddInvestmentStatusPage() {
               {(field) => {
                 return (
                   <div>
-                    <label className="block font-medium mb-1">Color</label>
+                    <label className="block font-medium mb-1">Warna</label>
                     <div className="flex items-center gap-3">
                       {/* Color picker */}
                       <input

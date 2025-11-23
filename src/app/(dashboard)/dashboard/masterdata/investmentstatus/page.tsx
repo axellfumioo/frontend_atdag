@@ -38,12 +38,12 @@ export default function InvestmentStatusPage() {
     mutationFn: investmentStatusService.deleteInvestmentStatus,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["investmentStatuses"] });
-      toast.success("Investment Status deleted successfully!");
+      toast.success("Status investasi berhasil dihapus!");
       setIsDeleteOpen(false);
       setSelectedId(null);
     },
     onError: () => {
-      toast.error("Failed to delete Investment Status");
+      toast.error("Gagal menghapus status investasi");
     },
   });
 
@@ -87,10 +87,10 @@ export default function InvestmentStatusPage() {
             // guard before calling delete
             if (selectedId !== null) handleDelete(selectedId);
           }}
-          title="Delete Investment Status"
-          description="Are you sure you want to delete this Investment Status?"
-          confirmText="Delete"
-          cancelText="Cancel"
+          title="Hapus Status Investasi"
+          description="Apakah kamu yakin ingin menghapus status investasi ini?"
+          confirmText="Hapus"
+          cancelText="Batal"
         />
       )}
 
@@ -111,7 +111,7 @@ export default function InvestmentStatusPage() {
           </div>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
-              Investment Status
+              Status Investasi
             </h1>
             <p className="text-gray-600 text-sm">
               Atur kategori status investasi lengkap dengan warna.
@@ -140,7 +140,7 @@ export default function InvestmentStatusPage() {
                 className="flex items-center gap-2 px-4 py-2 border rounded-lg text-sm"
               >
                 <RefreshCw className="w-4 h-4" />
-                Refresh
+                Segarkan
               </button>
 
               <button
@@ -150,7 +150,7 @@ export default function InvestmentStatusPage() {
                 className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm"
               >
                 <Plus className="w-4 h-4" />
-                Add Status
+                Tambah Status
               </button>
             </div>
           </div>
@@ -161,25 +161,25 @@ export default function InvestmentStatusPage() {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left align-middle font-semibold">
-                    Order
+                    Urutan
                   </th>
                   <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">
-                    Name
+                    Nama
                   </th>
                   <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">
-                    Color
+                    Warna
                   </th>
                   <th className="px-6 py-3 text-left text-xs uppercase align-middle font-semibold">
-                    Status Type
+                    Tipe Status
                   </th>
                   <th className="px-6 py-3 text-left align-middle font-semibold">
-                    Date Created
+                    Tanggal Dibuat
                   </th>
                   <th className="px-6 py-3 text-left align-middle font-semibold">
-                    Date Updated
+                    Tanggal Diperbarui
                   </th>
                   <th className="px-6 py-3 text-right text-xs uppercase align-middle font-semibold">
-                    Actions
+                    Aksi
                   </th>
                 </tr>
               </thead>
@@ -188,7 +188,7 @@ export default function InvestmentStatusPage() {
                 {isLoading && (
                   <tr>
                     <td colSpan={7} className="text-center py-10">
-                      Loading data...
+                      Memuat data...
                     </td>
                   </tr>
                 )}
@@ -300,7 +300,7 @@ export default function InvestmentStatusPage() {
                           </svg>
                         </div>
                         <p className="text-gray-400 text-sm">
-                          No investment status found
+                          Status investasi tidak ditemukan
                         </p>
                       </div>
                     </td>
@@ -316,16 +316,16 @@ export default function InvestmentStatusPage() {
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             >
-              Prev
+              Sebelumnya
             </button>
 
-            <span>Page {currentPage}</span>
+            <span>Halaman {currentPage}</span>
 
             <button
               className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
               onClick={() => setCurrentPage((p) => p + 1)}
             >
-              Next
+              Berikutnya
             </button>
           </div>
         </div>

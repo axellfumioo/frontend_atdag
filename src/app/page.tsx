@@ -8,58 +8,64 @@ import CardComponents from "@/components/ui/home/page";
 
 const featureCards = [
   {
-    title: "Investor Management",
-    description: "Add, edit, and track your investors with comprehensive profiles. Maintain detailed contact information, investment history, and communication records for better relationship management.",
+    title: "Manajemen Investor",
+    description:
+      "Tambah, ubah, dan pantau investor dengan profil yang lengkap. Simpan informasi kontak, riwayat investasi, dan catatan komunikasi untuk menjaga relasi yang lebih baik.",
     icon: Users,
-    buttonText: "Manage Investors",
+    buttonText: "Kelola Investor",
     buttonPath: "/dashboard/investors",
     iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50"
+    iconBg: "bg-yellow-50",
   },
   {
-    title: "Investment Tracking",
-    description: "Monitor investment stages, amounts, and performance metrics across your portfolio. Keep detailed records of all transactions, stages, and generate comprehensive reports for analysis.",
+    title: "Pemantauan Investasi",
+    description:
+      "Pantau tahapan, nominal, dan performa investasi di seluruh portofolio. Catat semua transaksi, tahapan, dan buat laporan terperinci untuk analisis.",
     icon: TrendingUp,
-    buttonText: "Track Investments",
+    buttonText: "Lacak Investasi",
     buttonPath: "/dashboard/investments",
     iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50"
+    iconBg: "bg-yellow-50",
   },
   {
-    title: "WhatsApp Communication",
-    description: "Integrate with WhatsApp for seamless communication with your investor network. Send updates, announcements, and maintain regular contact through automated messaging workflows.",
+    title: "Komunikasi WhatsApp",
+    description:
+      "Integrasikan WhatsApp untuk komunikasi tanpa hambatan dengan jaringan investor. Kirim pembaruan, pengumuman, dan jaga kontak rutin melalui alur pesan otomatis.",
     icon: MessageCircle,
-    buttonText: "WhatsApp Integration",
+    buttonText: "Integrasi WhatsApp",
     buttonPath: "/dashboard/wabroadcast",
     iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50"
+    iconBg: "bg-yellow-50",
   },
   {
-    title: "Message Templates",
-    description: "Create and manage reusable message templates for consistent communication. Design professional templates with dynamic variables for personalized investor updates and announcements.",
+    title: "Template Pesan",
+    description:
+      "Buat dan kelola template pesan yang dapat digunakan kembali untuk komunikasi konsisten. Rancang template profesional dengan variabel dinamis untuk pembaruan investor yang personal.",
     icon: MessageSquare,
-    buttonText: "Message Templates",
+    buttonText: "Kelola Template",
     buttonPath: "/dashboard/message-templates",
     iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50"
+    iconBg: "bg-yellow-50",
   },
   {
-    title: "Broadcast Groups",
-    description: "Organize investors into targeted groups for efficient messaging and updates. Create segmented groups based on investment stages, interests, or other criteria for more effective communication.",
+    title: "Grup Siaran",
+    description:
+      "Kelompokkan investor dalam grup terarah untuk pesan dan pembaruan yang efisien. Buat segmentasi berdasarkan tahapan investasi, minat, atau kriteria lain agar komunikasi lebih tepat sasaran.",
     icon: Radio,
-    buttonText: "Broadcast Groups",
+    buttonText: "Kelola Grup",
     buttonPath: "/dashboard/wabroadcast/broadcastgroups",
     iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50"
+    iconBg: "bg-yellow-50",
   },
   {
-    title: "Dashboard Analytics",
-    description: "View comprehensive analytics and insights about your investor relations performance. Advanced reporting features with charts, metrics, and KPI tracking - Coming Soon!",
+    title: "Analitik Dasbor",
+    description:
+      "Lihat analitik dan wawasan lengkap tentang performa hubungan investor Anda. Fitur pelaporan lanjutan dengan grafik, metrik, dan pantauan KPI — Segera Hadir!",
     icon: PieChart,
-    buttonText: "View Dashboard",
+    buttonText: "Lihat Dasbor",
     buttonPath: "/dashboard",
     iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50"
+    iconBg: "bg-yellow-50",
   },
 ];
 

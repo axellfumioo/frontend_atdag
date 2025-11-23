@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, UserPlus } from "lucide-react";
-import api from "@/common/lib/apiClient";
 import { authService } from "@/services/AuthService";
 
 interface FormData {
@@ -52,8 +51,9 @@ export default function RegisPage() {
           router.push("/auth/login?register=true");
         }, 1500);
       }
-    } catch (err: any) {
-      setError(err.message || "Terjadi kesalahan");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -64,13 +64,13 @@ export default function RegisPage() {
       <div className="w-full max-w-md">
         <div className="bg-white shadow-sm border border-gray-200 rounded-xl px-8 py-10">
           <h1 className="text-2xl font-semibold text-gray-900 text-center">
-            Create your account
+            Buat akun Anda
           </h1>
 
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             {/* NAME */}
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">Name</label>
+              <label className="text-sm font-medium text-gray-700">Nama</label>
               <div className="relative">
                 <UserPlus className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
@@ -78,7 +78,7 @@ export default function RegisPage() {
                   value={form.name}
                   onChange={handleChange}
                   className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
-                  placeholder="John Doe"
+                  placeholder="Budi"
                 />
               </div>
             </div>
@@ -94,16 +94,14 @@ export default function RegisPage() {
                   value={form.email}
                   onChange={handleChange}
                   className="w-full pl-10 pr-3 py-2.5 rounded-md border border-gray-300 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-200 transition bg-white"
-                  placeholder="john@example.com"
+                  placeholder="contoh@domain.com"
                 />
               </div>
             </div>
 
             {/* PASSWORD */}
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">
-                Password
-              </label>
+              <label className="text-sm font-medium text-gray-700">Kata Sandi</label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
@@ -125,7 +123,7 @@ export default function RegisPage() {
               disabled={loading}
               className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md text-white bg-yellow-500 hover:bg-yellow-600 transition font-medium shadow-sm"
             >
-              {loading ? "Registering..." : "Register"}
+              {loading ? "Mendaftar..." : "Daftar"}
             </button>
           </form>
 

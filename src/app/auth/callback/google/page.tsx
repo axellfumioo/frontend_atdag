@@ -16,11 +16,11 @@ export default function GoogleCallbackPage() {
     if (token && user) {
       sessionStorage.setItem("jwt_token", token);
       sessionStorage.setItem("user", JSON.stringify(user));
-      toast.success("Login Success!");
+      toast.success("Login Berhasil!");
       router.replace("/");
     } else {
       router.replace("/auth/login?error=google_failed");
-      toast.error("Login Failed");
+      toast.error("Login Gagal");
     }
   }, [router]);
 

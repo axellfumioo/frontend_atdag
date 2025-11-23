@@ -26,11 +26,11 @@ export default function AddInvestorPage() {
     mutationKey: ["createInvestor"],
     mutationFn: investorService.createInvestor,
     onSuccess: () => {
-      toast.success("Successly created investor");
+      toast.success("Berhasil membuat investor");
       router.push("/dashboard/investors");
     },
     onError: () => {
-      toast.error("Failed to created Investor");
+      toast.error("Gagal membuat investor");
     },
   });
 
@@ -60,14 +60,14 @@ export default function AddInvestorPage() {
         className="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4"
       >
         <ArrowLeft className="w-4 h-4 mr-1" />
-        <span>Back to Investors</span>
+        <span>Kembali ke Investor</span>
       </button>
 
       <div className="flex items-center space-x-3 mb-6">
         <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center">
           <UserCircle className="w-5 h-5 text-white" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">Add Investor</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Tambah Investor</h1>
       </div>
 
       <div className="bg-white rounded-lg shadow border border-gray-200 p-8">
@@ -84,9 +84,7 @@ export default function AddInvestorPage() {
               {(field) => {
                 return (
                   <div className="flex flex-col space-y-1">
-                    <label className="text-sm font-medium text-gray-700">
-                      Name
-                    </label>
+                    <label className="text-sm font-medium text-gray-700">Nama</label>
                     <input
                       title={field.name}
                       id={field.name}
@@ -108,9 +106,7 @@ export default function AddInvestorPage() {
               {(field) => {
                 return (
                   <div className="flex flex-col space-y-1">
-                    <label className="text-sm font-medium text-gray-700">
-                      Website
-                    </label>
+                    <label className="text-sm font-medium text-gray-700">Situs Web</label>
                     <input
                       title={field.name}
                       id={field.name}
@@ -132,9 +128,7 @@ export default function AddInvestorPage() {
               {(field) => {
                 return (
                   <div className="flex flex-col space-y-1">
-                    <label className="text-sm font-medium text-gray-700">
-                      Investor Type
-                    </label>
+                    <label className="text-sm font-medium text-gray-700">Tipe Investor</label>
                     <InvestorTypeSelector
                       data={types as []}
                       onChange={field.handleChange}
@@ -153,14 +147,14 @@ export default function AddInvestorPage() {
               onClick={() => router.push("/dashboard/investors")}
               className="px-5 py-2.5 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
             >
-              Cancel
+              Batal
             </button>
             <button
               type="submit"
               disabled={isCreating}
               className="px-5 py-2.5 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
             >
-              {isCreating ? "Saving..." : "Save Investor"}
+              {isCreating ? "Menyimpan..." : "Simpan"}
             </button>
           </div>
         </form>

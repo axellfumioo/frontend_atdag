@@ -51,18 +51,18 @@ mutationKey: ["deleteUser"],
 mutationFn: (id: number) => userService.deleteUser(id),
 onSuccess: () => {
 queryClient.invalidateQueries({ queryKey: ["users"] });
-toast.success("Successfully deleted user");
+toast.success("Berhasil menghapus pengguna");
 setIsOpenDelete(false);
 },
 onError: () => {
-toast.error("Failed to delete user");
+toast.error("Gagal menghapus pengguna");
 setIsOpenDelete(false);
 },
 });
 
 function handleRefresh() {
 queryClient.invalidateQueries({ queryKey: ["users"] });
-toast.success("Users refreshed");
+toast.success("Data pengguna diperbarui");
 }
 
 return (
@@ -73,14 +73,13 @@ return (
 isOpen={isOpenDelete}
 onClose={() => setIsOpenDelete(false)}
 onConfirm={() => deleteUser(selectedUserId)}
-title="Delete User"
-cancelText="Cancel"
-description="Are you sure you want to delete this user?"
-confirmText="Delete"
+title="Hapus Pengguna"
+cancelText="Batal"
+description="Apakah kamu yakin ingin menghapus pengguna ini?"
+confirmText="Hapus"
 />
 )}
 
-```
   {/* Update User Modal */}
   {selectedUser && isUpdateOpen && (
     <UpdateUser
@@ -109,9 +108,9 @@ confirmText="Delete"
             />
           </svg>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">Users</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Pengguna</h1>
       </div>
-      <p className="text-gray-600">Manage all system users.</p>
+      <p className="text-gray-600">Kelola seluruh pengguna sistem.</p>
     </div>
 
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
@@ -123,7 +122,7 @@ confirmText="Delete"
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search user..."
+                placeholder="Cari pengguna..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
@@ -132,7 +131,7 @@ confirmText="Delete"
 
             <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50">
               <Filter className="w-4 h-4" />
-              <span>Filters</span>
+              <span>Filter</span>
             </button>
           </div>
 
@@ -142,7 +141,7 @@ confirmText="Delete"
               className="flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm text-gray-700"
             >
               <RefreshCw className="w-4 h-4" />
-              <span>Refresh</span>
+              <span>Segarkan</span>
             </button>
 
             <button
@@ -150,7 +149,7 @@ confirmText="Delete"
               className="flex items-center px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600"
             >
               <Plus className="w-4 h-4" />
-              <span>Add User</span>
+              <span>Tambah Pengguna</span>
             </button>
           </div>
         </div>
@@ -163,14 +162,14 @@ confirmText="Delete"
             <tr>
               <th className="px-6 py-3 text-left">
                 <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase">
-                  <span>Name</span>
+                  <span>Nama</span>
                   <ArrowUpDown className="w-3 h-3" />
                 </button>
               </th>
               <th className="px-6 py-3 text-left">Email</th>
-              <th className="px-6 py-3 text-left">Phone</th>
-              <th className="px-6 py-3 text-left">Address</th>
-              <th className="px-6 py-3 text-left">Actions</th>
+              <th className="px-6 py-3 text-left">Telepon</th>
+              <th className="px-6 py-3 text-left">Alamat</th>
+              <th className="px-6 py-3 text-left">Aksi</th>
             </tr>
           </thead>
 
@@ -181,7 +180,7 @@ confirmText="Delete"
                   colSpan={5}
                   className="px-6 py-10 text-center text-gray-400"
                 >
-                  Loading...
+                  Memuat...
                 </td>
               </tr>
             ) : filteredUsers?.length === 0 ? (
@@ -190,7 +189,7 @@ confirmText="Delete"
                   colSpan={5}
                   className="px-6 py-10 text-center text-gray-400"
                 >
-                  No users found.
+                  Tidak ada pengguna.
                 </td>
               </tr>
             ) : (
@@ -237,16 +236,16 @@ confirmText="Delete"
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((p) => p - 1)}
         >
-          Prev
+          Sebelumnya
         </button>
 
-        <span>Page {currentPage}</span>
+        <span>Halaman {currentPage}</span>
 
         <button
           className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
           onClick={() => setCurrentPage((p) => p + 1)}
         >
-          Next
+          Berikutnya
         </button>
       </div>
     </div>

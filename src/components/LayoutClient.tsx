@@ -7,11 +7,11 @@ export default function LayoutClient({ children }: { children: React.ReactNode }
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex lg:pl-64">
 
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col bg-white">
         <div className="lg:hidden p-4">
           <button
             onClick={() => setSidebarOpen(true)}
@@ -21,7 +21,7 @@ export default function LayoutClient({ children }: { children: React.ReactNode }
           </button>
         </div>
 
-        <main className="flex-1 p-2 bg-white">
+        <main className="flex-1 overflow-auto p-2">
           {children}
         </main>
       </div>

@@ -31,11 +31,11 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
     mutationFn: (dto: UpdateUserDto) => userService.updateUser(user.id, dto),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      toast.success("User updated successfully!");
+      toast.success("Pengguna berhasil diperbarui!");
       setIsOpen(false);
     },
     onError: () => {
-      toast.error("Failed to update user");
+      toast.error("Gagal memperbarui pengguna");
     },
   });
 
@@ -65,7 +65,7 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Update User</DialogTitle>
+          <DialogTitle>Perbarui Pengguna</DialogTitle>
         </DialogHeader>
 
         <form
@@ -80,15 +80,15 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
           <form.Field name="name">
             {(field) => (
               <div>
-                <label htmlFor="name" className="block font-medium mb-1">
-                  Name
-                </label>
+                <label htmlFor="name" className="block font-medium mb-1">Nama</label>
+
                 <input
                   id={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="Full name"
+                  placeholder="Nama lengkap"
+
                   className="w-full border rounded px-3 py-2"
                 />
                 <FieldInfo field={field} />
@@ -101,15 +101,15 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
             <form.Field name="email">
               {(field) => (
                 <div className="flex-1">
-                  <label htmlFor="email" className="block font-medium mb-1">
-                    Email
-                  </label>
+                  <label htmlFor="email" className="block font-medium mb-1">Email</label>
+
                   <input
                     id={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     placeholder="user@example.com"
+
                     className="w-full border rounded px-3 py-2"
                   />
                   <FieldInfo field={field} />
@@ -120,15 +120,15 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
             <form.Field name="phone">
               {(field) => (
                 <div className="flex-1">
-                  <label htmlFor="phone" className="block font-medium mb-1">
-                    Phone
-                  </label>
+                  <label htmlFor="phone" className="block font-medium mb-1">Telepon</label>
+
                   <input
                     id={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="Phone number"
+                    placeholder="Nomor telepon"
+
                     className="w-full border rounded px-3 py-2"
                   />
                   <FieldInfo field={field} />
@@ -141,15 +141,15 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
           <form.Field name="address">
             {(field) => (
               <div>
-                <label htmlFor="address" className="block font-medium mb-1">
-                  Address
-                </label>
+                <label htmlFor="address" className="block font-medium mb-1">Alamat</label>
+
                 <textarea
                   id={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="Address"
+                  placeholder="Alamat"
+
                   rows={3}
                   className="w-full border rounded px-3 py-2"
                 />
@@ -162,9 +162,8 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
           <form.Field name="roleId">
             {(field) => (
               <div>
-                <label htmlFor="roleId" className="block font-medium mb-1">
-                  Role
-                </label>
+                <label htmlFor="roleId" className="block font-medium mb-1">Peran</label>
+
                 <select
                   id={field.name}
                   value={field.state.value ?? 1}
@@ -173,8 +172,9 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
                   className="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 >
                   <option value={1}>Admin</option>
-                  <option value={2}>User</option>
-                  <option value={3}>Manager</option>
+                  <option value={2}>Pengguna</option>
+                  <option value={3}>Manajer</option>
+
                 </select>
                 <FieldInfo field={field} />
               </div>
@@ -184,11 +184,12 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
           {/* BUTTONS */}
           <div className="flex justify-end gap-2 mt-4">
             <Button variant="outline" onClick={() => setIsOpen(false)}>
-              Cancel
+              Batal
             </Button>
             <Button type="submit" className="bg-yellow-500 hover:bg-yellow-600">
-              {isPending ? "Saving..." : "Save Changes"}
+              {isPending ? "Menyimpan..." : "Simpan Perubahan"}
             </Button>
+
           </div>
         </form>
       </DialogContent>

@@ -48,11 +48,11 @@ export default function InvestorsPage() {
       queryClient.invalidateQueries({
         queryKey: ["investors"],
       });
-      toast.success("Successly deleted investor");
+      toast.success("Berhasil menghapus investor");
       setIsopenDelete(false);
     },
     onError: () => {
-      toast.error("Failed deleted investor");
+      toast.error("Gagal menghapus investor");
       setIsopenDelete(false);
     },
   });
@@ -67,7 +67,7 @@ export default function InvestorsPage() {
     queryClient.invalidateQueries({
       queryKey: ["investors"],
     });
-    toast.success("Investors Refreshed");
+    toast.success("Data investor diperbarui");
   }
 
   return (
@@ -77,7 +77,7 @@ export default function InvestorsPage() {
           isOpen={isOpenDelete}
           onClose={() => setIsopenDelete(false)}
           onConfirm={() => deleteInvestor(selectedInvestorId)}
-          title="Deleted Investor"
+          title="Hapus Investor"
           cancelText="Batal"
           description="Anda yakin ingin menghapus investor ini?"
           confirmText="Hapus"
@@ -109,10 +109,10 @@ export default function InvestorsPage() {
                 />
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900">Investors</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Investor</h1>
           </div>
           <p className="text-gray-600">
-            Manage your investor relationships and contact information.
+            Kelola hubungan investor dan informasi kontak mereka.
           </p>
         </div>
 
@@ -125,7 +125,7 @@ export default function InvestorsPage() {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Search by name..."
+                    placeholder="Cari berdasarkan nama..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
@@ -144,7 +144,7 @@ export default function InvestorsPage() {
                   className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   <RefreshCw className="w-4 h-4" />
-                  <span>Refresh</span>
+                  <span>Segarkan</span>
                 </button>
 
                 <button
@@ -152,7 +152,7 @@ export default function InvestorsPage() {
                   className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition-colors"
                 >
                   <Plus className="w-4 h-4" />
-                  <span>Add Investor</span>
+                  <span>Tambah Investor</span>
                 </button>
               </div>
             </div>
@@ -165,15 +165,15 @@ export default function InvestorsPage() {
                 <tr>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
-                      <span>Name</span>
+                      <span>Nama</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="px-6 py-3 text-left">Type</th>
+                  <th className="px-6 py-3 text-left">Tipe</th>
                   <th className="px-6 py-3 text-left">Website</th>
-                  <th className="px-6 py-3 text-left">Date Created</th>
-                  <th className="px-6 py-3 text-left">Date Updated</th>
-                  <th className="px-6 py-3 text-left">Actions</th>
+                  <th className="px-6 py-3 text-left">Tanggal Dibuat</th>
+                  <th className="px-6 py-3 text-left">Tanggal Diperbarui</th>
+                  <th className="px-6 py-3 text-left">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -196,7 +196,7 @@ export default function InvestorsPage() {
                             />
                           </svg>
                         </div>
-                        <p className="text-gray-400 text-sm">No data</p>
+                        <p className="text-gray-400 text-sm">Tidak ada data</p>
                       </div>
                     </td>
                   </tr>
@@ -265,16 +265,16 @@ export default function InvestorsPage() {
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
             >
-              Prev
+              Sebelumnya
             </button>
 
-            <span>Page {currentPage}</span>
+            <span>Halaman {currentPage}</span>
 
             <button
               className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
               onClick={() => setCurrentPage((p) => p + 1)}
             >
-              Next
+              Berikutnya
             </button>
           </div>
         </div>

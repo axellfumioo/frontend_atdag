@@ -11,15 +11,15 @@ export default function WABroadcastTemplatesPage() {
           <FileText className="w-4 h-4 text-white" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Message Templates</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Template Pesan</h1>
           <p className="text-sm text-gray-500">
-            Create and manage reusable WhatsApp message templates.
+            Buat dan kelola template pesan WhatsApp yang dapat digunakan kembali.
           </p>
         </div>
       </div>
 
       <div className="bg-white rounded-lg border border-gray-200 p-6 text-sm text-gray-500">
-        No templates yet. This is a placeholder page.
+        Belum ada template. Ini halaman placeholder.
       </div>
     </div>
   );

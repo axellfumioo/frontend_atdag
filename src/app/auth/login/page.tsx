@@ -1,8 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, LogIn } from "lucide-react";
-import Toast from "typescript-toastify";
 import { authService } from "@/services/AuthService";
 
 export default function LoginPage() {
@@ -22,8 +21,9 @@ export default function LoginPage() {
       if (result) {
         router.push("/");
       }
-    } catch (err: any) {
-      setError(err.message || "Terjadi kesalahan saat login bro");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Terjadi kesalahan saat login";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -32,23 +32,22 @@ export default function LoginPage() {
   async function handleGoogleLogin() {
     try {
       window.location.href = "http://localhost:8000/api/v1/auth/google/login";
-    } catch (err: any) {
-      setError(err.message || "Terjadi kesalahan saat login bro");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Terjadi kesalahan saat login";
+      setError(message);
     } finally {
       setLoading(false);
     }
   }
 
-  function test() {
-    alert("test");
-  }
+  //
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md">
         <div className="bg-white shadow-sm border border-gray-200 rounded-xl px-8 py-10">
           <h1 className="text-2xl font-semibold text-gray-900 text-center">
-            Sign in to your account
+            Masuk ke akun Anda
           </h1>
 
           <form className="mt-4 space-y-6" onSubmit={handleLogin}>
@@ -78,9 +77,7 @@ export default function LoginPage() {
 
             {/* PASSWORD */}
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">
-                Password
-              </label>
+              <label className="text-sm font-medium text-gray-700">Kata Sandi</label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
@@ -101,12 +98,12 @@ export default function LoginPage() {
               className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md text-white bg-yellow-500 hover:bg-yellow-600 transition font-medium shadow-sm"
             >
               <LogIn className="w-4 h-4 top-1/2" />
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? "Sedang masuk..." : "Masuk"}
             </button>
 
             <div className="flex items-center gap-4">
               <div className="h-px flex-1 bg-gray-200" />
-              <span className="text-xs text-gray-500">OR</span>
+              <span className="text-xs text-gray-500">ATAU</span>
               <div className="h-px flex-1 bg-gray-200" />
             </div>
 
@@ -118,8 +115,9 @@ export default function LoginPage() {
               <img
                 className="h-4 w-4"
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png"
+                alt="Google"
               />
-              Continue with Google
+              Lanjutkan dengan Google
             </button>
           </form>
         </div>

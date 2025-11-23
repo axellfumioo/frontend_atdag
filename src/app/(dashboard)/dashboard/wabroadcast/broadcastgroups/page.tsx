@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function BroadcastgroupPage() {
   return (
-    <div>BroadcastgroupPage</div>
+    <div>Halaman Grup Siaran</div>
   )
 }

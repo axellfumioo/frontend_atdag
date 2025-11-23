@@ -1,6 +1,5 @@
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/Footer";
 // import LayoutClient from "@/components/LayoutClient";
 import { Toaster } from "@/common/shadcn/ui/sonner";
 import QueryProvider from "@/common/providers/QueryProvider";
@@ -27,7 +26,6 @@ export default function RootLayout({
       >
         <QueryProvider>{children}</QueryProvider>
         <Toaster expand position="top-center" richColors />
-        <Footer />
       </body>
     </html>
   );

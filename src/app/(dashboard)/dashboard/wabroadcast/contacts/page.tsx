@@ -11,15 +11,15 @@ export default function WABroadcastContactsPage() {
           <Phone className="w-4 h-4 text-white" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">WA Contacts</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Kontak WA</h1>
           <p className="text-sm text-gray-500">
-            Manage WhatsApp contacts used for broadcasts and campaigns.
+            Kelola kontak WhatsApp untuk siaran dan kampanye.
           </p>
         </div>
       </div>
 
       <div className="bg-white rounded-lg border border-gray-200 p-6 text-sm text-gray-500">
-        No contacts yet. This is a placeholder page.
+        Belum ada kontak. Ini halaman placeholder.
       </div>
     </div>
   );

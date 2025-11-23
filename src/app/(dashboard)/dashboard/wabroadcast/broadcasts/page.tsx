@@ -11,15 +11,13 @@ export default function WABroadcastsPage() {
           <Megaphone className="w-4 h-4 text-white" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Broadcasts</h1>
-          <p className="text-sm text-gray-500">
-            View and manage your scheduled and sent WhatsApp broadcasts.
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">Siaran</h1>
+          <p className="text-sm text-gray-500">Lihat dan kelola siaran WhatsApp terjadwal dan terkirim.</p>
         </div>
       </div>
 
       <div className="bg-white rounded-lg border border-gray-200 p-6 text-sm text-gray-500">
-        No broadcasts yet. This is a placeholder page.
+        Belum ada siaran. Ini halaman placeholder.
       </div>
     </div>
   );

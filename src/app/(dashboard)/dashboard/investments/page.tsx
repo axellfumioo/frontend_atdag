@@ -52,11 +52,11 @@ export default function InvestmentsPage() {
       queryClient.invalidateQueries({
         queryKey: ["investments"],
       });
-      toast.success("Successfully Deleted Investment");
+      toast.success("Berhasil menghapus investasi");
       setIsopenDelete(false);
     },
     onError: () => {
-      toast.error("Failed Deleted Investment");
+      toast.error("Gagal menghapus investasi");
       setIsopenDelete(false);
     },
   });
@@ -69,9 +69,9 @@ export default function InvestmentsPage() {
           onConfirm={() =>
             deleteInvestment(selectedInvestmentType.investment_id)
           }
-          title="Hapus Investment"
+          title="Hapus Investasi"
           cancelText="Batal"
-          description={`Anda yakin ingin menghapus Investment ${selectedInvestmentType.name}`}
+          description={`Apakah kamu yakin ingin menghapus investasi ${selectedInvestmentType.name}?`}
           confirmText="Hapus"
         />
       )}
@@ -90,9 +90,9 @@ export default function InvestmentsPage() {
               <TrendingUp className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Investments</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Investasi</h1>
               <p className="text-gray-600">
-                Track and manage investment opportunities and their progress.
+                Pantau dan kelola peluang investasi beserta progresnya.
               </p>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function InvestmentsPage() {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Search by investor name..."
+                    placeholder="Cari berdasarkan nama investor..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
@@ -124,12 +124,12 @@ export default function InvestmentsPage() {
                 <button
                   onClick={async () => {
                     await refetchInvestments();
-                    toast.success("Investment Refreshed");
+                    toast.success("Data investasi diperbarui");
                   }}
                   className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   <RefreshCw className="w-4 h-4" />
-                  <span>Refresh</span>
+                  <span>Segarkan</span>
                 </button>
 
                 <button
@@ -137,7 +137,7 @@ export default function InvestmentsPage() {
                   onClick={() => router.push("/dashboard/investments/add")}
                 >
                   <Plus className="w-4 h-4" />
-                  <span>Add Investment</span>
+                  <span>Tambah Investasi</span>
                 </button>
               </div>
             </div>
@@ -150,7 +150,7 @@ export default function InvestmentsPage() {
                 <tr>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
-                      <span>Investment Name</span>
+                      <span>Nama Investasi</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
@@ -162,7 +162,7 @@ export default function InvestmentsPage() {
                   </th>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
-                      <span>Stage</span>
+                      <span>Tahapan</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
@@ -174,40 +174,40 @@ export default function InvestmentsPage() {
                   </th>
                   <th className="px-6 py-3 text-left">
                     <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Value
+                      Nilai
                     </span>
                   </th>
                   <th className="px-6 py-3 text-left">
                     <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Description
+                      Deskripsi
                     </span>
                   </th>
 
                   <th className="px-6 py-3 text-left">
                     <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Expected Closing
+                      Perkiraan Penutupan
                     </span>
                   </th>
                   <th className="px-6 py-3 text-left">
                     <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Closing Date
+                      Tanggal Penutupan
                     </span>
                   </th>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
-                      <span>Date Created</span>
+                      <span>Tanggal Dibuat</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
-                      <span>Date Updated</span>
+                      <span>Tanggal Diperbarui</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
                   <th className="px-6 py-3 text-left">
                     <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Actions
+                      Aksi
                     </span>
                   </th>
                 </tr>
@@ -232,7 +232,7 @@ export default function InvestmentsPage() {
                             />
                           </svg>
                         </div>
-                        <p className="text-gray-400 text-sm">No investment found</p>
+                        <p className="text-gray-400 text-sm">Investasi tidak ditemukan</p>
                       </div>
                     </td>
                   </tr>
@@ -318,16 +318,16 @@ export default function InvestmentsPage() {
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
             >
-              Prev
+              Sebelumnya
             </button>
 
-            <span>Page {currentPage}</span>
+            <span>Halaman {currentPage}</span>
 
             <button
               className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
               onClick={() => setCurrentPage((p) => p + 1)}
             >
-              Next
+              Berikutnya
             </button>
           </div>
         </div>

@@ -21,11 +21,11 @@ export default function AddInvestmentStagePage() {
       queryClient.invalidateQueries({
         queryKey: ["investmentStages"],
       });
-      toast.success("Investment Stage created successfully!");
+      toast.success("Tahap investasi berhasil dibuat!");
       router.push("/dashboard/masterdata/investmentstages");
     },
     onError: () => {
-      toast.error("Failed to created Investment Stage");
+      toast.error("Gagal membuat tahap investasi");
     },
   });
 
@@ -54,7 +54,7 @@ export default function AddInvestmentStagePage() {
         className="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4"
       >
         <ArrowLeft className="w-4 h-4 mr-1" />
-        <span>Back to Investments</span>
+        <span>Kembali ke Investasi</span>
       </button>
 
       {/* Header */}
@@ -62,9 +62,7 @@ export default function AddInvestmentStagePage() {
         <div className="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center">
           <BarChart2 className="w-4 h-4 text-white" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">
-          Add Investment Stage
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-900">Tambah Tahap Investasi</h1>
       </div>
 
       {/* Form */}
@@ -81,15 +79,13 @@ export default function AddInvestmentStagePage() {
           <form.Field name="name">
             {(field) => (
               <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-700 mb-1">
-                  Stage Name
-                </label>
+                <label className="text-sm font-medium text-gray-700 mb-1">Nama Tahap</label>
 
                 <input
                   id={field.name}
                   name={field.name}
                   type="text"
-                  placeholder="Enter stage name"
+                  placeholder="Masukkan nama tahap"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
@@ -105,23 +101,16 @@ export default function AddInvestmentStagePage() {
           <form.Field name="order">
             {(field) => (
               <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-700 mb-1">
-                  Stage Order
-                </label>
+                <label className="text-sm font-medium text-gray-700 mb-1">Urutan Tahap</label>
 
                 <input
                   id={field.name}
                   name={field.name}
                   type="number"
-                  placeholder="Enter stage order"
+                  placeholder="Masukkan urutan tahap"
                   value={field.state.value}
                   onBlur={field.handleBlur}
-                  // onChange={(e) =>
-                  //   field.handleChange(
-                  //     e.target.value === "" ? "" : Number(e.target.value)
-                  //   )
-                  // }
-                                        onChange={(e) => field.handleChange(Number(e.target.value))}
+                  onChange={(e) => field.handleChange(Number(e.target.value))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                 />
 
@@ -137,7 +126,7 @@ export default function AddInvestmentStagePage() {
               onClick={() => router.push("/dashboard/investmentstages")}
               className="px-4 py-2 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
             >
-              Cancel
+              Batal
             </button>
 
             <button
@@ -145,7 +134,7 @@ export default function AddInvestmentStagePage() {
               disabled={isCreating}
               className="px-4 py-2 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 disabled:opacity-50"
             >
-              {isCreating ? "Saving..." : "Save Stage"}
+              {isCreating ? "Menyimpan..." : "Simpan"}
             </button>
           </div>
         </form>

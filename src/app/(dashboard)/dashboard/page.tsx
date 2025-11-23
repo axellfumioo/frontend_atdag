@@ -1,16 +1,6 @@
 "use client";
 
-import {
-  Users,
-  Contact2,
-  MessageCircle,
-  LineChart,
-  BarChart3,
-  Radio,
-  MessageSquare,
-  Zap,
-  Clock3,
-} from "lucide-react";
+import { Users, LineChart, BarChart3, Clock3 } from "lucide-react";
 
 import { useQuery } from "@tanstack/react-query";
 import { investmentService } from "@/services/InvestmentService";
@@ -21,12 +11,6 @@ import { InvestmentCurrencyChart } from "@/components/InvestmentCurrencyChart";
 import { convertToIDR } from "@/common/lib/idrConverter";
 
 export default function DashboardStats() {
-  // Fetch investments
-  const { data: totalInvestment } = useQuery({
-    queryKey: ["dashboardTotalInvestment"],
-    queryFn: () => investmentService.getAllInvestmentsTotal(),
-  });
-
   // Fetch investors
   const { data: totalInvestors } = useQuery({
     queryKey: ["dashboardInvestors"],
@@ -50,14 +34,14 @@ export default function DashboardStats() {
 
   const statsCards = [
     {
-      title: "Total Investors",
+      title: "Total Investor",
       value: (totalInvestors ?? 0).toString(),
       icon: Users,
       iconBg: "bg-blue-50",
       iconColor: "text-blue-500",
     },
     {
-      title: "Investment Amount",
+      title: "Total Nilai Investasi",
       value: convertToIDR((investmentAmount as string) || "0"),
       icon: BarChart3,
       iconBg: "bg-orange-50",
@@ -78,7 +62,7 @@ export default function DashboardStats() {
     //   iconColor: "text-green-500",
     // },
     {
-      title: "Open Investments",
+      title: "Investasi Aktif",
       value: openInvestment ?? 0,
       icon: LineChart,
       iconBg: "bg-yellow-50",
@@ -126,10 +110,9 @@ export default function DashboardStats() {
             <Clock3 className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Dasbor</h1>
             <p className="text-sm text-gray-500 mt-1">
-              Welcome back! Here&apos;s what&apos;s happening with your
-              investments.
+              Selamat datang kembali! Berikut ringkasan terbaru dari investasi kamu.
             </p>
           </div>
         </div>

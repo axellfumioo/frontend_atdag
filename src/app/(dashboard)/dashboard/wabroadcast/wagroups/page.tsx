@@ -15,10 +15,8 @@ export default function WABroadcastGroupsPage() {
           <Users className="w-4 h-4 text-white" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">WA Groups</h1>
-          <p className="text-sm text-gray-500">
-            Manage WhatsApp groups for organizing your broadcast audiences.
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">Grup WA</h1>
+          <p className="text-sm text-gray-500">Kelola grup WhatsApp untuk mengatur audiens siaran kamu.</p>
         </div>
       </div>
 
@@ -33,7 +31,7 @@ export default function WABroadcastGroupsPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search groups..."
+              placeholder="Cari grup..."
               className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
             />
           </div>
@@ -42,11 +40,11 @@ export default function WABroadcastGroupsPage() {
           <div className="flex gap-3 justify-end">
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
               <RefreshCw className="w-4 h-4" />
-              <span>Refresh</span>
+              <span>Segarkan</span>
             </button>
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-yellow-500 text-sm text-white hover:bg-yellow-600 transition-colors">
               <Upload className="w-4 h-4" />
-              <span>Import Groups</span>
+              <span>Impor Grup</span>
             </button>
           </div>
         </div>
@@ -56,12 +54,10 @@ export default function WABroadcastGroupsPage() {
           <div className="w-16 h-16 rounded-full bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center mb-4">
             <Upload className="w-7 h-7 text-gray-300" />
           </div>
-          <p className="text-sm text-gray-500 mb-4">
-            No imported WhatsApp groups found
-          </p>
+          <p className="text-sm text-gray-500 mb-4">Tidak ada grup WhatsApp yang diimpor</p>
           <button className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-yellow-500 text-sm text-white hover:bg-yellow-600 transition-colors">
             <Upload className="w-4 h-4" />
-            <span>Import Groups</span>
+            <span>Impor Grup</span>
           </button>
         </div>
       </div>

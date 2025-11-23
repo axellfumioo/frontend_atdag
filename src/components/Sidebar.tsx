@@ -39,69 +39,76 @@ interface MenuItem {
   subItems?: SubMenuItem[];
 }
 
+interface SessionUser {
+  name?: string;
+  role?: {
+    role_name?: string;
+  };
+}
+
 // object icon, path
 const menuItems: MenuItem[] = [
-  { name: "Home", icon: Home, path: "/" },
-  { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-  { name: "Investors", icon: Users, path: "/dashboard/investors" },
-  { name: "Investments", icon: TrendingUp, path: "/dashboard/investments" },
-  { name: "Users", icon: UserSquare2, path: "/dashboard/users" },
+  { name: "Beranda", icon: Home, path: "/" },
+  { name: "Dasbor", icon: LayoutDashboard, path: "/dashboard" },
+  { name: "Investor", icon: Users, path: "/dashboard/investors" },
+  { name: "Investasi", icon: TrendingUp, path: "/dashboard/investments" },
+  { name: "Pengguna", icon: UserSquare2, path: "/dashboard/users" },
   {
-    name: "WA Broadcast",
+    name: "Siaran WA",
     icon: MessageCircle,
     hasArrow: true,
     path: "/dashboard/wabroadcast",
     subItems: [
       {
-        name: "Contacts",
+        name: "Kontak",
         path: "/dashboard/wabroadcast/contacts",
         icon: Phone,
       },
       {
-        name: "WA Groups",
+        name: "Grup WA",
         path: "/dashboard/wabroadcast/wagroups",
         icon: UserSquare2,
       },
       {
-        name: "Templates",
+        name: "Template Pesan",
         path: "/dashboard/wabroadcast/templates",
         icon: FileText,
       },
       {
-        name: "Broadcast Groups",
+        name: "Grup Siaran",
         path: "/dashboard/wabroadcast/broadcastgroups",
         icon: Radio,
       },
       {
-        name: "Broadcasts",
+        name: "Siaran",
         path: "/dashboard/wabroadcast/broadcasts",
         icon: Megaphone,
       },
     ],
   },
   {
-    name: "Master Data",
+    name: "Data Utama",
     icon: Database,
     hasArrow: true,
     path: "/dashboard/masterdata",
     subItems: [
       {
-        name: "Investment Status",
+        name: "Status Investasi",
         path: "/dashboard/masterdata/investmentstatus",
         icon: RefreshCw,
       },
       {
-        name: "Investment Stages",
+        name: "Tahapan Investasi",
         path: "/dashboard/masterdata/investmentstages",
         icon: Layers,
       },
       {
-        name: "Investor Types",
+        name: "Tipe Investor",
         path: "/dashboard/masterdata/investortypes",
         icon: Users,
       },
       {
-        name: "Currencies",
+        name: "Mata Uang",
         path: "/dashboard/masterdata/currencies",
         icon: DollarSign,
       },
@@ -119,13 +126,13 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [expandedMenu, setExpandedMenu] = React.useState<string | null>(null);
-  const [userData, setUser] = React.useState<Record<string, any> | null>(null);
+  const [userData, setUser] = React.useState<SessionUser | null>(null);
 
   React.useEffect(() => {
     const raw = sessionStorage.getItem("user");
     if (!raw) return;
     try {
-      setUser(JSON.parse(raw));
+      setUser(JSON.parse(raw) as SessionUser);
     } catch (err) {
       console.error("Failed to parse user from sessionStorage", err);
     }
@@ -162,7 +169,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
       )}
       {/* semisal ukuran web lebih kecil ukuran sidebar jadi gaada alias nampilin hamburger saja, kalo full ya full*/}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 
         transform transition-transform duration-300 
         ${
           open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"

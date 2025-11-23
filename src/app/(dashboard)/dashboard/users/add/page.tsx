@@ -18,11 +18,11 @@ export default function AddUserPage() {
     mutationKey: ["createUser"],
     mutationFn: userService.createUser,
     onSuccess: () => {
-      toast.success("Successfully created user!");
+      toast.success("Berhasil membuat pengguna!");
       router.push("/dashboard/users");
     },
     onError: () => {
-      toast.error("Failed to create user");
+      toast.error("Gagal membuat pengguna");
     },
   });
 
@@ -60,14 +60,14 @@ export default function AddUserPage() {
         className="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4"
       >
         <ArrowLeft className="w-4 h-4 mr-1" />
-        Back to Users{" "}
+        Kembali ke Pengguna{" "}
       </button>
       {/* Heading */}
       <div className="flex items-center space-x-3 mb-6">
         <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center">
           <UserPlus className="w-5 h-5 text-white" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">Add User</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Tambah Pengguna</h1>
       </div>
       {/* Form */}
       <div className="bg-white rounded-lg shadow border border-gray-200 p-8">
@@ -84,9 +84,7 @@ export default function AddUserPage() {
             <form.Field name="name">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium text-gray-700">
-                    Name
-                  </label>
+                  <label className="text-sm font-medium text-gray-700">Nama</label>
                   <input
                     type="text"
                     value={field.state.value}
@@ -103,9 +101,7 @@ export default function AddUserPage() {
             <form.Field name="email">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium text-gray-700">
-                    Email
-                  </label>
+                  <label className="text-sm font-medium text-gray-700">Email</label>
                   <input
                     type="email"
                     value={field.state.value}
@@ -122,9 +118,7 @@ export default function AddUserPage() {
             <form.Field name="password">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium text-gray-700">
-                    Password
-                  </label>
+                  <label className="text-sm font-medium text-gray-700">Kata Sandi</label>
                   <input
                     type="password"
                     value={field.state.value}
@@ -141,9 +135,7 @@ export default function AddUserPage() {
             <form.Field name="phone">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium text-gray-700">
-                    Phone
-                  </label>
+                  <label className="text-sm font-medium text-gray-700">Telepon</label>
                   <input
                     type="text"
                     value={field.state.value}
@@ -160,9 +152,7 @@ export default function AddUserPage() {
             <form.Field name="roleId">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium text-gray-700">
-                    Role
-                  </label>
+                  <label className="text-sm font-medium text-gray-700">Peran</label>
                   <select
                     value={field.state.value}
                     onBlur={field.handleBlur}
@@ -170,8 +160,8 @@ export default function AddUserPage() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   >
                     <option value="1">Admin</option>
-                    <option value="2">User</option>
-                    <option value="3">Manager</option>
+                    <option value="2">Pengguna</option>
+                    <option value="3">Manajer</option>
                   </select>
                   <FieldInfo field={field} />
                 </div>
@@ -182,9 +172,7 @@ export default function AddUserPage() {
             <form.Field name="address">
               {(field) => (
                 <div className="flex flex-col space-y-1 md:col-span-2">
-                  <label className="text-sm font-medium text-gray-700">
-                    Address
-                  </label>
+                  <label className="text-sm font-medium text-gray-700">Alamat</label>
                   <textarea
                     value={field.state.value}
                     onBlur={field.handleBlur}
@@ -204,14 +192,14 @@ export default function AddUserPage() {
               onClick={() => router.push("/dashboard/users")}
               className="px-5 py-2.5 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
             >
-              Cancel
+              Batal
             </button>
             <button
               type="submit"
               disabled={isPending}
               className="px-5 py-2.5 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
             >
-              {isPending ? "Saving..." : "Save User"}
+              {isPending ? "Menyimpan..." : "Simpan"}
             </button>
           </div>
         </form>

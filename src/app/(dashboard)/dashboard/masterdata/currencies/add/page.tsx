@@ -23,11 +23,11 @@ export default function AddCurrencyPage() {
       queryClient.invalidateQueries({
         queryKey: ["currencies"],
       });
-      toast.success("Currency created successfully!");
+      toast.success("Mata uang berhasil dibuat!");
       router.push("/dashboard/masterdata/currencies");
     },
     onError: () => {
-      toast.error("Failed to created currency");
+      toast.error("Gagal membuat mata uang");
     },
   });
 
@@ -60,7 +60,7 @@ export default function AddCurrencyPage() {
         className="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4"
       >
         <ArrowLeft className="w-4 h-4 mr-1" />
-        <span>Back to Currencies</span>
+        <span>Kembali ke Mata Uang</span>
       </button>
 
       {/* Header */}
@@ -68,7 +68,7 @@ export default function AddCurrencyPage() {
         <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center">
           <Wallet className="w-5 h-5 text-white" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">Add Currency</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Tambah Mata Uang</h1>
       </div>
 
       {/* FULL CARD */}
@@ -88,9 +88,7 @@ export default function AddCurrencyPage() {
               {(field) => {
                 return (
                   <div className="flex flex-col space-y-1">
-                    <label className="text-sm font-medium text-gray-700">
-                      Name
-                    </label>
+                    <label className="text-sm font-medium text-gray-700">Nama</label>
                     <input
                       id={field.name}
                       name={field.name}
@@ -98,7 +96,7 @@ export default function AddCurrencyPage() {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       type="text"
-                      placeholder="e.g. Indonesian Rupiah"
+                      placeholder="contoh: Rupiah Indonesia"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm 
                 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                       required
@@ -112,9 +110,7 @@ export default function AddCurrencyPage() {
               {(field) => {
                 return (
                   <div className="flex flex-col space-y-1">
-                    <label className="text-sm font-medium text-gray-700">
-                      Symbol
-                    </label>
+                    <label className="text-sm font-medium text-gray-700">Simbol</label>
                     <input
                       id={field.name}
                       name={field.name}
@@ -122,7 +118,7 @@ export default function AddCurrencyPage() {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       type="text"
-                      placeholder="e.g. Rp"
+                      placeholder="contoh: Rp"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm 
                 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                       required
@@ -137,9 +133,7 @@ export default function AddCurrencyPage() {
               {(field) => {
                 return (
                   <div className="flex flex-col space-y-1">
-                    <label className="text-sm font-medium text-gray-700">
-                      Code
-                    </label>
+                    <label className="text-sm font-medium text-gray-700">Kode</label>
                     <input
                       id={field.name}
                       name={field.name}
@@ -147,7 +141,7 @@ export default function AddCurrencyPage() {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       type="text"
-                      placeholder="e.g. Rp"
+                      placeholder="contoh: IDR"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm 
                 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                       required
@@ -162,9 +156,7 @@ export default function AddCurrencyPage() {
               {(field) => {
                 return (
                   <div className="flex flex-col space-y-1">
-                    <label className="text-sm font-medium text-gray-700">
-                      Order
-                    </label>
+                    <label className="text-sm font-medium text-gray-700">Urutan</label>
                     <input
                       id={field.name}
                       name={field.name}
@@ -174,7 +166,7 @@ export default function AddCurrencyPage() {
                         field.handleChange(Number(e.target.value))
                       }
                       type="text"
-                      placeholder="e.g. Rp"
+                      placeholder="contoh: 1"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm 
                 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                       required
@@ -193,7 +185,7 @@ export default function AddCurrencyPage() {
               onClick={() => router.push("/dashboard/masterdata/currencies")}
               className="px-5 py-2.5 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
             >
-              Cancel
+              Batal
             </button>
             <button
               type="submit"
@@ -201,7 +193,7 @@ export default function AddCurrencyPage() {
               className="px-5 py-2.5 text-sm bg-yellow-500 text-white rounded-lg 
               hover:bg-yellow-600 disabled:opacity-50"
             >
-              {isCreating ? "Saving..." : "Save Currency"}
+              {isCreating ? "Menyimpan..." : "Simpan"}
             </button>
           </div>
         </form>

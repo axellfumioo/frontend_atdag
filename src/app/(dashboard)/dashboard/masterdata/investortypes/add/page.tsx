@@ -17,11 +17,11 @@ export default function AddInvestorTypePage() {
     mutationKey: ["createInvestorType"],
     mutationFn: investorTypeService.createInvestorType,
     onSuccess: () => {
-      toast.success("Successfully created investor type");
+      toast.success("Berhasil membuat tipe investor");
       router.push("/dashboard/masterdata/investortypes");
     },
     onError: () => {
-      toast.error("Failed to created investor type");
+      toast.error("Gagal membuat tipe investor");
     },
   });
 
@@ -49,14 +49,14 @@ export default function AddInvestorTypePage() {
         className="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4"
       >
         <ArrowLeft className="w-4 h-4 mr-1" />
-        <span>Back to Investor Types</span>
+        <span>Kembali ke Tipe Investor</span>
       </button>
 
       <div className="flex items-center space-x-3 mb-6">
         <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center">
           <Palette className="w-5 h-5 text-white" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">Add Investor Type</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Tambah Tipe Investor</h1>
       </div>
 
       <div className="bg-white rounded-lg shadow border border-gray-200 p-8">
@@ -73,9 +73,7 @@ export default function AddInvestorTypePage() {
               {(field) => {
                 return (
                   <div className="flex flex-col space-y-1">
-                    <label className="text-sm font-medium text-gray-700">
-                      Type Name
-                    </label>
+                    <label className="text-sm font-medium text-gray-700">Nama Tipe</label>
                     <input
                       id={field.name}
                       name={field.name}
@@ -96,7 +94,7 @@ export default function AddInvestorTypePage() {
               {(field) => {
                 return (
                   <div>
-                    <label className="block font-medium mb-1">Color</label>
+                    <label className="block font-medium mb-1">Warna</label>
                     <div className="flex items-center gap-3">
                       {/* Color picker */}
                       <input
@@ -137,7 +135,7 @@ export default function AddInvestorTypePage() {
                 }
                 className="px-5 py-2.5 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
               >
-                Cancel
+                Batal
               </button>
 
               <button
@@ -145,7 +143,7 @@ export default function AddInvestorTypePage() {
                 disabled={isCreating}
                 className="px-5 py-2.5 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 disabled:opacity-60"
               >
-                {isCreating ? "Saving..." : "Save Investor Type"}
+                {isCreating ? "Menyimpan..." : "Simpan"}
               </button>
             </div>
           </div>

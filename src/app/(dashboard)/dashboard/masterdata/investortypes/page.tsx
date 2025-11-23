@@ -36,11 +36,11 @@ export default function InvestorTypesPage() {
       queryClient.invalidateQueries({
         queryKey: ["investorType"],
       });
-      toast.success("Successly deleted investor type");
+      toast.success("Berhasil menghapus tipe investor");
       setIsopenDelete(false);
     },
     onError: () => {
-      toast.error("Failed to deleted investor type");
+      toast.error("Gagal menghapus tipe investor");
       setIsopenDelete(false);
     },
   });
@@ -50,10 +50,10 @@ export default function InvestorTypesPage() {
     queryClient.invalidateQueries({
       queryKey: ["investorType"],
     });
-    toast.success("Investor Types Refreshed");
+    toast.success("Data tipe investor diperbarui");
   }
 
-  const { data, isLoading: isLoadingInvestorType } = useQuery({
+  const { data } = useQuery({
     queryKey: ["investorTypeWithPagination", currentPage],
     queryFn: () => investorTypeService.getAllInvestorTypesWithPagination(currentPage),
   });
@@ -68,14 +68,14 @@ export default function InvestorTypesPage() {
 
   return (
     <>
-      {setSelectedInvestorType != null && isOpenDelete && (
+      {selectedInvestorType != null && isOpenDelete && (
         <ConfirmDialog
           isOpen={isOpenDelete}
           onClose={() => setIsopenDelete(false)}
           onConfirm={() => deleteInvestorType(selectedInvestorType!.id!)}
-          title="Deleted Investor"
+          title="Hapus Tipe Investor"
           cancelText="Batal"
-          description={`Anda yakin ingin menghapus type ${selectedInvestorType?.name}`}
+          description={`Apakah kamu yakin ingin menghapus tipe ${selectedInvestorType?.name}?`}
           confirmText="Hapus"
         />
       )}
@@ -94,13 +94,8 @@ export default function InvestorTypesPage() {
               <UserCircle2 className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Investor Types
-              </h1>
-              <p className="text-gray-600 text-sm">
-                Configure investor type categories with colors (Angel, VC,
-                Private Equity, etc.).
-              </p>
+              <h1 className="text-3xl font-bold text-gray-900">Tipe Investor</h1>
+              <p className="text-gray-600 text-sm">Atur kategori tipe investor beserta warnanya (Angel, VC, Private Equity, dll.).</p>
             </div>
           </div>
         </div>
@@ -112,7 +107,7 @@ export default function InvestorTypesPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search types..."
+                placeholder="Cari tipe..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
@@ -125,7 +120,7 @@ export default function InvestorTypesPage() {
                 className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 <RefreshCw className="w-4 h-4" />
-                <span>Refresh</span>
+                <span>Segarkan</span>
               </button>
               <button
                 onClick={() =>
@@ -134,7 +129,7 @@ export default function InvestorTypesPage() {
                 className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition-colors"
               >
                 <Plus className="w-4 h-4" />
-                <span>Add Type</span>
+                <span>Tambah Tipe</span>
               </button>
             </div>
           </div>
@@ -150,11 +145,11 @@ export default function InvestorTypesPage() {
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="px-6 py-3 text-left">Type Name</th>
-                  <th className="px-6 py-3 text-left">Color</th>
-                  <th className="px-6 py-3 text-left">Created</th>
-                  <th className="px-6 py-3 text-left">Updated</th>
-                  <th className="px-6 py-3 text-left">Actions</th>
+                  <th className="px-6 py-3 text-left">Nama Tipe</th>
+                  <th className="px-6 py-3 text-left">Warna</th>
+                  <th className="px-6 py-3 text-left">Tanggal Dibuat</th>
+                  <th className="px-6 py-3 text-left">Tanggal Diperbarui</th>
+                  <th className="px-6 py-3 text-left">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -202,11 +197,11 @@ export default function InvestorTypesPage() {
                           title="delete"
                           className="p-1.5 rounded border border-gray-200 hover:bg-red-50 text-red-500 hover:text-red-600"
                           onClick={() => {
-                            setIsopenDelete(true),
-                              setSelectedInvestorType({
-                                id: item.id,
-                                name: item.name,
-                              });
+                            setIsopenDelete(true);
+                            setSelectedInvestorType({
+                              id: item.id,
+                              name: item.name,
+                            });
                           }}
                         >
                           <Trash2 className="w-4 h-4" />
@@ -234,7 +229,7 @@ export default function InvestorTypesPage() {
                             />
                           </svg>
                         </div>
-                        <p className="text-gray-400 text-sm">No investor types found</p>
+                        <p className="text-gray-400 text-sm">Tidak ada tipe investor</p>
                       </div>
                     </td>
                   </tr>
@@ -248,16 +243,16 @@ export default function InvestorTypesPage() {
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
             >
-              Prev
+              Sebelumnya
             </button>
 
-            <span>Page {currentPage}</span>
+            <span>Halaman {currentPage}</span>
 
             <button
               className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
               onClick={() => setCurrentPage((p) => p + 1)}
             >
-              Next
+              Berikutnya
             </button>
           </div>
         </div>

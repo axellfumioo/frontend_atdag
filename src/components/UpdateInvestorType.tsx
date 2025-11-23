@@ -28,11 +28,7 @@ export default function UpdateInvestorType({
   setIsOpen,
   investorType,
 }: Props) {
-
-
   const queryClient = useQueryClient();
-
-
 
   const { mutate: updateInvestorType, isPending } = useMutation({
     mutationKey: ["updateInvestorType"],
@@ -40,86 +36,83 @@ export default function UpdateInvestorType({
       investorTypeService.updateInvestorType(investorType.id, dto),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["investorType"] });
-      toast.success("Investor type updated successfully!");
+      toast.success("Tipe investor berhasil diperbarui!");
       setIsOpen(false);
     },
     onError: () => {
-      toast.error("Failed to updated investor type");
+      toast.error("Gagal memperbarui tipe investor");
     },
   });
-
-
 
   const form = useForm({
     defaultValues: {
       name: investorType.name,
-      color: investorType.color
+      color: investorType.color,
     },
-    validators:{
-      onChange: updateInvestortypeValidation
+    validators: {
+      onChange: updateInvestortypeValidation,
     },
-    onSubmit: async ({value}) => {
+    onSubmit: async ({ value }) => {
       updateInvestorType({
         name: value.name,
-        color: value.color
-      })
-    }
-  })
+        color: value.color,
+      });
+    },
+  });
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Update Investor Type</DialogTitle>
+          <DialogTitle>Perbarui Tipe Investor</DialogTitle>
         </DialogHeader>
-      <form 
-      onSubmit={(e) => {
+        <form
+          onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
             form.handleSubmit();
           }}
-      >
-        <div className="space-y-4 mt-4">
-          <form.Field name="name">
-          {(field) => {
-            return (
-              <div>
-            <label className="block font-medium mb-1">Name</label>
-            <input
-              id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-              placeholder="e.g. Venture Capital"
-              className="w-full border rounded px-3 py-2"
-            />
-                                <FieldInfo field={field} />
-            
-          </div>
-            )
-          }}
-          </form.Field>
+        >
+          <div className="space-y-4 mt-4">
+            <form.Field name="name">
+              {(field) => {
+                return (
+                  <div>
+                    <label className="block font-medium mb-1">Nama</label>
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="contoh: Venture Capital"
+                      className="w-full border rounded px-3 py-2"
+                    />
+                    <FieldInfo field={field} />
+                  </div>
+                );
+              }}
+            </form.Field>
 
-          <form.Field name="color">
-          {(field) => {
-            return (
-                       <div>
-            <label className="block font-medium mb-1">Color</label>
-            <div className="flex items-center gap-3">
-                {/* Input Color Picker */}
-                <input
-                type="color"
-                id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                className="h-10 w-16 rounded cursor-pointer border"
-                />
+            <form.Field name="color">
+              {(field) => {
+                return (
+                  <div>
+                    <label className="block font-medium mb-1">Warna</label>
+                    <div className="flex items-center gap-3">
+                      {/* Input Color Picker */}
+                      <input
+                        type="color"
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        className="h-10 w-16 rounded cursor-pointer border"
+                      />
 
-                {/* Hex Text Input */}
-                 <input
+                      {/* Hex Text Input */}
+                      <input
                         type="text"
                         name="color"
                         value={field.state.value}
@@ -131,31 +124,27 @@ export default function UpdateInvestorType({
                         }}
                         className="w-full border rounded px-3 py-2"
                       />
-                                          <FieldInfo field={field} />
-                      
-            </div>
-            </div>
-            )
-          }}
-          </form.Field>
+                      <FieldInfo field={field} />
+                    </div>
+                  </div>
+                );
+              }}
+            </form.Field>
 
-
-          <div className="flex justify-end gap-2 mt-4">
-            <Button variant="outline" onClick={() => setIsOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              disabled={isPending}
-              className="bg-yellow-500 hover:bg-yellow-600"
-              type="submit"
-            >
-              {isPending ? "Saving..." : "Save Changes"}
-            </Button>
+            <div className="flex justify-end gap-2 mt-4">
+              <Button variant="outline" onClick={() => setIsOpen(false)}>
+                Batal
+              </Button>
+              <Button
+                disabled={isPending}
+                className="bg-yellow-500 hover:bg-yellow-600"
+                type="submit"
+              >
+                {isPending ? "Menyimpan..." : "Simpan Perubahan"}
+              </Button>
+            </div>
           </div>
-        </div>
-
-      </form>
-       
+        </form>
 
       </DialogContent>
     </Dialog>
