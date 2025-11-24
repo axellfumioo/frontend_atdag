@@ -1,9 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
 import React from "react";
-
 import {
   Users,
   TrendingUp,
@@ -13,7 +11,6 @@ import {
   PieChart,
   ArrowRight,
 } from "lucide-react";
-
 
 const FeatureCard = ({
   icon: Icon,
@@ -38,82 +35,15 @@ const FeatureCard = ({
 
 export default function LandingPage() {
 
-import { Users, TrendingUp, MessageSquare, Radio, PieChart, MessageCircle } from "lucide-react";
-import Header from "@/components/Header";
-import CardComponents from "@/components/ui/home/page";
-
-const featureCards = [
-  {
-    title: "Manajemen Investor",
-    description:
-      "Tambah, ubah, dan pantau investor dengan profil yang lengkap. Simpan informasi kontak, riwayat investasi, dan catatan komunikasi untuk menjaga relasi yang lebih baik.",
-    icon: Users,
-    buttonText: "Kelola Investor",
-    buttonPath: "/dashboard/investors",
-    iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50",
-  },
-  {
-    title: "Pemantauan Investasi",
-    description:
-      "Pantau tahapan, nominal, dan performa investasi di seluruh portofolio. Catat semua transaksi, tahapan, dan buat laporan terperinci untuk analisis.",
-    icon: TrendingUp,
-    buttonText: "Lacak Investasi",
-    buttonPath: "/dashboard/investments",
-    iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50",
-  },
-  {
-    title: "Komunikasi WhatsApp",
-    description:
-      "Integrasikan WhatsApp untuk komunikasi tanpa hambatan dengan jaringan investor. Kirim pembaruan, pengumuman, dan jaga kontak rutin melalui alur pesan otomatis.",
-    icon: MessageCircle,
-    buttonText: "Integrasi WhatsApp",
-    buttonPath: "/dashboard/wabroadcast",
-    iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50",
-  },
-  {
-    title: "Template Pesan",
-    description:
-      "Buat dan kelola template pesan yang dapat digunakan kembali untuk komunikasi konsisten. Rancang template profesional dengan variabel dinamis untuk pembaruan investor yang personal.",
-    icon: MessageSquare,
-    buttonText: "Kelola Template",
-    buttonPath: "/dashboard/message-templates",
-    iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50",
-  },
-  {
-    title: "Grup Siaran",
-    description:
-      "Kelompokkan investor dalam grup terarah untuk pesan dan pembaruan yang efisien. Buat segmentasi berdasarkan tahapan investasi, minat, atau kriteria lain agar komunikasi lebih tepat sasaran.",
-    icon: Radio,
-    buttonText: "Kelola Grup",
-    buttonPath: "/dashboard/wabroadcast/broadcastgroups",
-    iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50",
-  },
-  {
-    title: "Analitik Dasbor",
-    description:
-      "Lihat analitik dan wawasan lengkap tentang performa hubungan investor Anda. Fitur pelaporan lanjutan dengan grafik, metrik, dan pantauan KPI — Segera Hadir!",
-    icon: PieChart,
-    buttonText: "Lihat Dasbor",
-    buttonPath: "/dashboard",
-    iconColor: "text-yellow-500",
-    iconBg: "bg-yellow-50",
-  },
-];
-
-export default function Home() {
-
   const router = useRouter();
 
+  // Object untuk login/signup
   const authActions = {
     login: { name: "Login", path: "/auth/login" },
     signup: { name: "Sign Up", path: "/auth/register" },
   };
 
+  // Fungsi handler auth
   const handleAuth = (action) => {
     if (!action?.path) return console.error("Invalid action:", action);
     router.push(action.path);
@@ -171,7 +101,6 @@ export default function Home() {
   ];
 
   return (
-
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
       <nav className="py-3 px-3">
@@ -183,6 +112,7 @@ export default function Home() {
               </div>
 
               <div className="flex items-center gap-8">
+                {/* LOGIN */}
                 <p
                   onClick={() => handleAuth(authActions.login)}
                   className="text-sm text-gray-700 font-medium hover:text-gray-900 cursor-pointer"
@@ -190,6 +120,7 @@ export default function Home() {
                   Login
                 </p>
 
+                {/* SIGNUP */}
                 <button
                   onClick={() => handleAuth(authActions.signup)}
                   className="bg-black text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors flex items-center gap-2"
@@ -205,26 +136,27 @@ export default function Home() {
       {/* Hero */}
       <section className="px-2">
         <div className="max-w-7xl mx-auto">
-          <div className="from-[#C6FF1A] via-[#D5FF3F] to-[#E0FF6B] rounded-[3rem] px-14 py-16 border-[6px] border-white shadow-2xl relative overflow-hidden min-h-[70vh] flex flex-col items-center justify-center text-center">
-
+          <div
+           className="from-[#C6FF1A] via-[#D5FF3F] to-[#E0FF6B] rounded-[3rem] px-14 py-16 border-[6px] border-white shadow-2xl relative overflow-hidden min-h-[70vh] flex flex-col items-center justify-center text-center">
             <div className="absolute top-0 left-0 w-72 h-72 bg-lime-200/30 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 right-0 w-72 h-72 bg-yellow-200/30 rounded-full blur-3xl"></div>
 
             <div className="relative z-10">
               <div className="inline-block bg-white/40 backdrop-blur-sm border-2 border-lime-500/30 rounded-full px-6 py-2 mb-6">
                 <span className="text-xs font-semibold text-gray-900 tracking-wider">
-                  WELCOME TO INVESTASI
+                  WELCOME TO METAPLAY
                 </span>
               </div>
 
               <h1 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tight leading-[1.05] mb-4">
-                LOREM LOREM LOREM
+                EMPOWERING INNOVATION
                 <br />
-                IPSUM IPSUM
+                IN WEB3 GAMING
               </h1>
 
               <p className="text-sm md:text-base text-gray-900/80 max-w-2xl mx-auto font-medium leading-relaxed">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum sunt esse tenetur debitis tempora.
+                METAPLAY IS A TOP GLOBAL FUNDING ENTITY, SPECIALIZING IN INVESTING
+                IN EARLY-STAGE WEB3 GAMING PROJECTS.
               </p>
             </div>
           </div>
@@ -260,26 +192,5 @@ export default function Home() {
         </div>
       </section>
     </div>
-
-    <main className="min-h-screen bg-linear-to-br from-white via-yellow-50/30 to-white">
-      <div className="max-w-7xl mx-auto px-4 py-10">
-        <Header />
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {featureCards.map((card, index) => {
-            const Icon = card.icon;
-            return (
-              <CardComponents
-                key={index}
-                id={index}
-                card={card}
-                router={router}
-                Icon={Icon}
-              />
-            );
-          })}
-        </div>
-      </div>
-    </main>
-
   );
 }
