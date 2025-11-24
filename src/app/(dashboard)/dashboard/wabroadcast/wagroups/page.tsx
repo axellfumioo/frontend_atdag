@@ -1,27 +1,35 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Users, Search, RefreshCw, Upload } from "lucide-react";
+import { useSidebarLayout } from "@/components/LayoutClient";
 
 export default function WABroadcastGroupsPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { sidebarCollapsed } = useSidebarLayout();
+  const containerWidthClass = useMemo(
+    () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-7xl"),
+    [sidebarCollapsed],
+  );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-4">
+    <div className={`${containerWidthClass} mx-auto px-4 py-4 space-y-4`}>
       {/* Header */}
-      <div className="mb-6 flex items-center gap-3">
-        <div className="w-8 h-8 rounded bg-yellow-500 flex items-center justify-center">
-          <Users className="w-4 h-4 text-white" />
+      <section className="rounded-2xl border border-yellow-100 bg-white/95 px-5 py-5 shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-yellow-500 flex items-center justify-center">
+            <Users className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">Grup WA</h1>
+            <p className="mt-1 text-xs sm:text-sm text-gray-600">Kelola grup WhatsApp untuk mengatur audiens siaran kamu.</p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Grup WA</h1>
-          <p className="text-sm text-gray-500">Kelola grup WhatsApp untuk mengatur audiens siaran kamu.</p>
-        </div>
-      </div>
+      </section>
 
       {/* Main card */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 sm:p-5">
+      <div className="bg-white rounded-2xl border border-yellow-100 shadow-sm overflow-hidden p-4 sm:p-5">
         {/* Toolbar */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
           {/* Search */}

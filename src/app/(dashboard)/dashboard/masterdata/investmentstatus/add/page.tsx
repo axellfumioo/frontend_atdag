@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Tag } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +10,7 @@ import { investmentStatusService } from "@/services/InvestmentStatusService";
 import { toast } from "sonner";
 import FieldInfo from "@/components/FieldInfo";
 import { createInvestmentStatusValidation } from "@/common/validation/investmentstatusSchema";
+import { useSidebarLayout } from "@/components/LayoutClient";
 
 // VALIDASI
 // const createInvestmentStatusValidation = z.object({
@@ -22,6 +23,11 @@ import { createInvestmentStatusValidation } from "@/common/validation/investment
 export default function AddInvestmentStatusPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { sidebarCollapsed } = useSidebarLayout();
+  const containerWidthClass = useMemo(
+    () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-7xl"),
+    [sidebarCollapsed],
+  );
 
   const { mutate: createStatus, isPending } = useMutation({
     mutationKey: ["createInvestmentStatus"],
@@ -57,7 +63,7 @@ export default function AddInvestmentStatusPage() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-4">
+    <div className={`${containerWidthClass} mx-auto px-4 py-4`}>
       {/* Back */}
       <button
         type="button"

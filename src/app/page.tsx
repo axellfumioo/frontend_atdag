@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import React from "react";
+
 import {
   Users,
   TrendingUp,
@@ -11,6 +12,7 @@ import {
   PieChart,
   ArrowRight,
 } from "lucide-react";
+
 
 const FeatureCard = ({
   icon: Icon,
@@ -34,16 +36,13 @@ const FeatureCard = ({
 );
 
 export default function LandingPage() {
-
   const router = useRouter();
 
-  // Object untuk login/signup
   const authActions = {
     login: { name: "Login", path: "/auth/login" },
     signup: { name: "Sign Up", path: "/auth/register" },
   };
 
-  // Fungsi handler auth
   const handleAuth = (action) => {
     if (!action?.path) return console.error("Invalid action:", action);
     router.push(action.path);
@@ -112,7 +111,6 @@ export default function LandingPage() {
               </div>
 
               <div className="flex items-center gap-8">
-                {/* LOGIN */}
                 <p
                   onClick={() => handleAuth(authActions.login)}
                   className="text-sm text-gray-700 font-medium hover:text-gray-900 cursor-pointer"
@@ -120,7 +118,6 @@ export default function LandingPage() {
                   Login
                 </p>
 
-                {/* SIGNUP */}
                 <button
                   onClick={() => handleAuth(authActions.signup)}
                   className="bg-black text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors flex items-center gap-2"
@@ -136,11 +133,8 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="px-2">
         <div className="max-w-7xl mx-auto">
-          <div
-            className=" from-[#C6FF1A] via-[#D5FF3F] to-[#E0FF6B]
-            rounded-[3rem] px-14 py-16 border-[6px] border-white shadow-2xl
-            relative overflow-hidden min-h-[70vh] flex flex-col items-center justify-center text-center"
-          >
+          <div className="from-[#C6FF1A] via-[#D5FF3F] to-[#E0FF6B] rounded-[3rem] px-14 py-16 border-[6px] border-white shadow-2xl relative overflow-hidden min-h-[70vh] flex flex-col items-center justify-center text-center">
+
             <div className="absolute top-0 left-0 w-72 h-72 bg-lime-200/30 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 right-0 w-72 h-72 bg-yellow-200/30 rounded-full blur-3xl"></div>
 
@@ -158,7 +152,7 @@ export default function LandingPage() {
               </h1>
 
               <p className="text-sm md:text-base text-gray-900/80 max-w-2xl mx-auto font-medium leading-relaxed">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum sunt esse tenetur debitis tempora. Dolorum, labore doloribus, nihil amet reiciendis, eos consectetur nulla fugit nostrum harum neque. Magni, porro commodi!
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum sunt esse tenetur debitis tempora.
               </p>
             </div>
           </div>

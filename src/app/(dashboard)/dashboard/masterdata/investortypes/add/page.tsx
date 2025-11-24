@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
+
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Palette } from "lucide-react";
 import { investorTypeService } from "@/services/InvestortypeService";
@@ -9,6 +10,7 @@ import { toast } from "sonner";
 import { useForm } from "@tanstack/react-form";
 import { createInvestortypeValidation } from "@/common/validation/investortypeSchema";
 import FieldInfo from "@/components/FieldInfo";
+import { useSidebarLayout } from "@/components/LayoutClient";
 
 export default function AddInvestorTypePage() {
   const router = useRouter();
@@ -24,6 +26,12 @@ export default function AddInvestorTypePage() {
       toast.error("Gagal membuat tipe investor");
     },
   });
+
+  const { sidebarCollapsed } = useSidebarLayout();
+  const containerWidthClass = useMemo(
+    () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-3xl"),
+    [sidebarCollapsed],
+  );
 
   const formValidasi = useForm({
     defaultValues: {
@@ -42,7 +50,7 @@ export default function AddInvestorTypePage() {
   });
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-4">
+    <div className={`${containerWidthClass} mx-auto px-4 py-4`}>
       <button
         type="button"
         onClick={() => router.push("/dashboard/masterdata/investortypes")}

@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
+
 import { useRouter } from "next/navigation";
 import { ArrowLeft, BarChart2 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,10 +10,16 @@ import { toast } from "sonner";
 import { useForm } from "@tanstack/react-form";
 import { createInvestmentstageValidation } from "@/common/validation/investmentstageSchema";
 import FieldInfo from "@/components/FieldInfo";
+import { useSidebarLayout } from "@/components/LayoutClient";
 
 export default function AddInvestmentStagePage() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { sidebarCollapsed } = useSidebarLayout();
+  const containerWidthClass = useMemo(
+    () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-7xl"),
+    [sidebarCollapsed],
+  );
 
   const { mutate: createInvestmentStage, isPending: isCreating } = useMutation({
     mutationKey: ["createInvestmentStage"],
@@ -46,7 +53,7 @@ export default function AddInvestmentStagePage() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className={`${containerWidthClass} mx-auto px-4 py-6`}>
       {/* Back */}
       <button
         type="button"

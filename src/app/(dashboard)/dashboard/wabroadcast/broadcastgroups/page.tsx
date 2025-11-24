@@ -1,7 +1,33 @@
-import React from 'react'
+"use client";
 
-export default function BroadcastgroupPage() {
+import React, { useMemo } from "react";
+import { Radio } from "lucide-react";
+import { useSidebarLayout } from "@/components/LayoutClient";
+
+export default function WABroadcastGroupsIndexPage() {
+  const { sidebarCollapsed } = useSidebarLayout();
+  const containerWidthClass = useMemo(
+    () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-7xl"),
+    [sidebarCollapsed],
+  );
+
   return (
-    <div>Halaman Grup Siaran</div>
-  )
+    <div className={`${containerWidthClass} mx-auto px-4 py-4 space-y-4`}>
+      <section className="rounded-2xl border border-yellow-100 bg-white/95 px-5 py-5 shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-yellow-500 flex items-center justify-center">
+            <Radio className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">Grup Siaran</h1>
+            <p className="mt-1 text-xs sm:text-sm text-gray-600">Kelola grup siaran WhatsApp.</p>
+          </div>
+        </div>
+      </section>
+
+      <div className="bg-white rounded-2xl shadow-sm border border-yellow-100 overflow-hidden">
+        <div className="p-6 text-sm text-gray-500">Belum ada grup siaran. Ini halaman placeholder.</div>
+      </div>
+    </div>
+  );
 }

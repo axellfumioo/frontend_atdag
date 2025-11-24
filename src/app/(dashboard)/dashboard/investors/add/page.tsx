@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, UserCircle } from "lucide-react";
 import { investorService } from "@/services/InvestorService";
@@ -12,9 +12,15 @@ import { createInvestorValidation } from "@/common/validation/investorSchema";
 import FieldInfo from "@/components/FieldInfo";
 import { useMutation } from "@tanstack/react-query";
 import { InvestorTypeSelector } from "@/components/selectors/InvestorTypeSelector";
+import { useSidebarLayout } from "@/components/LayoutClient";
 
 export default function AddInvestorPage() {
   const router = useRouter();
+  const { sidebarCollapsed } = useSidebarLayout();
+  const containerWidthClass = useMemo(
+    () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-3xl"),
+    [sidebarCollapsed],
+  );
 
   const [types, setTypes] = useState<InvestorType[]>([]);
 
@@ -53,24 +59,32 @@ export default function AddInvestorPage() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-4">
-      <button
-        type="button"
-        onClick={() => router.push("/dashboard/investors")}
-        className="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4"
-      >
-        <ArrowLeft className="w-4 h-4 mr-1" />
-        <span>Kembali ke Investor</span>
-      </button>
+    <div className="min-h-full bg-slate-50 px-4 py-4">
+      <div className={`${containerWidthClass} mx-auto space-y-4`}>
+        <button
+          type="button"
+          onClick={() => router.push("/dashboard/investors")}
+          className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
+        >
+          <ArrowLeft className="w-4 h-4 mr-1" />
+          <span>Kembali ke Investor</span>
+        </button>
 
-      <div className="flex items-center space-x-3 mb-6">
-        <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center">
-          <UserCircle className="w-5 h-5 text-white" />
-        </div>
-        <h1 className="text-3xl font-bold text-gray-900">Tambah Investor</h1>
-      </div>
+        <header className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
+            <UserCircle className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">
+              Tambah Investor
+            </h1>
+            <p className="mt-1 text-xs sm:text-sm text-gray-600">
+              Lengkapi detail investor untuk menambahkannya ke sistem.
+            </p>
+          </div>
+        </header>
 
-      <div className="bg-white rounded-lg shadow border border-gray-200 p-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-yellow-100 p-6 sm:p-8">
         <form
           className="space-y-8"
           onSubmit={(e) => {
@@ -158,6 +172,7 @@ export default function AddInvestorPage() {
             </button>
           </div>
         </form>
+        </div>
       </div>
     </div>
   );

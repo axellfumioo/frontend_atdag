@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Search,
   RefreshCw,
@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { Currency } from "@/common/model";
 import UpdateCurrency from "@/components/UpdateCurrency";
+import { useSidebarLayout } from "@/components/LayoutClient";
 
 export default function CurrenciesPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -29,6 +30,7 @@ export default function CurrenciesPage() {
   const [currencyToDelete, setCurrencyToDelete] = useState<number | null>(null);
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { sidebarCollapsed } = useSidebarLayout();
   const {
     data: currencies,
     isLoading: isLoadingCurrencies,
@@ -66,6 +68,11 @@ export default function CurrenciesPage() {
     toast.success("Data mata uang diperbarui");
   }
 
+  const containerWidthClass = useMemo(
+    () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-7xl"),
+    [sidebarCollapsed],
+  );
+
   const filteredCurrencies = currencies
     ? currencies.filter((item) => {
         const q = searchQuery.toLowerCase();
@@ -100,20 +107,32 @@ export default function CurrenciesPage() {
         />
       )}
 
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="mb-6">
-          <div className="flex items-center space-x-3 mb-2">
-            <div className="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center">
-              <CircleDollarSign className="w-4 h-4 text-white" />
+      <div className={`${containerWidthClass} mx-auto px-4 py-4 space-y-4`}>
+        {/* Header Section */}
+        <section className="rounded-2xl border border-yellow-100 bg-white/95 px-5 py-5 shadow-sm">
+          <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
+                <CircleDollarSign className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">
+                  Mata Uang
+                </h1>
+                <p className="mt-1 text-xs sm:text-sm text-gray-600">
+                  Kelola mata uang yang digunakan untuk investasi dan pelacakan keuangan.
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Mata Uang</h1>
-              <p className="text-gray-600 text-sm">Kelola mata uang yang digunakan untuk investasi dan pelacakan keuangan.</p>
-            </div>
-          </div>
-        </div>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="inline-flex items-center gap-2 rounded-full border border-yellow-100 bg-white px-3 py-1 text-xs font-medium text-gray-600">
+              <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.25)]" />
+              Data tersinkronisasi
+            </div>
+          </header>
+        </section>
+
+        <div className="bg-white rounded-2xl shadow-sm border border-yellow-100 overflow-hidden">
           <div className="p-4 border-b border-gray-200 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="relative w-full sm:max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -146,60 +165,48 @@ export default function CurrenciesPage() {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+          <div className="relative overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left">
-                    <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
+                    <button className="flex items-center space-x-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
                       <span>Urutan</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">Kode</th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">Simbol</th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">Nama</th>
                   <th className="px-6 py-3 text-left">
-                    <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Kode
-                    </span>
-                  </th>
-                  <th className="px-6 py-3 text-left">
-                    <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Simbol
-                    </span>
-                  </th>
-                  <th className="px-6 py-3 text-left">
-                    <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Nama
-                    </span>
-                  </th>
-                  <th className="px-6 py-3 text-left">
-                    <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
+                    <button className="flex items-center space-x-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
                       <span>Tanggal Dibuat</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
                   <th className="px-6 py-3 text-left">
-                    <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
+                    <button className="flex items-center space-x-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
                       <span>Tanggal Diperbarui</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="px-6 py-3 text-left">
-                    <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Aksi
-                    </span>
-                  </th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                {isLoadingCurrencies && (
-                  <tr>
-                    <td colSpan={7} className="px-6 py-4 text-sm text-gray-500">
-                      Memuat mata uang...
-                    </td>
-                  </tr>
-                )}
-
-                {!isLoadingCurrencies && filteredCurrencies?.length === 0 && (
+                {isLoadingCurrencies ? (
+                  Array.from({ length: 10 }).map((_, i) => (
+                    <tr key={i} className="border-b border-gray-100 last:border-0">
+                      <td className="px-6 py-3"><div className="h-4 w-14 bg-gray-100 rounded animate-pulse" /></td>
+                      <td className="px-6 py-3"><div className="h-4 w-20 bg-gray-100 rounded animate-pulse" /></td>
+                      <td className="px-6 py-3"><div className="h-4 w-16 bg-gray-100 rounded animate-pulse" /></td>
+                      <td className="px-6 py-3"><div className="h-4 w-40 bg-gray-100 rounded animate-pulse" /></td>
+                      <td className="px-6 py-3"><div className="h-4 w-28 bg-gray-100 rounded animate-pulse" /></td>
+                      <td className="px-6 py-3"><div className="h-4 w-28 bg-gray-100 rounded animate-pulse" /></td>
+                      <td className="px-6 py-3"><div className="h-6 w-20 bg-gray-100 rounded animate-pulse" /></td>
+                    </tr>
+                  ))
+                ) : filteredCurrencies?.length === 0 ? (
                   <tr>
                     <td colSpan={11} className="px-6 py-16">
                       <div className="flex flex-col items-center justify-center text-center">
@@ -222,13 +229,11 @@ export default function CurrenciesPage() {
                       </div>
                     </td>
                   </tr>
-                )}
-
-                {!isLoadingCurrencies &&
+                ) : (
                   filteredCurrencies?.map((item) => (
                     <tr
                       key={item.id}
-                      className="border-b border-gray-100 last:border-0"
+                      className="group border-b border-gray-100 last:border-0 hover:bg-gray-50/80"
                     >
                       <td className="px-6 py-3 text-sm text-gray-700">
                         {item.order}
@@ -242,10 +247,10 @@ export default function CurrenciesPage() {
                       <td className="px-6 py-3 text-sm text-gray-700">
                         {item.name}
                       </td>
-                      <td className="px-6 py-3 text-sm text-gray-700">
+                      <td className="px-6 py-3 text-sm text-gray-700 whitespace-nowrap">
                         {new Date(item.created_at).toLocaleDateString("id-ID")}
                       </td>
-                      <td className="px-6 py-3 text-sm text-gray-700">
+                      <td className="px-6 py-3 text-sm text-gray-700 whitespace-nowrap">
                         {new Date(item.updated_at).toLocaleDateString("id-ID")}
                       </td>
                       <td className="px-6 py-3">
@@ -260,6 +265,7 @@ export default function CurrenciesPage() {
                           >
                             <Pencil className="w-4 h-4" />
                           </button>
+
                           <button
                             title="delete"
                             onClick={() => {
@@ -273,7 +279,8 @@ export default function CurrenciesPage() {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )}
               </tbody>
             </table>
           </div>
