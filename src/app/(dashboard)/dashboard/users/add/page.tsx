@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, UserPlus } from "lucide-react";
 import { useForm } from "@tanstack/react-form";
@@ -10,9 +10,15 @@ import { toast } from "sonner";
 import { createUserValidation } from "@/common/validation/userSchema";
 import { userService } from "@/services/UserService";
 import FieldInfo from "@/components/FieldInfo";
+import { useSidebarLayout } from "@/components/LayoutClient";
 
 export default function AddUserPage() {
   const router = useRouter();
+  const { sidebarCollapsed } = useSidebarLayout();
+  const containerWidthClass = useMemo(
+    () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-7xl"),
+    [sidebarCollapsed],
+  );
 
   const { mutate: createUser, isPending } = useMutation({
     mutationKey: ["createUser"],
@@ -52,7 +58,7 @@ export default function AddUserPage() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-4">
+    <div className={`${containerWidthClass} mx-auto px-4 py-4`}>
       {/* Back Button */}
       <button
         type="button"

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Wallet } from "lucide-react";
 // import api from "@/common/lib/apiClient";
@@ -10,6 +10,7 @@ import { currencyService } from "@/services/CurrencyService";
 import { toast } from "sonner";
 import { createCurrenciesValidation } from "@/common/validation/currenciesSchema";
 import FieldInfo from "@/components/FieldInfo";
+import { useSidebarLayout } from "@/components/LayoutClient";
 
 export default function AddCurrencyPage() {
   const router = useRouter();
@@ -51,8 +52,14 @@ export default function AddCurrencyPage() {
     },
   });
 
+  const { sidebarCollapsed } = useSidebarLayout();
+  const containerWidthClass = useMemo(
+    () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-7xl"),
+    [sidebarCollapsed],
+  );
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-4">
+    <div className={`${containerWidthClass} mx-auto px-4 py-4`}>
       {/* Back */}
       <button
         type="button"

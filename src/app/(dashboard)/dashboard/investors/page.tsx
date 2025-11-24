@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Search,
   // Filter,
@@ -17,12 +17,14 @@ import { toast } from "sonner";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import UpdateInvestor from "@/components/UpdateInvestor";
 import { Investor } from "@/common/model";
+import { useSidebarLayout } from "@/components/LayoutClient";
 
 export default function InvestorsPage() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpenDelete, setIsopenDelete] = useState(false);
   const queryClient = useQueryClient();
+  const { sidebarCollapsed } = useSidebarLayout();
   const [currentPage, setCurrentPage] = useState(1);
 
   // const [isUpdateOpen, setIUpdateOpen] = useState(false)
@@ -46,7 +48,7 @@ export default function InvestorsPage() {
     mutationFn: investorService.deleteInvestor,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["investors"],
+        queryKey: ["investorsWithPagination"],
       });
       toast.success("Berhasil menghapus investor");
       setIsopenDelete(false);
@@ -65,10 +67,15 @@ export default function InvestorsPage() {
 
   function handleRefresh() {
     queryClient.invalidateQueries({
-      queryKey: ["investors"],
+      queryKey: ["investorsWithPagination"],
     });
     toast.success("Data investor diperbarui");
   }
+
+  const containerWidthClass = useMemo(
+    () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-7xl"),
+    [sidebarCollapsed],
+  );
 
   return (
     <>
@@ -90,45 +97,56 @@ export default function InvestorsPage() {
           setIsOpen={setIsUpdateOpen}
         />
       )}
-      <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className={`${containerWidthClass} mx-auto px-4 py-4 space-y-4`}>
         {/* Header Section */}
-        <div className="mb-6">
-          <div className="flex items-center space-x-3 mb-2">
-            <div className="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
+        <section className="rounded-2xl border border-yellow-100 bg-white/95 px-5 py-5 shadow-sm">
+          <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
+                <svg
+                  className="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">
+                  Investor
+                </h1>
+                <p className="mt-1 text-xs sm:text-sm text-gray-600">
+                  Kelola hubungan investor dan informasi kontak mereka.
+                </p>
+              </div>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900">Investor</h1>
-          </div>
-          <p className="text-gray-600">
-            Kelola hubungan investor dan informasi kontak mereka.
-          </p>
-        </div>
 
-        {/* Controls */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="inline-flex items-center gap-2 rounded-full border border-yellow-100 bg-white px-3 py-1 text-xs font-medium text-gray-600">
+              <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.25)]" />
+              Data tersinkronisasi
+            </div>
+          </header>
+        </section>
+
+        {/* Controls + Table */}
+        <div className="bg-white rounded-2xl shadow-sm border border-yellow-100 overflow-hidden">
           <div className="p-4 border-b border-gray-200">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex flex-col sm:flex-row gap-3 flex-1">
                 <div className="relative flex-1 max-w-md">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="text"
                     placeholder="Cari berdasarkan nama..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                   />
                 </div>
 
@@ -141,7 +159,7 @@ export default function InvestorsPage() {
               <div className="flex gap-3">
                 <button
                   onClick={handleRefresh}
-                  className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   <RefreshCw className="w-4 h-4" />
                   <span>Segarkan</span>
@@ -159,25 +177,48 @@ export default function InvestorsPage() {
           </div>
 
           {/* Table */}
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+          <div className="relative overflow-x-auto max-h-[70vh]">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left">
-                    <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
+                    <button className="flex items-center space-x-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
                       <span>Nama</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="px-6 py-3 text-left">Tipe</th>
-                  <th className="px-6 py-3 text-left">Website</th>
-                  <th className="px-6 py-3 text-left">Tanggal Dibuat</th>
-                  <th className="px-6 py-3 text-left">Tanggal Diperbarui</th>
-                  <th className="px-6 py-3 text-left">Aksi</th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">Tipe</th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">Website</th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">Tanggal Dibuat</th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">Tanggal Diperbarui</th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                {!isLoadingInvestor && !filteredInvestors ? (
+                {isLoadingInvestor ? (
+                  Array.from({ length: 6 }).map((_, i) => (
+                    <tr key={i} className="border-b border-gray-100 last:border-0">
+                      <td className="px-6 py-3">
+                        <div className="h-4 w-40 bg-gray-100 rounded animate-pulse" />
+                      </td>
+                      <td className="px-6 py-3">
+                        <div className="h-4 w-24 bg-gray-100 rounded animate-pulse" />
+                      </td>
+                      <td className="px-6 py-3">
+                        <div className="h-4 w-36 bg-gray-100 rounded animate-pulse" />
+                      </td>
+                      <td className="px-6 py-3">
+                        <div className="h-4 w-28 bg-gray-100 rounded animate-pulse" />
+                      </td>
+                      <td className="px-6 py-3">
+                        <div className="h-4 w-28 bg-gray-100 rounded animate-pulse" />
+                      </td>
+                      <td className="px-6 py-3">
+                        <div className="h-6 w-20 bg-gray-100 rounded animate-pulse" />
+                      </td>
+                    </tr>
+                  ))
+                ) : !isLoadingInvestor && (filteredInvestors?.length ?? 0) === 0 ? (
                   <tr>
                     <td colSpan={11} className="px-6 py-16">
                       <div className="flex flex-col items-center justify-center text-center">
@@ -196,7 +237,7 @@ export default function InvestorsPage() {
                             />
                           </svg>
                         </div>
-                        <p className="text-gray-400 text-sm">Tidak ada data</p>
+                        <p className="text-gray-400 text-sm">Investor tidak ditemukan</p>
                       </div>
                     </td>
                   </tr>
@@ -204,36 +245,50 @@ export default function InvestorsPage() {
                   filteredInvestors?.map((inv) => (
                     <tr
                       key={inv.id}
-                      className="border-b border-gray-100 last:border-0"
+                      className="group border-b border-gray-100 last:border-0 hover:bg-gray-50/80"
                     >
-                      <td className="px-6 py-3 text-sm text-gray-800">
+                      <td className="px-6 py-3 text-gray-800">
                         {inv.name}
                       </td>
-                      <td className="px-6 py-3 text-sm text-gray-700">
-                        <div className="flex items-center gap-2">
+                      <td className="px-6 py-3 text-gray-700">
+                        <span
+                          className="inline-flex items-center gap-2 rounded-full border px-2 py-0.5 text-xs"
+                          style={{
+                            borderColor: inv.investor_type?.color || "#E5E7EB",
+                          }}
+                        >
                           <span
                             className="w-2 h-2 rounded-full"
-                            style={{
-                              backgroundColor: inv.investor_type?.color,
-                            }}
+                            style={{ backgroundColor: inv.investor_type?.color }}
                           />
                           <span>{inv.investor_type?.name || "-"}</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-3 text-sm text-blue-600 underline">
-                        {inv.website || "-"}
-                      </td>
-                      <td className="px-6 py-3 text-sm text-gray-600">
-                        {new Date(inv.created_at).toLocaleDateString()}
-                      </td>
-                      <td className="px-6 py-3 text-sm text-gray-600">
-                        {new Date(inv.updated_at).toLocaleDateString()}
+                        </span>
                       </td>
                       <td className="px-6 py-3">
-                        <div className="flex items-center gap-2">
+                        {inv.website ? (
+                          <a
+                            href={inv.website.startsWith("http") ? inv.website : `https://${inv.website}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-700 underline"
+                          >
+                            {inv.website}
+                          </a>
+                        ) : (
+                          <span className="text-gray-400">-</span>
+                        )}
+                      </td>
+                      <td className="px-6 py-3 text-gray-600 whitespace-nowrap">
+                        {new Date(inv.created_at).toLocaleDateString("id-ID")}
+                      </td>
+                      <td className="px-6 py-3 text-gray-600 whitespace-nowrap">
+                        {new Date(inv.updated_at).toLocaleDateString("id-ID")}
+                      </td>
+                      <td className="px-6 py-3">
+                        <div className="flex items-center gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                           <button
                             title="update"
-                            className="p-1.5 rounded border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700"
+                            className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700"
                             onClick={() => {
                               setSelectedInvestor(inv);
                               setIsUpdateOpen(true);
@@ -247,7 +302,7 @@ export default function InvestorsPage() {
                               setIsopenDelete(true);
                               setSelectedInvestorId(inv.id);
                             }}
-                            className="p-1.5 rounded border border-gray-200 hover:bg-red-50 text-red-500 hover:text-red-600"
+                            className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-gray-200 hover:bg-red-50 text-red-500 hover:text-red-600"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>

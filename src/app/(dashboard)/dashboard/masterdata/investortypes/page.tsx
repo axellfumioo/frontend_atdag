@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Search,
   RefreshCw,
@@ -17,6 +17,7 @@ import ConfirmDialog from "@/components/ConfirmDialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import UpdateInvestorType from "@/components/UpdateInvestorType";
+import { useSidebarLayout } from "@/components/LayoutClient";
 
 export default function InvestorTypesPage() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function InvestorTypesPage() {
     mutationFn: investorTypeService.deleteInvestorType,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["investorType"],
+        queryKey: ["investorTypeWithPagination"],
       });
       toast.success("Berhasil menghapus tipe investor");
       setIsopenDelete(false);
@@ -48,14 +49,18 @@ export default function InvestorTypesPage() {
 
   function handleRefreshTypes() {
     queryClient.invalidateQueries({
-      queryKey: ["investorType"],
+      queryKey: ["investorTypeWithPagination"],
     });
     toast.success("Data tipe investor diperbarui");
+    refetch().then(() => {
+      setCurrentPage(1);
+    });
   }
 
-  const { data } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["investorTypeWithPagination", currentPage],
-    queryFn: () => investorTypeService.getAllInvestorTypesWithPagination(currentPage),
+    queryFn: () =>
+      investorTypeService.getAllInvestorTypesWithPagination(currentPage),
   });
 
   const filteredData = data
@@ -65,6 +70,12 @@ export default function InvestorTypesPage() {
     : [];
 
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const { sidebarCollapsed } = useSidebarLayout();
+
+  const containerWidthClass = useMemo(
+    () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-7xl"),
+    [sidebarCollapsed],
+  );
 
   return (
     <>
@@ -86,22 +97,35 @@ export default function InvestorTypesPage() {
           setIsOpen={setIsUpdateOpen}
         />
       )}
-      <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className={`${containerWidthClass} mx-auto px-4 py-4 space-y-4`}>
         {/* Header */}
         <div className="mb-6">
-          <div className="flex items-center space-x-3 mb-2">
-            <div className="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center">
-              <UserCircle2 className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Tipe Investor</h1>
-              <p className="text-gray-600 text-sm">Atur kategori tipe investor beserta warnanya (Angel, VC, Private Equity, dll.).</p>
-            </div>
-          </div>
+          <section className="rounded-2xl border border-yellow-100 bg-white/95 px-5 py-5 shadow-sm">
+            <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
+                  <UserCircle2 className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">
+                    Tipe Investor
+                  </h1>
+                  <p className="mt-1 text-xs sm:text-sm text-gray-600">
+                    Atur kategori tipe investor beserta warnanya (Angel, VC, Private Equity, dll.).
+                  </p>
+                </div>
+              </div>
+
+              <div className="inline-flex items-center gap-2 rounded-full border border-yellow-100 bg-white px-3 py-1 text-xs font-medium text-gray-600">
+                <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.25)]" />
+                Data tersinkronisasi
+              </div>
+            </header>
+          </section>
         </div>
 
         {/* Controls */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white rounded-2xl shadow-sm border border-yellow-100 overflow-hidden">
           <div className="p-4 border-b border-gray-200 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="relative w-full sm:max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -135,105 +159,150 @@ export default function InvestorTypesPage() {
           </div>
 
           {/* Table */}
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+          <div className="relative overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/75 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left">
-                    <button className="flex items-center space-x-1 text-xs font-medium text-gray-700 uppercase tracking-wider hover:text-gray-900">
+                    <button className="flex items-center gap-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
                       <span>ID</span>
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="px-6 py-3 text-left">Nama Tipe</th>
-                  <th className="px-6 py-3 text-left">Warna</th>
-                  <th className="px-6 py-3 text-left">Tanggal Dibuat</th>
-                  <th className="px-6 py-3 text-left">Tanggal Diperbarui</th>
-                  <th className="px-6 py-3 text-left">Aksi</th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">
+                    Nama Tipe
+                  </th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">
+                    Warna
+                  </th>
+                  <th className="px-6 py-3 text-left">
+                    <button className="flex items-center gap-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
+                      <span>Tanggal Dibuat</span>
+                      <ArrowUpDown className="w-3 h-3" />
+                    </button>
+                  </th>
+                  <th className="px-6 py-3 text-left">
+                    <button className="flex items-center gap-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
+                      <span>Tanggal Diperbarui</span>
+                      <ArrowUpDown className="w-3 h-3" />
+                    </button>
+                  </th>
+                  <th className="px-6 py-3 text-left text-[11px] font-medium text-gray-600 uppercase tracking-wide">
+                    Aksi
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {filteredData?.map((item) => (
-                  <tr
-                    key={item.id}
-                    className="border-b border-gray-100 last:border-0"
-                  >
-                    <td className="px-6 py-3 text-sm text-gray-700">
-                      {item.id}
-                    </td>
-                    <td className="px-6 py-3">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`w-2 h-2 rounded-full`}
-                          style={{ backgroundColor: item.color }}
-                        />
-                        <span className="text-sm text-gray-800">
-                          {item.name}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-3 text-sm font-mono text-gray-700">
-                      {item.color}
-                    </td>
-                    <td className="px-6 py-3 text-sm text-gray-700">
-                      {new Date(item.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-3 text-sm text-gray-700">
-                      {new Date(item.updated_at).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-3">
-                      <div className="flex items-center gap-2">
-                        <button
-                          title="update"
-                          className="p-1.5 rounded border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700"
-                          onClick={() => {
-                            setSelectedInvestortype(item);
-                            setIsUpdateOpen(true);
-                          }}
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </button>
-                        <button
-                          title="delete"
-                          className="p-1.5 rounded border border-gray-200 hover:bg-red-50 text-red-500 hover:text-red-600"
-                          onClick={() => {
-                            setIsopenDelete(true);
-                            setSelectedInvestorType({
-                              id: item.id,
-                              name: item.name,
-                            });
-                          }}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-                {filteredData?.length === 0 && (
-                  <tr>
-                    <td colSpan={11} className="px-6 py-16">
-                      <div className="flex flex-col items-center justify-center text-center">
-                        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                          <svg
-                            className="w-10 h-10 text-gray-300"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={1.5}
-                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                            />
-                          </svg>
+                {isLoading
+                  ? Array.from({ length: 6 }).map((_, i) => (
+                      <tr
+                        key={i}
+                        className="border-b border-gray-100 last:border-0"
+                      >
+                        <td className="px-6 py-3">
+                          <div className="h-4 w-8 bg-gray-100 rounded animate-pulse" />
+                        </td>
+                        <td className="px-6 py-3">
+                          <div className="h-4 w-40 bg-gray-100 rounded animate-pulse" />
+                        </td>
+                        <td className="px-6 py-3">
+                          <div className="h-4 w-24 bg-gray-100 rounded animate-pulse" />
+                        </td>
+                        <td className="px-6 py-3">
+                          <div className="h-4 w-28 bg-gray-100 rounded animate-pulse" />
+                        </td>
+                        <td className="px-6 py-3">
+                          <div className="h-4 w-28 bg-gray-100 rounded animate-pulse" />
+                        </td>
+                        <td className="px-6 py-3">
+                          <div className="h-6 w-20 bg-gray-100 rounded animate-pulse" />
+                        </td>
+                      </tr>
+                    ))
+                  : filteredData.length === 0
+                  ? (
+                    <tr>
+                      <td colSpan={11} className="px-6 py-16">
+                        <div className="flex flex-col items-center justify-center text-center">
+                          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                            <svg
+                              className="w-10 h-10 text-gray-300"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={1.5}
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                              />
+                            </svg>
+                          </div>
+                          <p className="text-gray-400 text-sm">Tidak ada tipe investor</p>
                         </div>
-                        <p className="text-gray-400 text-sm">Tidak ada tipe investor</p>
-                      </div>
-                    </td>
-                  </tr>
-                )}
+                      </td>
+                    </tr>
+                  )
+                  : (
+                    filteredData.map((item) => (
+                      <tr
+                        key={item.id}
+                        className="border-b border-gray-100 last:border-0 hover:bg-gray-50/80"
+                      >
+                        <td className="px-6 py-3 text-sm text-gray-700">
+                          {item.id}
+                        </td>
+                        <td className="px-6 py-3">
+                          <div className="flex items-center gap-2">
+                            <span
+                              className="w-2 h-2 rounded-full"
+                              style={{ backgroundColor: item.color }}
+                            />
+                            <span className="text-sm text-gray-800">
+                              {item.name}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-3 text-sm font-mono text-gray-700">
+                          {item.color}
+                        </td>
+                        <td className="px-6 py-3 text-sm text-gray-700 whitespace-nowrap">
+                          {new Date(item.created_at).toLocaleDateString("id-ID")}
+                        </td>
+                        <td className="px-6 py-3 text-sm text-gray-700 whitespace-nowrap">
+                          {new Date(item.updated_at).toLocaleDateString("id-ID")}
+                        </td>
+                        <td className="px-6 py-3">
+                          <div className="flex items-center gap-2">
+                            <button
+                              title="update"
+                              className="p-1.5 rounded border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700"
+                              onClick={() => {
+                                setSelectedInvestortype(item);
+                                setIsUpdateOpen(true);
+                              }}
+                            >
+                              <Pencil className="w-4 h-4" />
+                            </button>
+                            <button
+                              title="delete"
+                              className="p-1.5 rounded border border-gray-200 hover:bg-red-50 text-red-500 hover:text-red-600"
+                              onClick={() => {
+                                setIsopenDelete(true);
+                                setSelectedInvestorType({
+                                  id: item.id,
+                                  name: item.name,
+                                });
+                              }}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
               </tbody>
             </table>
           </div>
