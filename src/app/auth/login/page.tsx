@@ -19,7 +19,7 @@ export default function LoginPage() {
     try {
       const result = await authService.login({ email, password });
       if (result) {
-        router.push("/");
+        router.push("/dashboard");
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Terjadi kesalahan saat login";
