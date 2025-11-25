@@ -167,13 +167,9 @@ export default function DashboardStats() {
 
         {/* Charts Row */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-1">
-          <div className="rounded-2xl border border-yellow-100 bg-white/95 p-3 sm:p-4 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
             <InvestmentStatusChart data={investmentStatusChart ?? []} />
-          </div>
 
-          <div className="rounded-2xl border border-yellow-100 bg-white/95 p-3 sm:p-4 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
             <InvestmentCurrencyChart data={investmentCurrencyChart ?? []} />
-          </div>
         </section>
       </div>
     </div>

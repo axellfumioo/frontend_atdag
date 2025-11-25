@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/common/shadcn/ui/button";
 import {
   Dialog,
@@ -10,12 +10,13 @@ import {
 } from "@/common/shadcn/ui/dialog";
 import { User } from "@/common/model";
 import { userService } from "@/services/UserService";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useForm } from "@tanstack/react-form";
 import FieldInfo from "@/components/FieldInfo";
 import { updateUserValidation } from "@/common/validation/userSchema";
 import { UpdateUserDto } from "@/common/dto/userDto";
+import { roleService } from "@/services/RoleService";
 
 interface Props {
   isOpen: boolean;
@@ -25,9 +26,13 @@ interface Props {
 
 export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
   const queryClient = useQueryClient();
+  const {data: roleData} = useQuery({
+    queryKey: ["roleData"],
+    queryFn: roleService.getAllRole
+  })
 
   const { mutate: updateUser, isPending } = useMutation({
-    mutationKey: ["updateUser"],
+    mutationKey: ["UpdateUser"],
     mutationFn: (dto: UpdateUserDto) => userService.updateUser(user.id, dto),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
@@ -45,7 +50,7 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
       email: user.email,
       phone: user.phone || "",
       address: user.address || "",
-      roleId: user.roleId,
+      roleId: user.role_id,
     },
     validators: {
       onChange: updateUserValidation,
@@ -166,14 +171,14 @@ export default function UpdateUser({ isOpen, setIsOpen, user }: Props) {
 
                 <select
                   id={field.name}
-                  value={field.state.value ?? 1}
+                  value={Number(field.state.value)}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(Number(e.target.value))}
                   className="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 >
-                  <option value={1}>Admin</option>
-                  <option value={2}>Pengguna</option>
-                  <option value={3}>Manajer</option>
+                  {roleData?.map((role) => (
+                    <option key={role.id} value={role.id}>{role.role_name}</option>
+                  ))}
 
                 </select>
                 <FieldInfo field={field} />

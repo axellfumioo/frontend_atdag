@@ -93,7 +93,7 @@ export interface User {
   email: string;
   phone?: string | null;
   address?: string | null;
-  roleId?: number | null;
+  role_id: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -108,4 +108,9 @@ export interface ChartInvestmentPerCurrency {
   currency_name: string;
   total: number;
   currency_code: number
+}
+
+export interface Role {
+  id: number;
+  role_name: string;
 }

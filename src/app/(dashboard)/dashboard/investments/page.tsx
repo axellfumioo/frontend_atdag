@@ -307,7 +307,7 @@ export default function InvestmentsPage() {
                           )}
                         </td>
                         <td className="px-6 py-3">
-                          <div className="flex items-center gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                          <div className="flex items-center gap-2 ">
                             <button
                               title="edit"
                               onClick={() => {

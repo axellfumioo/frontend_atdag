@@ -285,7 +285,7 @@ export default function InvestorsPage() {
                         {new Date(inv.updated_at).toLocaleDateString("id-ID")}
                       </td>
                       <td className="px-6 py-3">
-                        <div className="flex items-center gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center gap-2 ">
                           <button
                             title="update"
                             className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700"
