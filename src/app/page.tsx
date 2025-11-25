@@ -107,9 +107,13 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="bg-white rounded-full px-8 py-4 shadow-lg border border-gray-100">
             <div className="flex items-center justify-between">
-              <div className="text-base font-semibold text-gray-900 tracking-tight">
-                LOREM IPSUM
-              </div>
+             <div className="flex items-center">
+  <img
+    src="/logo-export.png"
+    alt="Logo"
+    className="h-12 w-auto object-contain"
+  />
+</div>
 
               <div className="flex items-center gap-8">
                 {/* LOGIN */}
@@ -144,19 +148,18 @@ export default function LandingPage() {
             <div className="relative z-10">
               <div className="inline-block bg-white/40 backdrop-blur-sm border-2 border-lime-500/30 rounded-full px-6 py-2 mb-6">
                 <span className="text-xs font-semibold text-gray-900 tracking-wider">
-                  WELCOME TO METAPLAY
+                  WELCOME TO EXPORT INDONESIA
                 </span>
               </div>
 
               <h1 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tight leading-[1.05] mb-4">
-                EMPOWERING INNOVATION
+                Solusi Modern untuk 
                 <br />
-                IN WEB3 GAMING
+                Manajemen Investor Perusahaan
               </h1>
 
               <p className="text-sm md:text-base text-gray-900/80 max-w-2xl mx-auto font-medium leading-relaxed">
-                METAPLAY IS A TOP GLOBAL FUNDING ENTITY, SPECIALIZING IN INVESTING
-                IN EARLY-STAGE WEB3 GAMING PROJECTS.
+                Bangun transparansi dan efisiensi dengan sistem pelacakan investasi yang cepat, aman, dan akurat.
               </p>
             </div>
           </div>

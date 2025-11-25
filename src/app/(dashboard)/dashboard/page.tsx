@@ -109,7 +109,7 @@ export default function DashboardStats() {
   });
 
   return (
-    <div className="min-h-full bg-linear-to-b from-yellow-50/40 via-white to-white px-4 py-6">
+    <div className="min-h-full bg-linear-to-b from-yellow-50/40 via-white to-white px-4 py-1">
       <div className={`${containerWidthClass} mx-auto space-y-6`}>
         {/* Header */}
         <section className="rounded-2xl border border-yellow-100 bg-white/95 px-5 py-4 shadow-sm flex flex-col gap-3">

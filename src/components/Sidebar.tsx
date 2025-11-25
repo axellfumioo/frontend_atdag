@@ -259,7 +259,7 @@ export default function Sidebar({ open, setOpen, onCollapseChange }: SidebarProp
   const handleLogout = async () => {
     const res = await authService.logout();
     if (res) {
-      router.push("/auth/login");
+      router.push("/");
     }
   };
 
