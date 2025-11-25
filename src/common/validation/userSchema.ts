@@ -12,7 +12,6 @@ export const createUserValidation = z.object({
 export const updateUserValidation = z.object({
   name: z.string().min(3, "*Required Name"),
   email: z.string().email("*Invalid email format"),
-  password: z.string().min(0),
   phone: z.string().min(10, "*Phone must be min 10 digits"),
   address: z.string().min(1, "*Required Address"),
     roleId: z.number().min(1, "Role is required"), 

@@ -208,7 +208,7 @@ confirmText="Hapus"
                   <td className="px-6 py-3">{u.phone || "-"}</td>
                   <td className="px-6 py-3">{u.address || "-"}</td>
                   <td className="px-6 py-3">
-                    <div className="flex items-center gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center gap-2 ">
                       <button
                         className="p-1.5 rounded border border-gray-200 hover:bg-gray-50 text-gray-500"
                         onClick={() => {

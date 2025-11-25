@@ -20,35 +20,39 @@ import {
 } from "@/common/shadcn/ui/chart";
 
 import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  ResponsiveContainer,
+} from "recharts";
 
 interface Props {
   data: ChartInvestmentPerCurrency[];
 }
 
-// Pool warna otomatis
 const COLOR_POOL = [
-  "#4A90E2", // muted blue
-  "#50E3C2", // teal
-  "#7ED321", // green
-  "#BD10E0", // purple
-  "#9013FE", // deep purple
-  "#417505", // olive green
-  "#2C3E50", // dark blue
-  "#16A085", // dark teal
-  "#8E44AD", // dark purple
-  "#27AE60", // forest green
+  "#4A90E2",
+  "#50E3C2",
+  "#7ED321",
+  "#BD10E0",
+  "#9013FE",
+  "#417505",
+  "#2C3E50",
+  "#16A085",
+  "#8E44AD",
+  "#27AE60",
 ];
 
 export function InvestmentCurrencyChart({ data }: Props) {
-  // Format data untuk recharts
   const chartData = data.map((item, index) => ({
     currency: item.currency_code,
     total: item.total,
     fill: COLOR_POOL[index % COLOR_POOL.length],
   }));
 
-  // Config legend
   const chartConfig: ChartConfig = Object.fromEntries(
     data.map((item, index) => [
       item.currency_code,
@@ -66,44 +70,46 @@ export function InvestmentCurrencyChart({ data }: Props) {
         <CardDescription>Total investment count by currency</CardDescription>
       </CardHeader>
 
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
-          <div className="w-full h-full">
-            <BarChart
-              accessibilityLayer
-              data={chartData}
-              margin={{ top: 20 }}
-              width={500}
-              height={300}
-            >
-              <CartesianGrid vertical={false} />
+   <CardContent>
+  <ChartContainer config={chartConfig} className="h-[300px] w-full">
+    {/* ChartContainer hanya boleh 1 child → bungkus dengan div */}
+    <div className="w-full h-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          accessibilityLayer
+          data={chartData}
+          margin={{ top: 20 }}
+        >
+          <CartesianGrid vertical={false} />
 
-              <XAxis
-                dataKey="currency"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-              />
+          <XAxis
+            dataKey="currency"
+            tickLine={false}
+            tickMargin={10}
+            axisLine={false}
+          />
 
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 
-              <Bar dataKey="total" radius={8} fill="var(--chart-1)">
-                <LabelList
-                  dataKey="total"
-                  position="top"
-                  offset={12}
-                  className="fill-foreground"
-                  fontSize={12}
-                />
-              </Bar>
-            </BarChart>
+          <Bar dataKey="total" radius={8} fill="var(--chart-1)">
+            <LabelList
+              dataKey="total"
+              position="top"
+              offset={12}
+              className="fill-foreground"
+              fontSize={12}
+            />
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
 
-            <div className="mt-4">
-              <ChartLegend content={<ChartLegendContent />} />
-            </div>
-          </div>
-        </ChartContainer>
-      </CardContent>
+      <div className="mt-4">
+        <ChartLegend content={<ChartLegendContent />} />
+      </div>
+    </div>
+  </ChartContainer>
+</CardContent>
+
 
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 leading-none font-medium">
