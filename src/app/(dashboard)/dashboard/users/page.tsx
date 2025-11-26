@@ -21,6 +21,8 @@ import { useSidebarLayout } from "@/components/LayoutClient";
 export default function UsersPage() {
 const router = useRouter();
 const queryClient = useQueryClient();
+  const [selectedUserIni, setSelectedUserIni] =
+    useState<User | null>(null);
 
 const [searchQuery, setSearchQuery] = useState("");
 const [isOpenDelete, setIsOpenDelete] = useState(false);
@@ -52,7 +54,7 @@ mutationKey: ["deleteUser"],
 mutationFn: (id: number) => userService.deleteUser(id),
 onSuccess: () => {
 queryClient.invalidateQueries({ queryKey: ["users"] });
-toast.success("Berhasil menghapus pengguna");
+toast.success(`Berhasil menghapus pengguna ${selectedUserIni?.name}`);
 setIsOpenDelete(false);
 },
 onError: () => {
@@ -76,7 +78,7 @@ onClose={() => setIsOpenDelete(false)}
 onConfirm={() => deleteUser(selectedUserId)}
 title="Hapus Pengguna"
 cancelText="Batal"
-description="Apakah kamu yakin ingin menghapus pengguna ini?"
+description={`Apakah kamu yakin ingin menghapus pengguna ${selectedUserIni?.name}`}
 confirmText="Hapus"
 />
 )}
@@ -165,7 +167,7 @@ confirmText="Hapus"
       {/* Table */}
       <div className="relative overflow-x-auto max-h-[70vh]">
         <table className="w-full text-sm">
-          <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75 border-b border-gray-200">
+          <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/75 border-b border-gray-200">
             <tr>
               <th className="px-6 py-3 text-left">
                 <button className="flex items-center space-x-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
@@ -222,6 +224,7 @@ confirmText="Hapus"
                       <button
                         onClick={() => {
                           setSelectedUserId(u.id);
+                          setSelectedUserIni(u)
                           setIsOpenDelete(true);
                         }}
                         className="p-1.5 rounded border border-gray-200 hover:bg-red-50 text-red-500"

@@ -4,21 +4,26 @@ import React, { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, UserPlus } from "lucide-react";
 import { useForm } from "@tanstack/react-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { createUserValidation } from "@/common/validation/userSchema";
 import { userService } from "@/services/UserService";
 import FieldInfo from "@/components/FieldInfo";
 import { useSidebarLayout } from "@/components/LayoutClient";
+import { roleService } from "@/services/RoleService";
 
 export default function AddUserPage() {
   const router = useRouter();
   const { sidebarCollapsed } = useSidebarLayout();
   const containerWidthClass = useMemo(
     () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-7xl"),
-    [sidebarCollapsed],
+    [sidebarCollapsed]
   );
+  const { data: roleData } = useQuery({
+    queryKey: ["roleData"],
+    queryFn: roleService.getAllRole,
+  });
 
   const { mutate: createUser, isPending } = useMutation({
     mutationKey: ["createUser"],
@@ -90,7 +95,9 @@ export default function AddUserPage() {
             <form.Field name="name">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium text-gray-700">Nama</label>
+                  <label className="text-sm font-medium text-gray-700">
+                    Nama
+                  </label>
                   <input
                     type="text"
                     value={field.state.value}
@@ -107,7 +114,9 @@ export default function AddUserPage() {
             <form.Field name="email">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium text-gray-700">Email</label>
+                  <label className="text-sm font-medium text-gray-700">
+                    Email
+                  </label>
                   <input
                     type="email"
                     value={field.state.value}
@@ -124,7 +133,9 @@ export default function AddUserPage() {
             <form.Field name="password">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium text-gray-700">Kata Sandi</label>
+                  <label className="text-sm font-medium text-gray-700">
+                    Kata Sandi
+                  </label>
                   <input
                     type="password"
                     value={field.state.value}
@@ -141,7 +152,9 @@ export default function AddUserPage() {
             <form.Field name="phone">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium text-gray-700">Telepon</label>
+                  <label className="text-sm font-medium text-gray-700">
+                    Telepon
+                  </label>
                   <input
                     type="text"
                     value={field.state.value}
@@ -158,16 +171,20 @@ export default function AddUserPage() {
             <form.Field name="roleId">
               {(field) => (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-sm font-medium text-gray-700">Peran</label>
+                  <label className="text-sm font-medium text-gray-700">
+                    Peran
+                  </label>
                   <select
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(Number(e.target.value))}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   >
-                    <option value="1">Admin</option>
-                    <option value="2">Pengguna</option>
-                    <option value="3">Manajer</option>
+                    {roleData?.map((role) => (
+                      <option key={role.id} value={role.id}>
+                        {role.role_name}
+                      </option>
+                    ))}
                   </select>
                   <FieldInfo field={field} />
                 </div>
@@ -178,7 +195,9 @@ export default function AddUserPage() {
             <form.Field name="address">
               {(field) => (
                 <div className="flex flex-col space-y-1 md:col-span-2">
-                  <label className="text-sm font-medium text-gray-700">Alamat</label>
+                  <label className="text-sm font-medium text-gray-700">
+                    Alamat
+                  </label>
                   <textarea
                     value={field.state.value}
                     onBlur={field.handleBlur}
