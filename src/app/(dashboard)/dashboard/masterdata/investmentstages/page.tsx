@@ -49,7 +49,7 @@ export default function InvestmentStagesPage() {
       queryClient.invalidateQueries({
         queryKey: ["investmentStages"],
       });
-      toast.success("Berhasil menghapus tahapan investasi!");
+      toast.success(`Berhasil menghapus tahapan ${selectedStage?.name} investasi!`);
       setIsDeleteOpen(false);
     },
     onError: () => {
@@ -88,7 +88,7 @@ export default function InvestmentStagesPage() {
           onClose={() => setIsDeleteOpen(false)}
           onConfirm={() => handleDelete(selectedStageId)}
           title="Hapus Tahapan Investasi"
-          description="Apakah kamu yakin ingin menghapus tahapan investasi ini?"
+          description={`Apakah kamu yakin ingin menghapus tahapan ${selectedStage?.name} investasi ini?`}
           confirmText="Hapus"
           cancelText="Batal"
         />
@@ -166,7 +166,7 @@ export default function InvestmentStagesPage() {
 
           <div className="relative overflow-x-auto max-h-[70vh]">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75 border-b border-gray-200">
+              <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/75 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
@@ -266,6 +266,7 @@ export default function InvestmentStagesPage() {
                             title="delete"
                             onClick={() => {
                               setSelectedStageId(stage.id);
+                              setSelectedStage(stage)
                               setIsDeleteOpen(true);
                             }}
                             className="rounded border border-gray-200 p-1 text-red-500 hover:bg-red-50"

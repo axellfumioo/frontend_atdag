@@ -44,7 +44,7 @@ export default function CurrenciesPage() {
     mutationKey: ["deleteCurrency"],
     mutationFn: currencyService.deleteCurrency,
     onSuccess: () => {
-      toast.success("Mata uang berhasil dihapus!");
+      toast.success(`Mata uang ${selectedCurrency?.name} berhasil dihapus!`);
       queryClient.invalidateQueries({
         queryKey: ["currencies"],
       });
@@ -96,7 +96,7 @@ export default function CurrenciesPage() {
         }}
         cancelText="Batal"
         confirmText="Hapus"
-        description="Apakah kamu yakin ingin menghapus mata uang ini?"
+        description={`Apakah kamu yakin ingin menghapus mata uang ${selectedCurrency?.name}?`}
         title="Hapus Mata Uang"
       />
       {isUpdateOpen && selectedCurrency && (
@@ -167,7 +167,7 @@ export default function CurrenciesPage() {
 
           <div className="relative overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75 border-b border-gray-200">
+              <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/75 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
@@ -269,6 +269,7 @@ export default function CurrenciesPage() {
                           <button
                             title="delete"
                             onClick={() => {
+                              setSelectedCurrency(item)
                               setIsOpen(true);
                               setCurrencyToDelete(item.id);
                             }}

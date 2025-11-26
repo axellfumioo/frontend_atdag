@@ -37,7 +37,7 @@ export default function InvestorTypesPage() {
       queryClient.invalidateQueries({
         queryKey: ["investorTypeWithPagination"],
       });
-      toast.success("Berhasil menghapus tipe investor");
+      toast.success(`Berhasil menghapus tipe ${selectedInvestorType?.name}`);
       setIsopenDelete(false);
     },
     onError: () => {
@@ -294,6 +294,7 @@ export default function InvestorTypesPage() {
                                   id: item.id,
                                   name: item.name,
                                 });
+                                setSelectedInvestorType(item)
                               }}
                             >
                               <Trash2 className="w-4 h-4" />
