@@ -54,7 +54,7 @@ export default function InvestmentsPage() {
       queryClient.invalidateQueries({
         queryKey: ["investments"],
       });
-      toast.success("Berhasil menghapus investasi");
+      toast.success(`Berhasil menghapus investasi ${selectedInvestmentType?.name}`);
       setIsopenDelete(false);
     },
     onError: () => {
@@ -162,7 +162,7 @@ export default function InvestmentsPage() {
           {/* Table */}
           <div className="relative overflow-x-auto max-h-[70vh]">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75 border-b border-gray-200">
+              <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/75 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
@@ -271,11 +271,11 @@ export default function InvestmentsPage() {
                         <td className="px-6 py-3 text-sm text-gray-700">
                           <span
                             className="inline-flex items-center gap-2 rounded-full border px-2 py-0.5 text-xs"
-                            style={{ borderColor: (item.investment_status as any)?.status_color || "#E5E7EB" }}
+                            style={{ borderColor: (item.investment_status)?.status_color || "#E5E7EB" }}
                           >
                             <span
                               className="w-2 h-2 rounded-full"
-                              style={{ backgroundColor: (item.investment_status as any)?.status_color || "#9CA3AF" }}
+                              style={{ backgroundColor: (item.investment_status)?.status_color || "#9CA3AF" }}
                             />
                             <span>{item.investment_status.status_name}</span>
                           </span>
