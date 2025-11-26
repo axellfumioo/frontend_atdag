@@ -50,7 +50,7 @@ export default function InvestorsPage() {
       queryClient.invalidateQueries({
         queryKey: ["investorsWithPagination"],
       });
-      toast.success("Berhasil menghapus investor");
+      toast.success(`Berhasil menghapus investor ${selectedInvestor?.name}`);
       setIsopenDelete(false);
     },
     onError: () => {
@@ -86,7 +86,7 @@ export default function InvestorsPage() {
           onConfirm={() => deleteInvestor(selectedInvestorId)}
           title="Hapus Investor"
           cancelText="Batal"
-          description="Anda yakin ingin menghapus investor ini?"
+          description={`Anda yakin ingin menghapus investor ${selectedInvestor?.name}?`}
           confirmText="Hapus"
         />
       )}
@@ -179,7 +179,7 @@ export default function InvestorsPage() {
           {/* Table */}
           <div className="relative overflow-x-auto max-h-[70vh]">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75 border-b border-gray-200">
+              <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/75 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left">
                     <button className="flex items-center space-x-1 text-[11px] font-medium text-gray-600 uppercase tracking-wide hover:text-gray-900">
@@ -300,6 +300,7 @@ export default function InvestorsPage() {
                             title="delete"
                             onClick={() => {
                               setIsopenDelete(true);
+                              setSelectedInvestor(inv)
                               setSelectedInvestorId(inv.id);
                             }}
                             className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-gray-200 hover:bg-red-50 text-red-500 hover:text-red-600"

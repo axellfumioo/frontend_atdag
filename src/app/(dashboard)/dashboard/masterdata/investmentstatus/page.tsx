@@ -10,6 +10,7 @@ import ConfirmDialog from "@/components/ConfirmDialog";
 import { InvestmentStatus } from "@/common/model";
 import UpdateInvestmentStatus from "@/components/UpdateInvestmentStatus";
 import { useSidebarLayout } from "@/components/LayoutClient";
+import { it } from "node:test";
 
 export default function InvestmentStatusPage() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function InvestmentStatusPage() {
       queryClient.invalidateQueries({
         queryKey: ["investmentStatusesWithPagination"],
       });
-      toast.success("Status investasi berhasil dihapus!");
+      toast.success(`Status ${selectedStatus?.status_name} berhasil dihapus!`);
       setIsDeleteOpen(false);
       setSelectedId(null);
     },
@@ -107,7 +108,7 @@ export default function InvestmentStatusPage() {
             if (selectedId !== null) handleDelete(selectedId);
           }}
           title="Hapus Status Investasi"
-          description="Apakah kamu yakin ingin menghapus status investasi ini?"
+          description={`Apakah kamu yakin ingin menghapus status ${selectedStatus?.status_name} ini?`}
           confirmText="Hapus"
           cancelText="Batal"
         />
@@ -350,7 +351,11 @@ export default function InvestmentStatusPage() {
                             {/* DELETE BUTTON */}
                             <button
                               title="delete"
-                              onClick={() => handleDeleteClick(item.id)}
+                              onClick={() => {
+                                handleDeleteClick(item.id);
+                                setSelectedStatus(item)
+                              }
+                              }
                               className="p-1.5 border rounded text-red-500 hover:bg-red-50"
                             >
                               <Trash2 className="w-4 h-4" />
