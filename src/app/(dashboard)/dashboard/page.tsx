@@ -11,6 +11,7 @@ import { chartService } from "@/services/ChartService";
 import { InvestmentCurrencyChart } from "@/components/InvestmentCurrencyChart";
 import { convertToIDR } from "@/common/lib/idrConverter";
 import { useSidebarLayout } from "@/components/LayoutClient";
+import { userService } from "@/services/UserService";
 
 export default function DashboardStats() {
   const { sidebarCollapsed } = useSidebarLayout();
@@ -23,6 +24,12 @@ export default function DashboardStats() {
     queryKey: ["dashboardInvestors"],
     queryFn: () => investorService.getAllInvestorsTotal(),
   });
+
+  // Fetch pengguna
+  const {data: totalUsers} = useQuery({
+    queryKey: ["dashboardPengguna"],
+    queryFn: () => userService.getAllUsersTotal(),
+  })
 
   // Fetch investment open
   const { data: openInvestment } = useQuery({
@@ -43,6 +50,13 @@ export default function DashboardStats() {
     {
       title: "Total Investor",
       value: (totalInvestors ?? 0).toString(),
+      icon: Users,
+      iconBg: "bg-blue-50",
+      iconColor: "text-blue-500",
+    },
+        {
+      title: "Total Pengguna",
+      value: (totalUsers ?? 0).toString(),
       icon: Users,
       iconBg: "bg-blue-50",
       iconColor: "text-blue-500",
