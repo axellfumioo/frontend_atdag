@@ -27,6 +27,8 @@ import {
 
 import { useRouter, usePathname } from "next/navigation";
 import { authService } from "@/services/AuthService";
+import { useStore } from "@tanstack/react-store";
+import { userStore } from "@/common/stores/user";
 
 interface SubMenuItem {
   name: string;
@@ -55,39 +57,6 @@ const menuItems: MenuItem[] = [
   { name: "Investor", icon: Users, path: "/dashboard/investors" },
   { name: "Investasi", icon: TrendingUp, path: "/dashboard/investments" },
   { name: "Pengguna", icon: UserSquare2, path: "/dashboard/users" },
-  {
-    name: "Siaran WA",
-    icon: MessageCircle,
-    hasArrow: true,
-    path: "/dashboard/wabroadcast",
-    subItems: [
-      {
-        name: "Kontak",
-        path: "/dashboard/wabroadcast/contacts",
-        icon: Phone,
-      },
-      {
-        name: "Grup WA",
-        path: "/dashboard/wabroadcast/wagroups",
-        icon: UserSquare2,
-      },
-      {
-        name: "Template Pesan",
-        path: "/dashboard/wabroadcast/templates",
-        icon: FileText,
-      },
-      {
-        name: "Grup Siaran",
-        path: "/dashboard/wabroadcast/broadcastgroups",
-        icon: Radio,
-      },
-      {
-        name: "Siaran",
-        path: "/dashboard/wabroadcast/broadcasts",
-        icon: Megaphone,
-      },
-    ],
-  },
   {
     name: "Data Utama",
     icon: Database,
@@ -131,7 +100,6 @@ export default function Sidebar({ open, setOpen, onCollapseChange }: SidebarProp
   const sidebarRef = React.useRef<HTMLElement | null>(null);
   const hoverTimeoutRef = React.useRef<number | null>(null);
   const [expandedMenu, setExpandedMenu] = React.useState<string | null>(null);
-  const [userData, setUser] = React.useState<SessionUser | null>(null);
   const [collapsed, setCollapsed] = React.useState(false);
   const [isDesktop, setIsDesktop] = React.useState(() =>
     typeof window !== "undefined"
@@ -145,15 +113,7 @@ export default function Sidebar({ open, setOpen, onCollapseChange }: SidebarProp
     MenuItem | null
   >(null);
 
-  React.useEffect(() => {
-    const raw = sessionStorage.getItem("user");
-    if (!raw) return;
-    try {
-      setUser(JSON.parse(raw) as SessionUser);
-    } catch (err) {
-      console.error("Failed to parse user from sessionStorage", err);
-    }
-  }, []);
+
 
   React.useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 1024px)");
@@ -262,6 +222,7 @@ export default function Sidebar({ open, setOpen, onCollapseChange }: SidebarProp
       router.push("/");
     }
   };
+              const user = useStore(userStore);
 
   return (
     <>
@@ -346,6 +307,12 @@ export default function Sidebar({ open, setOpen, onCollapseChange }: SidebarProp
             const isActive =
               pathname === item.path ||
               (item.subItems && pathname.startsWith(item.path));
+
+              if (user?.role_id === 1) {
+                if (item.name === 'Pengguna' || item.name === 'Data Utama' ) {
+                  return null;
+                }
+              }
 
             return (
               <div
@@ -464,10 +431,10 @@ export default function Sidebar({ open, setOpen, onCollapseChange }: SidebarProp
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-gray-900">
-                      {userData?.name}
+                      {user?.name}
                     </p>
                     <p className="text-xs text-gray-500">
-                      {userData?.role?.role_name}
+                      {user?.role.role_name}
                     </p>
                   </div>
                 </div>

@@ -114,3 +114,13 @@ export interface Role {
   id: number;
   role_name: string;
 }
+
+export interface UserStore {
+  id: number;
+  name: string;
+  email: string;
+  role_id: number;
+  role: {
+    role_name: string
+  }
+}
