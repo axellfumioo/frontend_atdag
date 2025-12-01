@@ -17,7 +17,7 @@ export default function GoogleCallbackPage() {
       sessionStorage.setItem("jwt_token", token);
       sessionStorage.setItem("user", JSON.stringify(user));
       toast.success("Login Berhasil!");
-      router.replace("/");
+      router.replace("/dashboard");
     } else {
       router.replace("/auth/login?error=google_failed");
       toast.error("Login Gagal");

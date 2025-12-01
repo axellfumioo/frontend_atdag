@@ -1,4 +1,5 @@
 import api from "@/common/lib/apiClient";
+import { setUserStore } from "../stores/user";
 
 export async function validateToken(token: string) {
   try {
@@ -12,6 +13,9 @@ export async function validateToken(token: string) {
     );
 
     const data = (res as any)?.data ?? res;
+
+    setUserStore(data.data);
+
     if (data && data.success === false) {
       
       if (typeof window !== "undefined") {
@@ -29,7 +33,9 @@ export async function validateToken(token: string) {
 
     return true;
   } catch (err: any) {
+  
     
+
     if (typeof window !== "undefined") {
       try {
         sessionStorage.clear();
