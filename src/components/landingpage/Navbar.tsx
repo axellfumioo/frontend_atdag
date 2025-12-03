@@ -37,7 +37,7 @@ export default function Navbar() {
               {/* Toggle Language di sebelah kiri Login */}
               <button
                 onClick={toggleLang}
-                className="flex items-center gap-1 px-4 py-2 rounded-full border border-gray-200 shadow-sm text-sm font-medium hover:bg-gray-100 transition"
+                className="flex items-center gap-1 px-4 py-2 rounded-full  border-gray-200  text-sm font-medium hover:bg-gray-100 transition"
               >
                 {lang === "id" ? "EN" : "ID"}
               </button>

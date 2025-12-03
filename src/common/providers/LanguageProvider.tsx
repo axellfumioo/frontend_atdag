@@ -1,12 +1,10 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import id from "@/common/languages/id.json";
 import en from "@/common/languages/en.json";
 
-// ----------------------
 // TYPES
-// ----------------------
 type Language = "id" | "en";
 
 interface LanguageProviderType {
@@ -15,14 +13,10 @@ interface LanguageProviderType {
   t: (key: string) => string;
 }
 
-// ----------------------
 // DATA
-// ----------------------
 const LANG = { id, en };
 
-// ----------------------
 // Helper: get value from nested object using dot notation (e.g. "lp.0.feature_1_title")
-// ----------------------
 function getNestedValue(obj: any, path: string) {
   return path.split(".").reduce((acc, key) => {
     if (acc && acc[key] !== undefined) return acc[key];
@@ -30,13 +24,31 @@ function getNestedValue(obj: any, path: string) {
   }, obj);
 }
 
-// ----------------------
 // CONTEXT
-// ----------------------
 const LanguageContext = createContext<LanguageProviderType | null>(null);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Language>("id");
+  // default "id" 
+  const [lang, setLangState] = useState<Language>("id");
+
+  // Setelah mount, baca dari localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedLang = localStorage.getItem("app_lang") as Language;
+      if (storedLang && LANG[storedLang]) {
+        // gunakan setTimeout untuk memisahkan render pertama
+        setTimeout(() => setLangState(storedLang), 0);
+      }
+    }
+  }, []);
+
+  // fungsi ganti bahasa dan simpan ke localStorage
+  const setLang = (newLang: Language) => {
+    if (LANG[newLang]) {
+      setLangState(newLang);
+      localStorage.setItem("app_lang", newLang);
+    }
+  };
 
   const t = (key: string) => {
     const result = getNestedValue(LANG[lang], key);
