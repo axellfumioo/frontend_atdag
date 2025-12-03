@@ -10,9 +10,9 @@ import Card from "@/components/landingpage/Card";
 import {
   Users,
   TrendingUp,
-  MessageCircle,
-  MessageSquare,
-  Radio,
+  // MessageCircle,
+  // MessageSquare,
+  // Radio,
   PieChart,
 } from "lucide-react";
 import Footer from "@/components/Footer";
@@ -36,24 +36,24 @@ const features = [
     description: t("lp.0.feature_2_desc"),
     buttonText: t("lp.0.feature_2_button"),
   },
-  {
-    icon: MessageCircle,
-    title: t("lp.0.feature_3_title"),
-    description: t("lp.0.feature_3_desc"),
-    buttonText: t("lp.0.feature_3_button"),
-  },
-  {
-    icon: MessageSquare,
-    title: t("lp.0.feature_4_title"),
-    description: t("lp.0.feature_4_desc"),
-    buttonText: t("lp.0.feature_4_button"),
-  },
-  {
-    icon: Radio,
-    title: t("lp.0.feature_5_title"),
-    description: t("lp.0.feature_5_desc"),
-    buttonText: t("lp.0.feature_5_button"),
-  },
+  // {
+  //   icon: MessageCircle,
+  //   title: t("lp.0.feature_3_title"),
+  //   description: t("lp.0.feature_3_desc"),
+  //   buttonText: t("lp.0.feature_3_button"),
+  // },
+  // {
+  //   icon: MessageSquare,
+  //   title: t("lp.0.feature_4_title"),
+  //   description: t("lp.0.feature_4_desc"),
+  //   buttonText: t("lp.0.feature_4_button"),
+  // },
+  // {
+  //   icon: Radio,
+  //   title: t("lp.0.feature_5_title"),
+  //   description: t("lp.0.feature_5_desc"),
+  //   buttonText: t("lp.0.feature_5_button"),
+  // },
   {
     icon: PieChart,
     title: t("lp.0.feature_6_title"),
