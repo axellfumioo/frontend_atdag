@@ -1,8 +1,13 @@
 "use client";
 
+import { useLanguage } from "@/common/providers/LanguageProvider";
 import React from "react";
 
 export default function Hero() {
+
+    const { t } = useLanguage();
+    
+
   return (
     <section className="px-2">
       <div className="max-w-7xl mx-auto">
@@ -14,17 +19,16 @@ export default function Hero() {
           <div className="relative z-10">
             <div className="inline-block bg-white/40 backdrop-blur-sm border-2 border-lime-500/30 rounded-full px-6 py-2 mb-6">
               <span className="text-xs font-semibold tracking-wider text-gray-900">
-                WELCOME TO EXPORT INDONESIA
+                {t("lp.0.welcome_badge")}
               </span>
             </div>
 
             <h1 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tight leading-[1.05] mb-4">
-              Solusi Modern untuk <br /> Manajemen Investor Perusahaan
+              {t("lp.0.hero_title")}
             </h1>
 
             <p className="text-sm md:text-base text-gray-900/80 max-w-2xl mx-auto font-medium leading-relaxed">
-              Bangun transparansi dan efisiensi dengan sistem pelacakan
-              investasi yang cepat, aman, dan akurat.
+              {t("lp.0.hero_subtitle")}
             </p>
           </div>
 

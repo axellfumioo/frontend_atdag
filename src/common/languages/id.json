@@ -1,0 +1,40 @@
+{
+  "lp": [
+    {
+      "welcome_badge": "SELAMAT DATANG DI EXPORT INDONESIA",
+      "hero_title": "Solusi Modern untuk Manajemen Investor Perusahaan",
+      "hero_subtitle": "Bangun transparansi dan efisiensi dengan sistem pelacakan investasi yang cepat, aman, dan akurat.",
+
+      "features_title": "Fitur Utama",
+      "features_subtitle": "Alat yang dirancang untuk menjadikan proses investor management dan reporting lebih cepat dan dapat diandalkan.",
+
+      "feature_1_title": "Manajemen Investor",
+      "feature_1_desc": "Tambah, kelola, dan pantau investor dengan profil lengkap dan riwayat interaksi.",
+      "feature_1_button": "Kelola Investor",
+
+      "feature_2_title": "Pemantauan Investasi",
+      "feature_2_desc": "Lacak tahap, return, dan metrik performa investasi secara real-time.",
+      "feature_2_button": "Lacak Investasi",
+
+      "feature_3_title": "Komunikasi WhatsApp",
+      "feature_3_desc": "Kirim pesan langsung ke investor dengan template dan lampiran otomatis.",
+      "feature_3_button": "Integrasi WhatsApp",
+
+      "feature_4_title": "Template Pesan",
+      "feature_4_desc": "Simpan template pesan sekali buat untuk broadcast atau follow-up.",
+      "feature_4_button": "Kelola Template",
+
+      "feature_5_title": "Grup Siaran",
+      "feature_5_desc": "Segmentasi investor untuk kampanye yang lebih tertarget dan efisien.",
+      "feature_5_button": "Kelola Grup",
+
+      "feature_6_title": "Analitik Dasbor",
+      "feature_6_desc": "Dasbor ringkas dengan metrik utama dan laporan ekspor.",
+      "feature_6_button": "Lihat Dasbor",
+
+      "cta_title": "Mulai Kelola Investasi Anda Sekarang",
+      "cta_description": "Sistem modern untuk memantau investor, mengelola komunikasi, dan menganalisis performa investasi.",
+      "cta_button": "Mulai Sekarang"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "lp": [
+    {
+        "welcome_badge": "WELCOME TO EXPORT INDONESIA",
+  "hero_title": "A Modern Solution for Company Investor Management",
+  "hero_subtitle": "Build transparency and efficiency with a fast, secure, and accurate investment tracking system.",
+
+
+
+  "features_title": "Main Features",
+  "features_subtitle": "Tools designed to make investor management and reporting faster and more reliable.",
+
+  "feature_1_title": "Investor Management",
+  "feature_1_desc": "Add, manage, and monitor investors with complete profiles and interaction history.",
+  "feature_1_button": "Manage Investors",
+
+  "feature_2_title": "Investment Tracking",
+  "feature_2_desc": "Track stages, returns, and investment performance metrics in real time.",
+  "feature_2_button": "Track Investments",
+
+  "feature_3_title": "WhatsApp Communication",
+  "feature_3_desc": "Send direct messages to investors with automated templates and attachments.",
+  "feature_3_button": "WhatsApp Integration",
+
+  "feature_4_title": "Message Templates",
+  "feature_4_desc": "Save message templates once for broadcasts or follow-up.",
+  "feature_4_button": "Manage Templates",
+
+  "feature_5_title": "Broadcast Groups",
+  "feature_5_desc": "Segment investors for more targeted and efficient campaigns.",
+  "feature_5_button": "Manage Groups",
+
+  "feature_6_title": "Dashboard Analytics",
+  "feature_6_desc": "A concise dashboard with key metrics and exportable reports.",
+  "feature_6_button": "View Dashboard",
+
+  "cta_title": "Start Managing Your Investments Today",
+  "cta_description": "A modern system to monitor investors, manage communication, and analyze investment performance.",
+  "cta_button": "Get Started"
+    }    
+  ]
+
+}

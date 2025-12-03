@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useLanguage } from "@/common/providers/LanguageProvider";
 
 export default function Navbar() {
   const router = useRouter();
@@ -12,6 +13,12 @@ export default function Navbar() {
     signup: "/auth/register",
   };
 
+      const { lang, setLang } = useLanguage();
+
+        const toggleLang = () => {
+    setLang(lang === "id" ? "en" : "id");
+  }
+  
   return (
     <nav className="py-3 px-3">
       <div className="max-w-7xl mx-auto">
@@ -25,6 +32,13 @@ export default function Navbar() {
               className="h-12 object-contain"
               priority
             />
+
+            <button
+        onClick={toggleLang}
+        className="px-3 py-1 rounded-full border text-sm hover:bg-gray-100"
+      >
+        {lang === "id" ? "EN" : "ID"}
+      </button>
 
             <div className="flex items-center gap-8">
               <p

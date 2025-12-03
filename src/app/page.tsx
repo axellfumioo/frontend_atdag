@@ -16,53 +16,52 @@ import {
   PieChart,
 } from "lucide-react";
 import Footer from "@/components/Footer";
+import { useLanguage } from "@/common/providers/LanguageProvider";
 
 export default function LandingPage() {
 
-  const features = [
-    {
-      icon: Users,
-      title: "Manajemen Investor",
-      description:
-        "Tambah, kelola, dan pantau investor dengan profil lengkap dan riwayat interaksi.",
-      buttonText: "Kelola Investor",
-    },
-    {
-      icon: TrendingUp,
-      title: "Pemantauan Investasi",
-      description:
-        "Lacak tahap, return, dan metrik performa investasi secara real-time.",
-      buttonText: "Lacak Investasi",
-    },
-    {
-      icon: MessageCircle,
-      title: "Komunikasi WhatsApp",
-      description:
-        "Kirim pesan langsung ke investor dengan template dan lampiran otomatis.",
-      buttonText: "Integrasi WhatsApp",
-    },
-    {
-      icon: MessageSquare,
-      title: "Template Pesan",
-      description:
-        "Simpan template pesan sekali buat untuk broadcast atau follow-up.",
-      buttonText: "Kelola Template",
-    },
-    {
-      icon: Radio,
-      title: "Grup Siaran",
-      description:
-        "Segmentasi investor untuk kampanye yang lebih tertarget dan efisien.",
-      buttonText: "Kelola Grup",
-    },
-    {
-      icon: PieChart,
-      title: "Analitik Dasbor",
-      description:
-        "Dasbor ringkas dengan metrik utama dan laporan ekspor.",
-      buttonText: "Lihat Dasbor",
-    },
-  ];
+  const { t } = useLanguage();
+
+
+const features = [
+  {
+    icon: Users,
+    title: t("lp.0.feature_1_title"),
+    description: t("lp.0.feature_1_desc"),
+    buttonText: t("lp.0.feature_1_button"),
+  },
+  {
+    icon: TrendingUp,
+    title: t("lp.0.feature_2_title"),
+    description: t("lp.0.feature_2_desc"),
+    buttonText: t("lp.0.feature_2_button"),
+  },
+  {
+    icon: MessageCircle,
+    title: t("lp.0.feature_3_title"),
+    description: t("lp.0.feature_3_desc"),
+    buttonText: t("lp.0.feature_3_button"),
+  },
+  {
+    icon: MessageSquare,
+    title: t("lp.0.feature_4_title"),
+    description: t("lp.0.feature_4_desc"),
+    buttonText: t("lp.0.feature_4_button"),
+  },
+  {
+    icon: Radio,
+    title: t("lp.0.feature_5_title"),
+    description: t("lp.0.feature_5_desc"),
+    buttonText: t("lp.0.feature_5_button"),
+  },
+  {
+    icon: PieChart,
+    title: t("lp.0.feature_6_title"),
+    description: t("lp.0.feature_6_desc"),
+    buttonText: t("lp.0.feature_6_button"),
+  },
+];
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -74,11 +73,10 @@ export default function LandingPage() {
       {/* Feature Section */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-2">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">Fitur Utama</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">{t("lp.0.features_title")}</h2>
 
           <p className="text-sm text-slate-600 mb-6 max-w-3xl">
-            Alat yang dirancang untuk menjadikan proses investor management dan
-            reporting lebih cepat dan dapat diandalkan.
+            {t("lp.0.features_subtitle")}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
