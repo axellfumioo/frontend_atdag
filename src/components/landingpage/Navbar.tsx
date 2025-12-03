@@ -13,12 +13,12 @@ export default function Navbar() {
     signup: "/auth/register",
   };
 
-      const { lang, setLang } = useLanguage();
+  const { lang, setLang } = useLanguage();
 
-        const toggleLang = () => {
+  const toggleLang = () => {
     setLang(lang === "id" ? "en" : "id");
-  }
-  
+  };
+
   return (
     <nav className="py-3 px-3">
       <div className="max-w-7xl mx-auto">
@@ -33,17 +33,18 @@ export default function Navbar() {
               priority
             />
 
-            <button
-        onClick={toggleLang}
-        className="px-3 py-1 rounded-full border text-sm hover:bg-gray-100"
-      >
-        {lang === "id" ? "EN" : "ID"}
-      </button>
+            <div className="flex items-center gap-4">
+              {/* Toggle Language di sebelah kiri Login */}
+              <button
+                onClick={toggleLang}
+                className="flex items-center gap-1 px-4 py-2 rounded-full border border-gray-200 shadow-sm text-sm font-medium hover:bg-gray-100 transition"
+              >
+                {lang === "id" ? "EN" : "ID"}
+              </button>
 
-            <div className="flex items-center gap-8">
               <p
                 onClick={() => router.push(authActions.login)}
-                className="text-sm text-gray-700 font-medium hover:text-gray-900 cursor-pointer"
+                className="text-sm text-gray-700 font-medium hover:text-gray-900 cursor-pointer hover:underline"
               >
                 Login
               </p>
