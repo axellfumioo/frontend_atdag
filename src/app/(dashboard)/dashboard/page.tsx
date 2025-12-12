@@ -13,6 +13,7 @@ import { convertToIDR } from "@/common/lib/idrConverter";
 import { useSidebarLayout } from "@/components/LayoutClient";
 import { userService } from "@/services/UserService";
 import { useLanguage } from "@/common/providers/LanguageProvider";
+import { userStore } from "@/common/stores/user";
 
 export default function DashboardStats() {
   const { sidebarCollapsed } = useSidebarLayout();
@@ -49,28 +50,28 @@ export default function DashboardStats() {
 
   const statsCards = [
     {
-      title: t("dashboard.0.stat_total_investor"),
+      title: "Total Investor",
       value: (totalInvestors ?? 0).toString(),
       icon: Users,
       iconBg: "bg-blue-50",
       iconColor: "text-blue-500",
     },
     {
-      title: t("dashboard.0.stat_total_users"),
+      title: "Total Pengguna",
       value: (totalUsers ?? 0).toString(),
       icon: Users,
       iconBg: "bg-blue-50",
       iconColor: "text-blue-500",
     },
     {
-      title: t("dashboard.0.stat_total_investment_value"),
+      title: "Total Nilai Investasi",
       value: convertToIDR((investmentAmount as string) || "0"),
       icon: BarChart3,
       iconBg: "bg-orange-50",
       iconColor: "text-orange-500",
     },
     {
-      title: t("dashboard.0.stat_active_investment"),
+      title: "Total Investasi",
       value: openInvestment ?? 0,
       icon: LineChart,
       iconBg: "bg-yellow-50",
@@ -89,6 +90,8 @@ export default function DashboardStats() {
     queryFn: () => chartService.getChartInvestmentPerCurrency(),
   });
 
+  // const user = useStore(userStore)
+
   return (
     <div className="min-h-full bg-linear-to-b from-yellow-50/40 via-white to-white px-4 py-1">
       <div className={`${containerWidthClass} mx-auto space-y-6`}>
@@ -102,17 +105,17 @@ export default function DashboardStats() {
 
               <div>
                 <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">
-                  {t("dashboard.0.title_dashboard")}
+                  Dashboard
                 </h1>
                 <p className="mt-1 text-xs sm:text-sm text-gray-500">
-                  {t("dashboard.0.subtitle_dashboard")}
+                  Selamat datang, lihat data investasi Anda di sini.
                 </p>
               </div>
             </div>
 
             <div className="hidden sm:inline-flex items-center gap-2 rounded-full border border-yellow-100 bg-white/70 px-3 py-1 text-xs font-medium text-gray-600">
               <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.25)]" />
-              {t("dashboard.0.sync_status")}
+              Data Tersinkronisasi
             </div>
           </div>
         </section>
