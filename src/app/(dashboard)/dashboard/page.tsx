@@ -12,41 +12,41 @@ import { InvestmentCurrencyChart } from "@/components/InvestmentCurrencyChart";
 import { convertToIDR } from "@/common/lib/idrConverter";
 import { useSidebarLayout } from "@/components/LayoutClient";
 import { userService } from "@/services/UserService";
-import { useLanguage } from "@/common/providers/LanguageProvider";
+import { useStore } from "@tanstack/react-store";
 import { userStore } from "@/common/stores/user";
 
 export default function DashboardStats() {
   const { sidebarCollapsed } = useSidebarLayout();
-  const { t } = useLanguage();
-
   const containerWidthClass = useMemo(
     () => (sidebarCollapsed ? "max-w-screen-2xl" : "max-w-7xl"),
-    [sidebarCollapsed]
+    [sidebarCollapsed],
   );
-
   // Fetch investors
   const { data: totalInvestors } = useQuery({
     queryKey: ["dashboardInvestors"],
     queryFn: () => investorService.getAllInvestorsTotal(),
   });
 
-  // Fetch users
-  const { data: totalUsers } = useQuery({
-    queryKey: ["dashboardUsers"],
+  // Fetch pengguna
+  const {data: totalUsers} = useQuery({
+    queryKey: ["dashboardPengguna"],
     queryFn: () => userService.getAllUsersTotal(),
-  });
+  })
 
-  // Fetch open investments
+  // Fetch investment open
   const { data: openInvestment } = useQuery({
     queryKey: ["dashboardTotalInvestmentOpen"],
     queryFn: () => investmentService.getAllInvestmentOpen(),
   });
 
-  // Fetch total investment amount
+  // Total investment amount
   const { data: investmentAmount } = useQuery({
     queryKey: ["investmentAmount"],
     queryFn: () => investmentService.getInvestmentAmount(),
   });
+
+  // Total investors count
+  // const totalInvestors = investors ? investors.length : 0;
 
   const statsCards = [
     {
@@ -56,7 +56,7 @@ export default function DashboardStats() {
       iconBg: "bg-blue-50",
       iconColor: "text-blue-500",
     },
-    {
+        {
       title: "Total Pengguna",
       value: (totalUsers ?? 0).toString(),
       icon: Users,
@@ -70,16 +70,50 @@ export default function DashboardStats() {
       iconBg: "bg-orange-50",
       iconColor: "text-orange-500",
     },
+    // {
+    //   title: "Total Contacts",
+    //   value: "0",
+    //   icon: Contact2,
+    //   iconBg: "bg-emerald-50",
+    //   iconColor: "text-emerald-500",
+    // },
+    // {
+    //   title: "WhatsApp Groups",
+    //   value: "0",
+    //   icon: MessageCircle,
+    //   iconBg: "bg-green-50",
+    //   iconColor: "text-green-500",
+    // },
     {
-      title: "Total Investasi",
+      title: "Investasi Aktif",
       value: openInvestment ?? 0,
       icon: LineChart,
       iconBg: "bg-yellow-50",
       iconColor: "text-yellow-500",
     },
+    // {
+    //   title: "Broadcast Groups",
+    //   value: "0",
+    //   icon: Radio,
+    //   iconBg: "bg-indigo-50",
+    //   iconColor: "text-indigo-500",
+    // },
+    // {
+    //   title: "Message Templates",
+    //   value: "0",
+    //   icon: MessageSquare,
+    //   iconBg: "bg-pink-50",
+    //   iconColor: "text-pink-500",
+    // },
+    // {
+    //   title: "Active Campaigns",
+    //   value: "0",
+    //   icon: Zap,
+    //   iconBg: "bg-red-50",
+    //   iconColor: "text-red-500",
+    // },
   ];
 
-  // Chart data
   const { data: investmentStatusChart } = useQuery({
     queryKey: ["investmentStatusChart"],
     queryFn: () => chartService.getChartInvestmentPerStatus(),
@@ -90,10 +124,11 @@ export default function DashboardStats() {
     queryFn: () => chartService.getChartInvestmentPerCurrency(),
   });
 
-  // const user = useStore(userStore)
+  
 
   return (
     <div className="min-h-full bg-linear-to-b from-yellow-50/40 via-white to-white px-4 py-1">
+
       <div className={`${containerWidthClass} mx-auto space-y-6`}>
         {/* Header */}
         <section className="rounded-2xl border border-yellow-100 bg-white/95 px-5 py-4 shadow-sm flex flex-col gap-3">
@@ -102,20 +137,19 @@ export default function DashboardStats() {
               <div className="w-10 h-10 rounded-xl bg-yellow-500 flex items-center justify-center">
                 <Clock3 className="w-5 h-5 text-white" />
               </div>
-
               <div>
                 <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">
                   Dashboard
                 </h1>
                 <p className="mt-1 text-xs sm:text-sm text-gray-500">
-                  Selamat datang, lihat data investasi Anda di sini.
+                  Ringkasan singkat performa investasi dan aktivitas terbaru.
                 </p>
               </div>
             </div>
 
             <div className="hidden sm:inline-flex items-center gap-2 rounded-full border border-yellow-100 bg-white/70 px-3 py-1 text-xs font-medium text-gray-600">
               <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.25)]" />
-              Data Tersinkronisasi
+              Data tersinkronisasi
             </div>
           </div>
         </section>
@@ -152,8 +186,9 @@ export default function DashboardStats() {
 
         {/* Charts Row */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-1">
-          <InvestmentStatusChart data={investmentStatusChart ?? []} />
-          <InvestmentCurrencyChart data={investmentCurrencyChart ?? []} />
+            <InvestmentStatusChart data={investmentStatusChart ?? []} />
+
+            <InvestmentCurrencyChart data={investmentCurrencyChart ?? []} />
         </section>
       </div>
     </div>
